@@ -17,6 +17,7 @@ const Home: NextPage = () => {
           Love, <span className={styles.strokeme}>Faith and Freedom</span>
         </h1>
         <h1>Goodnews of Christ Baptist Church</h1>
+        
       </main>
     </div>
   )
