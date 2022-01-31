@@ -1,12 +1,23 @@
 import MainNavigation from './MainNavigation';
 import classes from './Layout.module.css';
+import styled from 'styled-components';
+
+const LayoutContainer = styled.div`
+  width: 100%;
+`
+
+const Main = styled.main`
+width: 100%;
+margin-top: 3rem;
+
+`
 
 function Layout(props) {
   return (
-    <div>
+    <LayoutContainer>
       <MainNavigation />
-      <main className={classes.main}>{props.children}</main>
-    </div>
+      <Main>{props.children}</Main>
+    </LayoutContainer>
   );
 }
 
