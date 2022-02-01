@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import classes from './MainNavigation.module.css';
-
+import {navItems} from './data'
 
 function MainNavigation() {
 
@@ -9,18 +9,12 @@ function MainNavigation() {
       <div className={classes.logo}>Logo</div>
       <nav>
         <ul>
-          <li>
-            <Link href='/'>Home</Link>
-          </li>
-          <li>
-            <Link href='/new-meetup'>Membership</Link>
-          </li>
-          <li>
-            <Link href='/new-meetup'>Partner</Link>
-          </li>
-          <li>
-            <Link href='/new-meetup'>Events</Link>
-          </li>
+          {navItems && navItems.map((nav, i) => {
+            return <li key={i}>
+              <Link href={nav.link}>{nav.title}</Link>
+            </li>
+          })}
+         
         </ul>
       </nav>
     </header>

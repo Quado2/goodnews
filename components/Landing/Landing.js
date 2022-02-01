@@ -1,19 +1,8 @@
 import styled from "styled-components";
 import Image from "next/image";
 import daddyImage from "../../assets/images/daddy.png";
+import {Container} from '../styledComponents'
 
-const Container = styled.div`
-  width: 100%;
-  padding: 2rem;
-  height: 100vh;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: ${({ theme }) => theme.colorBackgroundPrimary};
-  z-index: 1;
-`;
 const Title = styled.h1`
   font-size: 6rem;
   font-weight: 500;
