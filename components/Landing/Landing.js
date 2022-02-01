@@ -69,7 +69,7 @@ const Link = styled.a`
   cursor: pointer;
 `;
 
-function Landing(props: any) {
+function Landing() {
   return (
     <Container>
       <InnerContainer>
