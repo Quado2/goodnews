@@ -1,15 +1,17 @@
 .header {
   width: 100%;
-  height: 3rem;
+  height: 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: white;
+  background-color: #010e08;
   padding: 2% 4%;
   border-bottom: 1px solid #1fe5ff;
   position: fixed;
   top: 0;
   left:0;
+  z-index: 2;
+
 }
 
 .logo {

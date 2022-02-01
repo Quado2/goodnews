@@ -1,26 +1,35 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from "next";
+import Head from "next/head";
+import styled from "styled-components";
+
+import Landing from "../components/Landing/Landing";
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.colorBackgroundPrimary};
+`;
 
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Goodnews of Christ Baptist Church</title>
-        <meta name="description" content="Official Website of Goodnews of Christ Baptist Church, Awka." />
+        <meta
+          name="description"
+          content="Official Website of Goodnews of Christ Baptist Church, Awka."
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Love, <span className={styles.strokeme}>Faith and Freedom</span>
-        </h1>
-        <h1>Goodnews of Christ Baptist Church</h1>
-        
-      </main>
+      <Container>
+        <Landing />
+      </Container>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
