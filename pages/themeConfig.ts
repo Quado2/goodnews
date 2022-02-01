@@ -17,11 +17,3 @@ export const darkTheme = {
   colorButtonPrimary:'',
   colorButtonSecondary:'',
 }
-
-export const GlobalStyles = createGlobalStyle`
-
-
-*{
-  font-family: 'Murecho', 'sans-serif';
-}
-`
