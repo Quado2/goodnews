@@ -2,7 +2,9 @@ import styled from "styled-components";
 import Image from "next/image";
 import daddyImage from "../../assets/images/daddy.png";
 
-const Container = styled.div`
+
+
+export const Container = styled.div`
   width: 100%;
   padding: 2rem;
   height: 100vh;
@@ -13,19 +15,35 @@ const Container = styled.div`
   justify-content: center;
   background-color: ${({ theme }) => theme.colorBackgroundPrimary};
   z-index: 1;
+
+  @media screen and (max-width: ${({theme})=> theme.mobile}){
+    padding: .5rem;
+    margin-top: 2rem;
+  }
 `;
+
 const Title = styled.h1`
   font-size: 6rem;
   font-weight: 500;
   text-align: center;
   margin: 0;
   color: ${({ theme }) => theme.colorTextPrimary}; 
+
+  @media screen and (max-width: ${({theme})=> theme.mobile}){
+    font-size: 3.7rem;
+
+  }
 `;
 
 const Desc = styled.h1`
   font-size: 2rem;
   margin: 1rem;
+  font-weight: 300;
   color: #1594a5;
+  @media screen and (max-width: ${({theme})=> theme.mobile}){
+    font-size: 1.2rem;
+
+  }
 `;
 
 const Stroked = styled.span`
@@ -47,6 +65,11 @@ const LinkContainer = styled(Container)`
   margin: 4rem;
   padding-left: 5rem;
   background: transparent;
+
+  @media screen and (max-width: ${({theme})=> theme.mobile}){
+    padding: 0;
+
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -55,6 +78,12 @@ const ImageContainer = styled.div`
   bottom: 0;
   width: 40vw;
   z-index: 0;
+  opacity: .3;
+
+  @media screen and (max-width: ${({theme})=> theme.mobile}){
+    width: 60vw;
+
+  }
 `;
 
 const Link = styled.a`
@@ -67,6 +96,15 @@ const Link = styled.a`
   text-align: center;
   border-radius: 0.2rem;
   cursor: pointer;
+
+  @media screen and (max-width: ${({theme})=> theme.mobile}){
+    width: auto;
+    min-width: 5rem;
+    padding: .4rem;
+    font-size: .75rem;
+    margin: 0 .75rem
+
+  }
 `;
 
 function Landing() {
