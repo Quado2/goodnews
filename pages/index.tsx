@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import styled from "styled-components";
 import Landing from "../components/Landing/Landing";
+import PropheticVoice from "../components/PropheticVoice/PropheticVoice";
 
 const Container = styled.div`
   width: 100%;
@@ -27,6 +28,7 @@ const Home: NextPage = () => {
 
       <Container>
         <Landing />
+        <PropheticVoice />
       </Container>
     </div>
   );

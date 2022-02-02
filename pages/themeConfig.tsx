@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
- const mobile = '479px'
- const tablet = "759px"
+ const mobile = '480px'
+ const tablet = "760px"
 
 export const lightTheme = {
   colorBackgroundPrimary: "#fff",
