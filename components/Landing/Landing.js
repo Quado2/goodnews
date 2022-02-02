@@ -22,6 +22,7 @@ export const Container = styled.div`
   @media screen and (max-width: ${({theme})=> theme.mobile}){
     padding: .5rem;
     margin-top: 2rem;
+    height: 96vh;
   }
 
   @keyframes appear-in {
@@ -59,7 +60,7 @@ const Title = styled.h1`
   color: ${({ theme }) => theme.colorTextPrimary};
   animation: appear-in 1s forwards ease-in-out;
 
-  @media screen and (max-width: ${({theme})=> theme.mobile}){
+  @media screen and (max-width: ${({theme})=> theme.tablet}){
     font-size: 3.7rem;
 
   }
@@ -72,7 +73,8 @@ const Desc = styled.h1`
   color: #1594a5;
   opacity: 0;
   animation: appear-in 1s .4s forwards ease-in-out;
-  @media screen and (max-width: ${({theme})=> theme.mobile}){
+
+  @media screen and (max-width: ${({theme})=> theme.tablet}){
     font-size: 1.2rem;
 
   }
@@ -100,7 +102,7 @@ const LinkContainer = styled(Container)`
   animation: appear-in 1s .7s forwards ease-in-out;
   opacity: 0;
 
-  @media screen and (max-width: ${({theme})=> theme.mobile}){
+  @media screen and (max-width: ${({theme})=> theme.tablet}){
     padding: 0;
 
   }
@@ -115,7 +117,7 @@ const ImageContainer = styled.div`
   opacity: 0;
   animation: appear-in-faded 1s .2s forwards ease-in-out;
 
-  @media screen and (max-width: ${({theme})=> theme.mobile}){
+  @media screen and (max-width: ${({theme})=> theme.tablet}){
     width: 60vw;
 
   }
@@ -132,7 +134,7 @@ const Link = styled.a`
   border-radius: 0.2rem;
   cursor: pointer;
 
-  @media screen and (max-width: ${({theme})=> theme.mobile}){
+  @media screen and (max-width: ${({theme})=> theme.tablet}){
     width: auto;
     min-width: 5rem;
     padding: .4rem;
