@@ -15,10 +15,39 @@ export const Container = styled.div`
   justify-content: center;
   background-color: ${({ theme }) => theme.colorBackgroundPrimary};
   z-index: 1;
+  transition: ease-in 2s opacity 2s;
+  
+  
 
   @media screen and (max-width: ${({theme})=> theme.mobile}){
     padding: .5rem;
     margin-top: 2rem;
+  }
+
+  @keyframes appear-in {
+    0%,30%{
+      opacity: 0;
+      transform: translateY(.3rem);
+    }
+    100%{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+
+  }
+
+  @keyframes appear-in-faded {
+    0%,30%{
+      opacity: 0;
+      transform: translateY(-.3rem);
+    }
+    100%{
+      opacity: .3;
+      transform: translateY(0);
+    }
+
+
   }
 `;
 
@@ -27,7 +56,8 @@ const Title = styled.h1`
   font-weight: 500;
   text-align: center;
   margin: 0;
-  color: ${({ theme }) => theme.colorTextPrimary}; 
+  color: ${({ theme }) => theme.colorTextPrimary};
+  animation: appear-in 1s forwards ease-in-out;
 
   @media screen and (max-width: ${({theme})=> theme.mobile}){
     font-size: 3.7rem;
@@ -40,6 +70,8 @@ const Desc = styled.h1`
   margin: 1rem;
   font-weight: 300;
   color: #1594a5;
+  opacity: 0;
+  animation: appear-in 1s .4s forwards ease-in-out;
   @media screen and (max-width: ${({theme})=> theme.mobile}){
     font-size: 1.2rem;
 
@@ -65,6 +97,8 @@ const LinkContainer = styled(Container)`
   margin: 4rem;
   padding-left: 5rem;
   background: transparent;
+  animation: appear-in 1s .7s forwards ease-in-out;
+  opacity: 0;
 
   @media screen and (max-width: ${({theme})=> theme.mobile}){
     padding: 0;
@@ -78,7 +112,8 @@ const ImageContainer = styled.div`
   bottom: 0;
   width: 40vw;
   z-index: 0;
-  opacity: .3;
+  opacity: 0;
+  animation: appear-in-faded 1s .2s forwards ease-in-out;
 
   @media screen and (max-width: ${({theme})=> theme.mobile}){
     width: 60vw;
