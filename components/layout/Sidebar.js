@@ -20,7 +20,7 @@ const SideContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  transform: ${({show}) => show ? '': 'translateX(-100vw)'}; 
+  transform: ${({show}) => show ? '': 'translateX(-150vw)'}; 
 
   .nav-list {
     margin-top: 5rem;

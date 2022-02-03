@@ -19,7 +19,7 @@ const Header = styled.header`
   z-index: 2;
 
   nav{
-    @media screen and (max-width: ${({theme})=> theme.mobile}){
+    @media screen and (max-width: ${({theme})=> theme.tablet}){
     display: none;
   }
   }

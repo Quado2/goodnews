@@ -22,7 +22,7 @@ const HambugerContainer = styled.div`
   right: 2rem;
   top: .9rem;
 
-  @media screen and (min-width: ${({theme})=> theme.mobile}){
+  @media screen and (min-width: ${({theme})=> theme.tablet}){
     display: none;
   }
 
