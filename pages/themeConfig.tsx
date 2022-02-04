@@ -14,10 +14,10 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
-  colorBackgroundPrimary: "#010e08;",
-  colorBackgroundSecondary: "",
+  colorBackgroundPrimary: "#010e08",
+  colorBackgroundSecondary: "#090f0c",
   colorTextPrimary: "#1fe5ff",
-  colorTextHover: "#0b9aad",
+  colorTextMuted: "#1594a5",
   colorTextSecondary: "",
   colorButtonPrimary: "",
   colorButtonSecondary: "",

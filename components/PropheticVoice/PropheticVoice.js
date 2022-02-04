@@ -9,6 +9,7 @@ const TopContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  
 `;
 
 const Container = styled.div`
@@ -19,6 +20,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 5rem 0 3rem 0;
 
   @media screen and (min-width: ${({ theme }) => theme.tablet}) {
     flex-direction: row;
@@ -27,7 +29,7 @@ const Container = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  margin: 3rem 0 1rem 0;
+  
   width: 85%;
   border-radius: 0.2rem;
 
