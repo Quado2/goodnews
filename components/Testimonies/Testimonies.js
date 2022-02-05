@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useTheme } from "styled-components";
+import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
 
 import styles from "./Testimonies.module.scss";
 import { data } from "./data";
@@ -44,7 +45,7 @@ function Testimonies() {
 
     return () => {
       // componentwillunmount in functional component.
-      //clearInterval(intervalId);
+      clearInterval(intervalId);
     };
   }, []);
 
@@ -64,8 +65,22 @@ function Testimonies() {
     setIntervalId(innerIntervalId);
   }
 
+  function nextTestimony(){
+    const newIndex = index >= data.length - 1 ? 0: index+1
+    nextClicked(newIndex) 
+  }
+
+  function prevTestimony(){
+    const newIndex = index <= 0 ? data.length-1 : index-1
+    nextClicked(newIndex)
+  }
+
   return (
     <div className={`${styles.testimonies_wrapper}`}>
+        <div className={styles.next_Icons} style={{color: `${theme.colorButtonPrimary}`, }} >
+            <div onClick={prevTestimony}><span onClick={prevTestimony} style={{border: `1px solid ${theme.colorButtonPrimary}`}}><AiFillCaretLeft /></span></div>
+            <div onClick={nextTestimony} ><span onClick={nextTestimony} style={{border: `1px solid ${theme.colorButtonPrimary}`}}><AiFillCaretRight /></span></div>
+        </div>
       <div
         className={`${styles.direct_wrapper} ${
           styles[`active_testimony_${index}`]
