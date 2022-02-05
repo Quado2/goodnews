@@ -1,229 +1,207 @@
-.testimony{
-    min-width: 300px;
-    box-shadow: 1px 1px 3px grey;
-    border-radius: 10px;
-    padding: 10px;
+.testimony {
+  min-width: 300px;
+  box-shadow: 1px 1px 3px grey;
+  border-radius: 10px;
+  padding: 10px;
 }
 
-.testimony .image{
-    width: 100%;
-    
+.testimony .image {
+  width: 100%;
 }
 
-.testimony .image img{
-    width: 70%;
-    display: block;
-    margin: 10px auto;
-    border-radius: 10px;
+.testimony .image img {
+  width: 70%;
+  display: block;
+  margin: 10px auto;
+  border-radius: 10px;
 }
 
-.testimony .image h2{
-    text-align: center;
-    font-size: 25px;
-    font-weight: 400;
-    margin: 10px;
-    color: teal;
+.testimony .image h2 {
+  text-align: center;
+  font-size: 25px;
+  font-weight: 400;
+  margin: 10px;
+  color: teal;
 }
 
-.testimony p{
-    font-size: 16px;
-    margin: 10px;
-    font-weight: 300;;
+.testimony p {
+  font-size: 16px;
+  margin: 10px;
+  font-weight: 300;
+  min-height: 168px;
 }
 
+@media screen and (max-width: 601px) {
+  .testimony {
+    min-width: 270px;
+  }
+  .testimony .image h2 {
+    font-size: 20px;
+    margin: 5px;
+  }
 
-@media screen and (max-width: 601px){
-    .testimony {
-        min-width: 270px;
-    }
-    .testimony .image h2{
-        font-size: 20px;
-        margin: 5px;
-    }
+  .testimony p {
+    font-size: 13px;
 
-    .testimony p{
-        font-size: 13px;
-    }
+    min-height: 110px;
+  }
 }
-
-
-
-
-
 
 /*Testimonies here.*/
 
-.testimonies_wrapper{
-   overflow-x: hidden;
-   width: 100%;
-   padding: 1rem;
+.testimonies_wrapper {
+  overflow-x: hidden;
+  width: 100%;
+  padding: 1rem;
 }
 
-
-
-
-.testimonies_wrapper .title h2{
-    text-align: center;
-    font-size: 40px;
-    font-weight: 500;
-    color:  rgb(97, 88, 229);
-    margin: 40px;
+.testimonies_wrapper .title h2 {
+  text-align: center;
+  font-size: 40px;
+  font-weight: 500;
+  color: rgb(97, 88, 229);
+  margin: 40px;
 }
 
-.testimonies_wrapper .direct_wrapper{
-    position: relative;
-    min-height: 610px;
+.testimonies_wrapper .direct_wrapper {
+  position: relative;
+  min-height: 610px;
+  width: 300px;
+  margin: 0 auto;
+
+  &:after {
+    content: "";
+    display: block;
     width: 300px;
-    margin: 0 auto;
-
-    &:after {
-        content: '';
-        display: block;
-        width: 300px;
-        height: 550px;
-        outline: 1px solid #1fe5ff;
-        border-radius: 10px;
-        position: absolute;
-        transform: scale(1);
-        top: 0; 
-        left: 0;
-      }
-    
-
+    height: 550px;
+    outline: 1px solid #1fe5ff;
+    border-radius: 10px;
+    position: absolute;
+    transform: scale(1);
+    top: 0;
+    left: 0;
+  }
 }
 
-
-.testimonies_wrapper .direct_wrapper .testimonies{
-    display: flex;
-    position: absolute;
+.testimonies_wrapper .direct_wrapper .testimonies {
+  display: flex;
+  position: absolute;
+  transition: transform 400ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  .testimony {
+    opacity: 0.3;
+    transform: scale(0.7);
+    z-index: 0;
+    transition: opacity 0.3s ease-in;
     transition: transform 400ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
-    .testimony{
-        opacity: 0.3;
-        transform: scale(0.7);
-        z-index: 0;
-        transition: opacity 0.3s ease-in;
-        transition: transform 400ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
-    }
+  }
 }
 
 //loop over the entire testimony cards and add the following
-$i:0;
-@for $i from 0 through 4{
-    .testimonies_wrapper .direct_wrapper.active_testimony_#{$i} #testimony_#{$i}{
-        opacity: 1;
-        transform: scale(1);
-        z-index: 10;
+$i: 0;
+@for $i from 0 through 4 {
+  .testimonies_wrapper .direct_wrapper.active_testimony_#{$i} #testimony_#{$i} {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10;
+  }
+}
+
+.testimonies_wrapper .controls {
+  display: flex;
+  justify-content: space-around;
+  width: 130px;
+  margin: 10px;
+  margin: auto;
+}
+
+.testimonies_wrapper .controls div {
+  width: 14px;
+  height: 14px;
+  background-color: #1fe5ff;
+  margin: 5px;
+  border-radius: 7px;
+  transition: all 0.2s ease-in;
+}
+
+.testimonies_wrapper .controls div:hover {
+  border: 2px solid #1fe5ff;
+  background-color: white;
+  cursor: pointer;
+}
+
+.testimonies_wrapper .join {
+  display: flex;
+  justify-content: center;
+}
+
+.testimonies_wrapper .join .navlink {
+  text-decoration: none;
+}
+
+.testimonies_wrapper .join h2 {
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin: 40px;
+  background-color: rgb(97, 88, 229);
+  color: white;
+  font-weight: 500;
+  font-size: 30px;
+  box-sizing: border-box;
+}
+
+.testimonies_wrapper .join h2:hover {
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid rgb(97, 88, 229);
+  color: rgb(97, 88, 229);
+}
+
+.testimonies_wrapper .join .now {
+  background-color: rgb(240, 105, 134);
+}
+
+.testimonies_wrapper .join .now:hover {
+  background-color: white;
+  border: 1px solid rgb(240, 105, 134);
+  color: rgb(240, 105, 134);
+}
+
+@media screen and (max-device-aspect-ratio: 4/5) {
+  .testimonies_wrapper {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+}
+
+@media screen and (max-width: 601px) {
+  .testimonies_wrapper {
+  }
+
+  .testimonies_wrapper .direct_wrapper {
+    position: relative;
+    min-height: 500px;
+    width: 270px;
+
+    &:after {
+      display: block;
+      height: 453px;
+      width: 270px;
     }
-}
+  }
 
+  .testimonies_wrapper .title h2 {
+    font-size: 25px;
+    margin: 20px;
+  }
 
-
- .testimonies_wrapper .controls{
-    display: flex;
-    justify-content: space-around;
-    width: 130px;
-    margin: 10px;
-    margin: auto;
-}
-
-.testimonies_wrapper .controls div{
-    width: 14px;
-    height: 14px;
-    background-color: #1fe5ff;
-    margin: 5px;
-    border-radius: 7px;
-    transition: all 0.2s ease-in;
-
-}
-
-.testimonies_wrapper .controls div:hover{
-    border:  2px solid #1fe5ff;
-    background-color: white;
-    cursor: pointer;
-}
-
-.testimonies_wrapper .join{
-    display: flex;
-    justify-content: center;
-}
-
-.testimonies_wrapper .join .navlink{
-    text-decoration: none;
-}
-
-.testimonies_wrapper .join h2{
-    padding: 15px 20px;
+  .testimonies_wrapper .join h2 {
+    padding: 10px 20px;
     border-radius: 10px;
-    margin: 40px;
+    margin: 20px;
     background-color: rgb(97, 88, 229);
     color: white;
     font-weight: 500;
-    font-size: 30px;
+    font-size: 20px;
     box-sizing: border-box;
+  }
 }
-
-.testimonies_wrapper .join h2:hover{
-    cursor: pointer;
-    background-color: white;
-    border: 1px solid  rgb(97, 88, 229);
-    color: rgb(97, 88, 229);
-}
-
-.testimonies_wrapper .join .now{
-    background-color:  rgb(240,105,134);
-}
-
-.testimonies_wrapper .join .now:hover{
-    background-color: white;
-    border: 1px solid  rgb(240,105,134);
-    color: rgb(240,105,134);
-}
-
-
-@media screen and (max-device-aspect-ratio: 4/5){
-    .testimonies_wrapper{
-        max-width: 100vw;
-        overflow-x: hidden;
-    }
-}
-
-
-
-@media screen and (max-width: 601px){
-
-    .testimonies_wrapper{
-    }
-
-
-    .testimonies_wrapper .direct_wrapper{
-        position: relative;
-        min-height: 500px;
-        width: 270px;
-    
-        &:after {
-            display: block;
-            height: 447px;
-            width: 270px;
-            outline: 3px solid rgb(97, 88, 229);
-          }
-    }
-
-    .testimonies_wrapper .title h2{
-        font-size: 25px;
-        margin: 20px;
-    }
-
-
-    .testimonies_wrapper .join h2{
-        padding: 10px 20px;
-        border-radius: 10px;
-        margin: 20px;
-        background-color: rgb(97, 88, 229);
-        color: white;
-        font-weight: 500;
-        font-size: 20px;
-        box-sizing: border-box;
-    }
-}
-
-
