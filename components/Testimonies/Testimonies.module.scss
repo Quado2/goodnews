@@ -1,9 +1,64 @@
-.testimonies-wrapper{
+.testimony{
+    min-width: 300px;
+    box-shadow: 1px 1px 3px grey;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.testimony .image{
+    width: 100%;
+    border-bottom: 1px solid rgb(153, 153, 153);
+}
+
+.testimony .image img{
+    width: 70%;
+    display: block;
+    margin: 10px auto;
+    border-radius: 10px;
+}
+
+.testimony .image h2{
+    text-align: center;
+    font-size: 25px;
+    font-weight: 400;
+    margin: 10px;
+    color: teal;
+}
+
+.testimony p{
+    color: rgb(112, 112, 112);
+    font-size: 18px;
+    margin: 10px;
+}
+
+
+@media screen and (max-width: 601px){
+    .testimony {
+        min-width: 200px;
+    }
+    .testimony .image h2{
+        font-size: 20px;
+        margin: 5px;
+    }
+
+    .testimony p{
+        font-size: 13px;
+    }
+}
+
+
+
+
+
+
+/*Testimonies here.*/
+
+.testimonies_wrapper{
    
 }
 
 
-.testimonies-wrapper .title h2{
+.testimonies_wrapper .title h2{
     text-align: center;
     font-size: 40px;
     font-weight: 500;
@@ -11,7 +66,7 @@
     margin: 40px;
 }
 
-.testimonies-wrapper .direct-wrapper{
+.testimonies_wrapper .direct_wrapper{
     position: relative;
     min-height: 500px;
     max-width:300px;
@@ -34,7 +89,7 @@
 }
 
 
-.testimonies-wrapper .direct-wrapper .testimonies{
+.testimonies_wrapper .direct_wrapper .testimonies{
     display: flex;
     position: absolute;
     transition: transform 400ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
@@ -50,7 +105,7 @@
 //loop over the entire testimony cards and add the following
 $i:0;
 @for $i from 0 through 4{
-    .testimonies-wrapper .direct-wrapper.active-testimony-#{$i} #testimony-#{$i}{
+    .testimonies_wrapper .direct_wrapper.active_testimony_#{$i} #testimony_#{$i}{
         opacity: 1;
         transform: scale(1);
         z-index: 10;
@@ -59,7 +114,7 @@ $i:0;
 
 
 
- .testimonies-wrapper .controls{
+ .testimonies_wrapper .controls{
     display: flex;
     justify-content: space-around;
     width: 130px;
@@ -67,7 +122,7 @@ $i:0;
     margin: auto;
 }
 
-.testimonies-wrapper .controls div{
+.testimonies_wrapper .controls div{
     width: 14px;
     height: 14px;
     background-color: rgb(97, 88, 229);
@@ -77,22 +132,22 @@ $i:0;
 
 }
 
-.testimonies-wrapper .controls div:hover{
+.testimonies_wrapper .controls div:hover{
     border:  2px solid rgb(97, 88, 229);
     background-color: white;
     cursor: pointer;
 }
 
-.testimonies-wrapper .join{
+.testimonies_wrapper .join{
     display: flex;
     justify-content: center;
 }
 
-.testimonies-wrapper .join .navlink{
+.testimonies_wrapper .join .navlink{
     text-decoration: none;
 }
 
-.testimonies-wrapper .join h2{
+.testimonies_wrapper .join h2{
     padding: 15px 20px;
     border-radius: 10px;
     margin: 40px;
@@ -103,18 +158,18 @@ $i:0;
     box-sizing: border-box;
 }
 
-.testimonies-wrapper .join h2:hover{
+.testimonies_wrapper .join h2:hover{
     cursor: pointer;
     background-color: white;
     border: 1px solid  rgb(97, 88, 229);
     color: rgb(97, 88, 229);
 }
 
-.testimonies-wrapper .join .now{
+.testimonies_wrapper .join .now{
     background-color:  rgb(240,105,134);
 }
 
-.testimonies-wrapper .join .now:hover{
+.testimonies_wrapper .join .now:hover{
     background-color: white;
     border: 1px solid  rgb(240,105,134);
     color: rgb(240,105,134);
@@ -122,15 +177,16 @@ $i:0;
 
 
 @media screen and (max-device-aspect-ratio: 4/5){
-    .testimonies-wrapper{
+    .testimonies_wrapper{
         max-width: 100vw;
         overflow-x: hidden;
     }
 }
 
 
+
 @media screen and (max-width: 601px){
-    .testimonies-wrapper .direct-wrapper{
+    .testimonies_wrapper .direct_wrapper{
         position: relative;
         min-height: 400px;
         max-width: 200px;
@@ -143,13 +199,13 @@ $i:0;
           }
     }
 
-    .testimonies-wrapper .title h2{
+    .testimonies_wrapper .title h2{
         font-size: 25px;
         margin: 20px;
     }
 
 
-    .testimonies-wrapper .join h2{
+    .testimonies_wrapper .join h2{
         padding: 10px 20px;
         border-radius: 10px;
         margin: 20px;

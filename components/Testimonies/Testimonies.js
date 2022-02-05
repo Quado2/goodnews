@@ -1,12 +1,29 @@
 import React, {Component} from 'react'
 
 import styles from './Testimonies.module.scss'
-import Testimony from './Testimony/Testimony'
 import nigerian1 from '../../assets/images/nigerianman1.jpg'
 import nigerian2 from '../../assets/images/nigerian2.jpg'
 import nigerian3 from '../../assets/images/nigerian.jpg'
 import south from '../../assets/images/south.jpg'
 import malawi from '../../assets/images/malawi.webp'
+
+function Testimony (props){
+
+    return(
+        <div className={styles.testimony} id={`${styles[`testimony_${props.id}`]}`}>
+            <div className={styles.image}> 
+                <img src={props.image} alt=';' />
+                <h2>{props.mName}</h2>
+            </div>
+            <div>
+                <p>{'" '+props.testimony +' "'}</p>
+            </div>
+        </div>
+    )
+}
+
+
+
 
 
 
@@ -14,6 +31,7 @@ class Testimonies extends Component {
 
  data = [
      {
+
          index:0,
         name: "Jacinta Akintoye",
         image: nigerian2,
@@ -94,19 +112,19 @@ nextClicked = (index) => () =>{
         const {index,mark} = this.state
 
         return(
-            <div className='testimonies-wrapper'>
-                <div className='title'>
+            <div className={`${styles.testimonies_wrapper}`}>
+                <div className={`${styles.title}`}>
                     <h2>What the community members have to say:</h2>
                 </div>
-                <div className={`direct-wrapper active-testimony-${index}`}>
-                   <div className='testimonies' style={{
+                <div className={`${styles.direct_wrapper} ${styles[`active_testimony_${index}`]} `}>
+                   <div className={`${styles.testimonies}`} style={{
                        'transform': `translateX(-${index*(100/5)}%)`
                    } }>
                         {this.data.map(datum => <Testimony key={datum.index} mName={datum.name} image={datum.image} testimony={datum.testimony} id={datum.index}/>)}
                     </div> 
                 </div>
                 
-                <div className='controls'>
+                <div className={styles.controls}>
                     <div style={index===0? mark: null} onClick={this.nextClicked(0)}></div>
                     <div style={index===1? mark: null} onClick={this.nextClicked(1)}></div>
                     <div style={index===2? mark: null} onClick={this.nextClicked(2)} ></div>
