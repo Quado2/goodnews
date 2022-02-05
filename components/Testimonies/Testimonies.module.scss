@@ -22,6 +22,7 @@
   font-weight: 400;
   margin: 10px;
   color: teal;
+  color: #931fff
 }
 
 .testimony p {
@@ -42,8 +43,7 @@
 
   .testimony p {
     font-size: 13px;
-
-    min-height: 110px;
+    min-height: 140px;
   }
 }
 
@@ -179,12 +179,12 @@ $i: 0;
 
   .testimonies_wrapper .direct_wrapper {
     position: relative;
-    min-height: 500px;
+    min-height: 520px;
     width: 270px;
 
     &:after {
       display: block;
-      height: 453px;
+      height: 480px;
       width: 270px;
     }
   }
