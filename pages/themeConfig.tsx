@@ -15,11 +15,11 @@ export const lightTheme = {
 
 export const darkTheme = {
   colorBackgroundPrimary: "#010e08",
-  colorBackgroundSecondary: "#090f0c",
+  colorBackgroundSecondary: "#0b0f0d",
   colorTextPrimary: "#1fe5ff",
   colorTextMuted: "#1594a5",
   colorTextSecondary: "",
-  colorButtonPrimary: "",
+  colorButtonPrimary: "#FF5157",
   colorButtonSecondary: "",
   mobile,
   tablet,
