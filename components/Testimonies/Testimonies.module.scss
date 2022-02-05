@@ -22,6 +22,7 @@
   font-weight: 400;
   margin: 10px;
   color: teal;
+  color: #931fff;
 }
 
 .testimony p {
@@ -42,8 +43,7 @@
 
   .testimony p {
     font-size: 13px;
-
-    min-height: 110px;
+    min-height: 140px;
   }
 }
 
@@ -53,6 +53,49 @@
   overflow-x: hidden;
   width: 100%;
   padding: 1rem;
+  position: relative;
+}
+.testimonies_wrapper .next_Icons {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  width: 99vw;
+  height: 85%;
+  transform: translateX(-15px);
+  display: flex;
+  flex-direction: row;
+  z-index: 10;
+
+  div {
+    width: 50%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    padding-right: 1.5rem;
+
+    span {
+      
+      font-size: 4rem;
+      height: 4rem;
+      width: 4rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10%;
+      opacity: .45;
+
+      &:hover{
+          opacity: 1;
+          cursor: pointer;
+      }
+    }
+  }
+
+  div:first-child {
+    justify-content: left;
+    padding-left: 2rem;
+  }
 }
 
 .testimonies_wrapper .title h2 {
@@ -179,12 +222,12 @@ $i: 0;
 
   .testimonies_wrapper .direct_wrapper {
     position: relative;
-    min-height: 500px;
+    min-height: 520px;
     width: 270px;
 
     &:after {
       display: block;
-      height: 453px;
+      height: 480px;
       width: 270px;
     }
   }
@@ -203,5 +246,21 @@ $i: 0;
     font-weight: 500;
     font-size: 20px;
     box-sizing: border-box;
+  }
+
+  .testimonies_wrapper .next_Icons {
+      div{
+          padding-right: .5rem;
+
+          span{
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+      }
+      div:first-child{
+          padding-left: .7rem;
+      }
+
+      
   }
 }
