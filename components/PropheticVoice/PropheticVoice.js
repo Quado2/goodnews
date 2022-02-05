@@ -121,6 +121,7 @@ const TextContainer = styled.div`
     font-weight: 200;
     margin: 1rem 0;
     text-align: justify;
+    color: ${({theme}) => theme.colorTextSecondary};
   }
 
   h3 {

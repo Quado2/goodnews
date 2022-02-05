@@ -13,7 +13,7 @@ const Container = styled.div`
   }
 
   div{
-    width: 10rem;
+    width: 10%;
     height: 3px;
     margin: 1rem 0;
     background-color: ${({theme}) => theme.colorTextMuted};
