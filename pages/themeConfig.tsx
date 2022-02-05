@@ -18,7 +18,7 @@ export const darkTheme = {
   colorBackgroundSecondary: "#0b0f0d",
   colorTextPrimary: "#1fe5ff",
   colorTextMuted: "#1594a5",
-  colorTextSecondary: "",
+  colorTextSecondary: "grey",
   colorButtonPrimary: "#FF5157",
   colorButtonSecondary: "",
   mobile,

@@ -7,11 +7,7 @@
 
 .testimony .image{
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-bottom: 1px solid rgb(153, 153, 153);
+    
 }
 
 .testimony .image img{
@@ -30,15 +26,15 @@
 }
 
 .testimony p{
-    color: rgb(112, 112, 112);
-    font-size: 18px;
+    font-size: 16px;
     margin: 10px;
+    font-weight: 300;;
 }
 
 
 @media screen and (max-width: 601px){
     .testimony {
-        min-width: 300px;
+        min-width: 270px;
     }
     .testimony .image h2{
         font-size: 20px;
@@ -64,6 +60,8 @@
 }
 
 
+
+
 .testimonies_wrapper .title h2{
     text-align: center;
     font-size: 40px;
@@ -75,15 +73,15 @@
 .testimonies_wrapper .direct_wrapper{
     position: relative;
     min-height: 610px;
-    min-width:300px;
+    width: 300px;
     margin: 0 auto;
 
     &:after {
         content: '';
         display: block;
         width: 300px;
-        height: 590px;
-        outline: 1px solid rgb(97, 88, 229);;
+        height: 550px;
+        outline: 1px solid #1fe5ff;
         border-radius: 10px;
         position: absolute;
         transform: scale(1);
@@ -131,7 +129,7 @@ $i:0;
 .testimonies_wrapper .controls div{
     width: 14px;
     height: 14px;
-    background-color: rgb(97, 88, 229);
+    background-color: #1fe5ff;
     margin: 5px;
     border-radius: 7px;
     transition: all 0.2s ease-in;
@@ -139,7 +137,7 @@ $i:0;
 }
 
 .testimonies_wrapper .controls div:hover{
-    border:  2px solid rgb(97, 88, 229);
+    border:  2px solid #1fe5ff;
     background-color: white;
     cursor: pointer;
 }
@@ -200,11 +198,12 @@ $i:0;
     .testimonies_wrapper .direct_wrapper{
         position: relative;
         min-height: 500px;
-        max-width: 200px;
+        width: 270px;
     
         &:after {
             display: block;
-            height: 480px;
+            height: 447px;
+            width: 270px;
             outline: 3px solid rgb(97, 88, 229);
           }
     }

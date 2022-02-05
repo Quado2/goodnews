@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Image from 'next/image'
+import {useTheme} from 'styled-components'
 
 import styles from './Testimonies.module.scss'
 import nigerian1 from '../../assets/images/nigerianman1.jpg'
@@ -8,16 +9,20 @@ import nigerian3 from '../../assets/images/nigerian.jpg'
 import south from '../../assets/images/south.jpg'
 import malawi from '../../assets/images/malawi.webp'
 
+
+
+
 function Testimony (props){
+    const theme = useTheme();
 
     return(
         <div className={styles.testimony} id={`${styles[`testimony_${props.id}`]}`}>
-            <div className={styles.image}> 
+            <div className={styles.image} style={{borderBottom: `1px solid ${theme.colorTextMuted}`}}> 
                 <Image src={props.image} alt=';' />
-                <h2>{props.mName}</h2>
+                <h2 style={{color: theme.colorTextPrimary}}>{props.mName}</h2>
             </div>
             <div>
-                <p>{'" '+props.testimony +' "'}</p>
+                <p style={{color: theme.colorTextSecondary}}>{'" '+props.testimony +' "'}</p>
             </div>
         </div>
     )
@@ -29,6 +34,7 @@ function Testimony (props){
 
 
 class Testimonies extends Component {
+
 
  data = [
      {
@@ -73,7 +79,7 @@ class Testimonies extends Component {
  state = {
      index: 1,
      mark: {
-        border:  '2px solid rgb(97, 88, 229)',
+        border:  `2px solid #1fe5ff`,
         backgroundColor: 'white',
      },
      intervalId: null,
@@ -129,10 +135,7 @@ nextClicked = (index) => () =>{
                     <div style={index===3? mark: null} onClick={this.nextClicked(3)}></div>
                     <div style={index===4? mark: null} onClick={this.nextClicked(4)}></div>
                 </div>
-                <div className='join'>
-                   <a to='/register' className='navlink'><h2 className='now'>Join Now</h2></a> 
-                    <a to='/login' className='navlink'><h2>Login</h2></a>
-                </div>
+                
             </div>
         )
     }

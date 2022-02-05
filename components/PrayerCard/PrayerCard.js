@@ -40,8 +40,8 @@ h3{
 }
 
 a{
-  color: ${({theme})=> theme.colorTextPrimary};
-  border: 1px solid ${({theme})=> theme.colorTextPrimary};
+  color: ${({theme})=> theme.colorButtonPrimary};
+  border: 1px solid ${({theme})=> theme.colorButtonPrimary};
   padding: .3rem;
   align-self: center;
   margin: 1rem 0;
@@ -49,7 +49,7 @@ a{
 
   &:hover{
     color: ${({theme})=> theme.colorTextMuted};
-  border: 1px solid ${({theme})=> theme.colorTextMuted};
+  border: 1px solid ${({theme})=> theme.colorButtonMuted};
   }
 }
 
