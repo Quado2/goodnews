@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import Image from 'next/image'
 
 import styles from './Testimonies.module.scss'
 import nigerian1 from '../../assets/images/nigerianman1.jpg'
@@ -12,7 +13,7 @@ function Testimony (props){
     return(
         <div className={styles.testimony} id={`${styles[`testimony_${props.id}`]}`}>
             <div className={styles.image}> 
-                <img src={props.image} alt=';' />
+                <Image src={props.image} alt=';' />
                 <h2>{props.mName}</h2>
             </div>
             <div>
@@ -113,9 +114,6 @@ nextClicked = (index) => () =>{
 
         return(
             <div className={`${styles.testimonies_wrapper}`}>
-                <div className={`${styles.title}`}>
-                    <h2>What the community members have to say:</h2>
-                </div>
                 <div className={`${styles.direct_wrapper} ${styles[`active_testimony_${index}`]} `}>
                    <div className={`${styles.testimonies}`} style={{
                        'transform': `translateX(-${index*(100/5)}%)`

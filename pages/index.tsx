@@ -79,6 +79,7 @@ const Home: NextPage = () => {
             date={"October 2021"}
           />
         </PrayerCardContainer>
+        <Title title={"Testimonies"} />
         <Testimonies />
       </Container>
     </div>
