@@ -5,6 +5,7 @@ import Landing from "../components/Landing/Landing";
 import PropheticVoice from "../components/PropheticVoice/PropheticVoice";
 import PrayerCard from "../components/PrayerCard/PrayerCard";
 import Title from "../components/Title";
+import Testimonies from '../components/Testimonies/Testimonies'
 
 import prayer from "../assets/images/prayer.png";
 import arrow from "../assets/images/arrow.png";
@@ -78,6 +79,7 @@ const Home: NextPage = () => {
             date={"October 2021"}
           />
         </PrayerCardContainer>
+        <Testimonies />
       </Container>
     </div>
   );
