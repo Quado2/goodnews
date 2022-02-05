@@ -156,8 +156,8 @@ export default function PropheticVoice() {
         </div>
         <div className="level-3 call">
           <h2>
-            "Then he said to his disciples, “The harvest is plentiful, but the
-            laborers are few"
+          &quot;Then he said to his disciples, “The harvest is plentiful, but the
+            laborers are few&quot;
           </h2>
           <a>Partner with Prophetic voice </a>
         </div>
