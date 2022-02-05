@@ -1,12 +1,12 @@
 import React from 'react'
 
-import './Testimony.css'
+import styles from './Testimony.module.css'
 
 function testimony (props){
 
     return(
-        <div className='testimony' id={`testimony-${props.id}`}>
-            <div className='image'> 
+        <div className={styles.testimony} id={`${styles[`testimony-${props.id}`]}`}>
+            <div className={styles.image}> 
                 <img src={props.image} alt=';' />
                 <h2>{props.mName}</h2>
             </div>

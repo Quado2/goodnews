@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
-import {NavLink} from 'react-router-dom'
 
-import './Testimonies.scss'
+import styles from './Testimonies.module.scss'
 import Testimony from './Testimony/Testimony'
 import nigerian1 from '../../assets/images/nigerianman1.jpg'
 import nigerian2 from '../../assets/images/nigerian2.jpg'
@@ -115,8 +114,8 @@ nextClicked = (index) => () =>{
                     <div style={index===4? mark: null} onClick={this.nextClicked(4)}></div>
                 </div>
                 <div className='join'>
-                   <NavLink to='/register' className='navlink'><h2 className='now'>Join Now</h2></NavLink> 
-                    <NavLink to='/login' className='navlink'><h2>Login</h2></NavLink>
+                   <a to='/register' className='navlink'><h2 className='now'>Join Now</h2></a> 
+                    <a to='/login' className='navlink'><h2>Login</h2></a>
                 </div>
             </div>
         )

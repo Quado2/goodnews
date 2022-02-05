@@ -12,10 +12,10 @@ import arrow from "../assets/images/arrow.png";
 import go from "../assets/images/go.png";
 import settled from "../assets/images/settled.png";
 
-import prayerpdf from "../assets/prayer-books/prayerpdf.pdf";
-import gopdf from "../assets/prayer-books/gopdf.pdf";
-import arrowpdf from "../assets/prayer-books/arrowpdf.pdf";
-import settledpdf from "../assets/prayer-books/settledpdf.pdf";
+// import prayerpdf from "../assets/prayer-books/prayerpdf.pdf";
+// import gopdf from "../assets/prayer-books/gopdf.pdf";
+// import arrowpdf from "../assets/prayer-books/arrowpdf.pdf";
+// import settledpdf from "../assets/prayer-books/settledpdf.pdf";
 
 const Container = styled.div`
   width: 100%;
@@ -53,28 +53,28 @@ const Home: NextPage = () => {
         <PrayerCardContainer>
           <PrayerCard
             imageUrl={prayer}
-            downloadUrl={prayerpdf}
+            downloadUrl={prayer}
             title={"Prayer swords to release your blessing and breakthrough"}
             date={"January 2022"}
           />
 
           <PrayerCard
             imageUrl={go}
-            downloadUrl={gopdf}
+            downloadUrl={go}
             title={"Let my people go"}
             date={"December 2021"}
           />
 
           <PrayerCard
             imageUrl={arrow}
-            downloadUrl={arrowpdf}
+            downloadUrl={arrow}
             title={"Arrow against shame and reproach"}
             date={"November 2021"}
           />
 
           <PrayerCard
             imageUrl={settled}
-            downloadUrl={settledpdf}
+            downloadUrl={settled}
             title={"Prayer swords to release your blessing and breakthrough"}
             date={"October 2021"}
           />
