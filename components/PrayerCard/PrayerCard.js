@@ -60,7 +60,7 @@ export default function PrayerCard({imageUrl,downloadUrl,title,date}){
 
 return(
 <Container>
-  <Image src={imageUrl} />
+  <Image alt={date} src={imageUrl} />
   <div>
     <h2>{title} </h2>
     <h3>{date}</h3>
