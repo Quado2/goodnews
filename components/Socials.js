@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import Link from "next/link";
-import { FaFacebookSquare, FaYoutubeSquare, FaTwitterSquare } from "react-icons/fa";
+import {
+  FaFacebookSquare,
+  FaYoutubeSquare,
+  FaTwitterSquare,
+} from "react-icons/fa";
 const SocialList = styled.ul`
   display: flex;
   flex-direction: row;
@@ -8,32 +12,38 @@ const SocialList = styled.ul`
   justify-content: center;
   padding: 0;
 
-  li{
+  li {
     list-style: none;
-    transition: all .7s ease-in .3s;
-    margin: ${({show}) => show ? '1rem': '0'};
+    transition: all 0.7s ease-in 0.3s;
+    margin: ${({ show }) => (show ? "1rem" : "0")};
     &:hover a {
-      color: ${({theme}) => theme.colorTextHover}
+      color: ${({ theme }) => theme.colorTextHover};
     }
-     a{
-       font-size: 2rem;
-     }
+    a {
+      font-size: 2rem;
+      color: ${({ theme }) => theme.colorTextPrimary};
+    }
   }
-
 `;
 
-
-export default function Socials({show}) {
+export default function Socials({ show }) {
   return (
     <SocialList show={show}>
       <li>
-        <a href="www.facebook.com/goodnews"> <FaFacebookSquare /></a>
+        <a href="www.facebook.com/goodnews">
+       
+          <FaFacebookSquare />
+        </a>
       </li>
       <li>
-        <a href="www.youtube.com/goodnews"><FaYoutubeSquare /></a>
+        <a href="www.youtube.com/goodnews">
+          <FaYoutubeSquare />
+        </a>
       </li>
       <li>
-        <a href="www.twitter.com/goodnews"><FaTwitterSquare /></a>
+        <a href="www.twitter.com/goodnews">
+          <FaTwitterSquare />
+        </a>
       </li>
     </SocialList>
   );
