@@ -48,6 +48,21 @@ const Upper = styled.div`
       width: 101%;
       display: flex;
       margin: 0.2rem 0;
+
+      @media screen and (max-width: ${({ theme }) => theme.tablet}) {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+
+        .input-other{
+          width: 100%;
+          
+        }
+        .input-submit {
+          margin-top: 3rem;
+        }
+      }
     }
 
     input {
@@ -91,17 +106,18 @@ const Lower = styled.div`
   align-items: center;
   margin-top: 3rem;
   padding: 5rem;
-  background-color: ${({theme}) => theme.colorBackgroundSecondary};
+  background-color: ${({ theme }) => theme.colorBackgroundSecondary};
 
-  div h3, div span{
+  div h3,
+  div span {
     color: gray;
     font-weight: 200;
   }
 
-  div h3{
+  div h3 {
     margin: 1rem;
   }
-`
+`;
 
 export default function Footer() {
   return (
@@ -130,8 +146,15 @@ export default function Footer() {
         </form>
       </Upper>
       <Lower>
-        <div><Socials /> </div>
-        <div><h3>Goodnews of Christ Baptist Church <span> © {new Date().getFullYear}</span></h3></div>
+        <div>
+          <Socials />{" "}
+        </div>
+        <div>
+          <h3>
+            Goodnews of Christ Baptist Church{" "}
+            <span> © {new Date().getFullYear}</span>
+          </h3>
+        </div>
       </Lower>
     </Container>
   );
