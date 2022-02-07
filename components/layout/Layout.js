@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Sidebar from "./Sidebar";
 import Hambuger from "../Hambuger";
 import HambugerContextProvider from "../../context/HambugerContext";
-import Footer from "./Footer/Footer";
+import Footer from "../Footer/Footer";
 
 const LayoutContainer = styled.div`
   width: 100%;

@@ -77,7 +77,7 @@ function Testimonies() {
   return (
     <div className={`${styles.testimonies_wrapper}`}>
       <div className={styles.next_Icons}>
-        <IconContext.Provider value={{ color: "red", backgroundColor:"blue" }}>
+        <IconContext.Provider value={{ color: theme.colorButtonPrimary,}}>
           <div onClick={prevTestimony}>
             <span
               onClick={prevTestimony}

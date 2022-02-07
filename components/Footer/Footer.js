@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Socials from "../../Socials";
+import Socials from "../Socials";
 
 const Container = styled.div`
   width: 100%;
@@ -18,6 +18,11 @@ const Upper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: ${({ theme }) => theme.tablet}) {
+    padding: 1rem;
+  }
+
+
   h2 {
     font-size: 2.3rem;
     text-transform: uppercase;
@@ -61,6 +66,12 @@ const Upper = styled.div`
         }
         .input-submit {
           margin-top: 3rem;
+
+          @media screen and (max-width: ${({ theme }) => theme.tablet}) {
+            margin-top: 1rem;
+            padding: .7rem 2.2rem;
+            width: auto;
+          }
         }
       }
     }
@@ -108,10 +119,16 @@ const Lower = styled.div`
   padding: 5rem;
   background-color: ${({ theme }) => theme.colorBackgroundSecondary};
 
+  @media screen and (max-width: ${({ theme }) => theme.tablet}) {
+    padding: 3rem 1rem;
+  }
   div h3,
   div span {
     color: gray;
     font-weight: 200;
+    @media screen and (max-width: ${({ theme }) => theme.tablet}) {
+      font-size: 13px;
+    }
   }
 
   div h3 {
@@ -152,7 +169,7 @@ export default function Footer() {
         <div>
           <h3>
             Goodnews of Christ Baptist Church{" "}
-            <span> © {new Date().getFullYear}</span>
+            <span> © {new Date().getFullYear()}</span>
           </h3>
         </div>
       </Lower>
