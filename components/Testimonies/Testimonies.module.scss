@@ -75,7 +75,6 @@
     padding-right: 1.5rem;
 
     span {
-      
       font-size: 4rem;
       height: 4rem;
       width: 4rem;
@@ -83,11 +82,11 @@
       justify-content: center;
       align-items: center;
       border-radius: 10%;
-      opacity: .45;
+      opacity: 0.45;
 
-      &:hover{
-          opacity: 1;
-          cursor: pointer;
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
       }
     }
   }
@@ -97,10 +96,10 @@
     padding-left: 2rem;
   }
 }
-.testimonies_wrapper .icon{
-    border: 1px solid red;
-    color: red;
-    background-color: white;
+.testimonies_wrapper .icon {
+  border: 1px solid red;
+  color: red;
+  background-color: white;
 }
 
 .testimonies_wrapper .title h2 {
@@ -254,18 +253,16 @@ $i: 0;
   }
 
   .testimonies_wrapper .next_Icons {
-      div{
-          padding-right: .5rem;
+    div {
+      padding-right: 0.5rem;
 
-          span{
-            width: 2.5rem;
-            height: 2.5rem;
-        }
+      span {
+        width: 2.5rem;
+        height: 2.5rem;
       }
-      div:first-child{
-          padding-left: .7rem;
-      }
-
-      
+    }
+    div:first-child {
+      padding-left: 0.7rem;
+    }
   }
 }
