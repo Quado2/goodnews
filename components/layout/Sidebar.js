@@ -6,12 +6,11 @@ import { navItems } from "./data";
 import Socials from "../Socials";
 import { HambugerContext } from "../../context/HambugerContext";
 
-
 const SideContainer = styled.div`
   position: fixed;
   width: 100%;
   height: 100vh;
-  transition: all ease-in-out .3s;
+  transition: all ease-in-out 0.3s;
   background: ${({ theme }) => theme.colorBackgroundPrimary};
   top: 0;
   left: 0;
@@ -20,7 +19,7 @@ const SideContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  transform: ${({show}) => show ? '': 'translateX(-150vw)'}; 
+  transform: ${({ show }) => (show ? "" : "translateX(-150vw)")};
 
   .nav-list {
     margin-top: 5rem;
@@ -31,17 +30,16 @@ const SideContainer = styled.div`
     padding: 0;
   }
   .nav-list li {
-    transition: all ease-in-out .5s .4s;
+    transition: all ease-in-out 0.5s 0.4s;
     list-style: none;
-    padding: ${({show}) => show ? '1.3rem': '0'};
+    padding: ${({ show }) => (show ? "1.3rem" : "0")};
     border-bottom: 1px solid #1fe5ff24;
     text-align: center;
-    opacity: ${({show}) => show ? '1': '0'};;
-    
-    &:hover a{
-      color: ${({theme}) => theme.colorTextHover}
+    opacity: ${({ show }) => (show ? "1" : "0")};
+
+    &:hover a {
+      color: ${({ theme }) => theme.colorTextHover};
     }
-    
   }
   a {
     color: ${({ theme }) => theme.colorTextPrimary};
@@ -52,18 +50,16 @@ const SideContainer = styled.div`
 `;
 
 export default function Sidebar() {
-  const {clicked} = useContext(HambugerContext)
+  const { clicked } = useContext(HambugerContext);
   return (
     <SideContainer show={clicked}>
-      <div className='logo'>Logo</div>
-      <ul className={'nav-list'}>
+      <div className="logo">Logo</div>
+      <ul className={"nav-list"}>
         {navItems &&
           navItems.map((nav, i) => {
             return (
               <li key={i}>
-                <Link href={nav.link}>
-                  {nav.title}
-                </Link>
+                <Link href={nav.link}>{nav.title}</Link>
               </li>
             );
           })}

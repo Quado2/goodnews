@@ -18,10 +18,10 @@ const Header = styled.header`
   left: 0;
   z-index: 2;
 
-  nav{
-    @media screen and (max-width: ${({theme})=> theme.tablet}){
-    display: none;
-  }
+  nav {
+    @media screen and (max-width: ${({ theme }) => theme.tablet}) {
+      display: none;
+    }
   }
 
   .logo {

@@ -5,6 +5,8 @@ import {
   FaYoutubeSquare,
   FaTwitterSquare,
 } from "react-icons/fa";
+
+import { IconContext } from "react-icons/lib";
 const SocialList = styled.ul`
   display: flex;
   flex-direction: row;
@@ -31,7 +33,6 @@ export default function Socials({ show }) {
     <SocialList show={show}>
       <li>
         <a href="www.facebook.com/goodnews">
-       
           <FaFacebookSquare />
         </a>
       </li>
