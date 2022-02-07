@@ -8,10 +8,10 @@ import Footer from "../Footer/Footer";
 const LayoutContainer = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: ${({theme})  => theme.colorBackgroundPrimary};
+  background-color: ${({ theme }) => theme.colorBackgroundPrimary};
 `;
 
 const Main = styled.main`
