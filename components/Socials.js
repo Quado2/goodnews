@@ -33,7 +33,6 @@ export default function Socials({ show }) {
     <SocialList show={show}>
       <li>
         <a href="www.facebook.com/goodnews">
-       
           <FaFacebookSquare />
         </a>
       </li>
@@ -47,8 +46,6 @@ export default function Socials({ show }) {
           <FaTwitterSquare />
         </a>
       </li>
-
-     
     </SocialList>
   );
 }
