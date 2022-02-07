@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useTheme } from "styled-components";
-import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
+import { AiFillCaretRight, AiFillCaretLeft, IconContext } from "react-icons/ai";
 
 import styles from "./Testimonies.module.scss";
 import { data } from "./data";
@@ -37,11 +37,9 @@ function Testimonies() {
   });
 
   useEffect(() => {
-   
-      const innerIntervalId = setInterval(next, 7000);
-      setIntervalId(innerIntervalId);
-      console.log("useEffect ran");
-    
+    const innerIntervalId = setInterval(next, 7000);
+    setIntervalId(innerIntervalId);
+    console.log("useEffect ran");
 
     return () => {
       // componentwillunmount in functional component.
@@ -65,22 +63,38 @@ function Testimonies() {
     setIntervalId(innerIntervalId);
   }
 
-  function nextTestimony(){
-    const newIndex = index >= data.length - 1 ? 0: index+1
-    nextClicked(newIndex) 
+  function nextTestimony() {
+    const newIndex = index >= data.length - 1 ? 0 : index + 1;
+    nextClicked(newIndex);
   }
 
-  function prevTestimony(){
-    const newIndex = index <= 0 ? data.length-1 : index-1
-    nextClicked(newIndex)
+  function prevTestimony() {
+    const newIndex = index <= 0 ? data.length - 1 : index - 1;
+    nextClicked(newIndex);
   }
 
   return (
     <div className={`${styles.testimonies_wrapper}`}>
-        <div className={styles.next_Icons} style={{color: `${theme.colorButtonPrimary}`, }} >
-            <div onClick={prevTestimony}><span onClick={prevTestimony} style={{border: `1px solid ${theme.colorButtonPrimary}`}}><AiFillCaretLeft /></span></div>
-            <div onClick={nextTestimony} ><span onClick={nextTestimony} style={{border: `1px solid ${theme.colorButtonPrimary}`}}><AiFillCaretRight /></span></div>
-        </div>
+      <div className={styles.next_Icons}>
+        <IconContext.Provider value={{ color: "blue", }}>
+          <div onClick={prevTestimony}>
+            <span
+              onClick={prevTestimony}
+              style={{ border: `1px solid ${theme.colorButtonPrimary}` }}
+            >
+              <AiFillCaretLeft color="white" />
+            </span>
+          </div>
+          <div onClick={nextTestimony}>
+            <span
+              onClick={nextTestimony}
+              style={{ border: `1px solid ${theme.colorButtonPrimary}` }}
+            >
+              <AiFillCaretRight />
+            </span>
+          </div>
+        </IconContext.Provider>
+      </div>
       <div
         className={`${styles.direct_wrapper} ${
           styles[`active_testimony_${index}`]
