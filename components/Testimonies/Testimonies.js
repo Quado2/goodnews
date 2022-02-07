@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useTheme } from "styled-components";
-import { AiFillCaretRight, AiFillCaretLeft, IconContext } from "react-icons/ai";
+import { BsFillCaretRightFill, BsFillCaretLeftFill } from "react-icons/bs";
+import {IconContext} from 'react-icons'
 
 import styles from "./Testimonies.module.scss";
 import { data } from "./data";
@@ -76,13 +77,13 @@ function Testimonies() {
   return (
     <div className={`${styles.testimonies_wrapper}`}>
       <div className={styles.next_Icons}>
-        <IconContext.Provider value={{ color: "blue", }}>
+        <IconContext.Provider value={{ color: "red", backgroundColor:"blue" }}>
           <div onClick={prevTestimony}>
             <span
               onClick={prevTestimony}
               style={{ border: `1px solid ${theme.colorButtonPrimary}` }}
             >
-              <AiFillCaretLeft color="white" />
+              <BsFillCaretLeftFill />
             </span>
           </div>
           <div onClick={nextTestimony}>
@@ -90,7 +91,7 @@ function Testimonies() {
               onClick={nextTestimony}
               style={{ border: `1px solid ${theme.colorButtonPrimary}` }}
             >
-              <AiFillCaretRight />
+              <BsFillCaretRightFill />
             </span>
           </div>
         </IconContext.Provider>
