@@ -132,6 +132,7 @@ const Lower = styled.div`
   }
 
   div h3 {
+    
     margin: 1rem;
   }
 `;
