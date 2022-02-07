@@ -31,8 +31,7 @@ const SocialList = styled.ul`
 export default function Socials({ show }) {
   return (
     <SocialList show={show}>
-     
-
+    
       
       <li>
         <a href="www.facebook.com/goodnews">
