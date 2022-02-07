@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useTheme } from "styled-components";
 import { BsFillCaretRightFill, BsFillCaretLeftFill } from "react-icons/bs";
-import {IconContext} from 'react-icons'
+import { IconContext } from "react-icons";
 
 import styles from "./Testimonies.module.scss";
 import { data } from "./data";
@@ -77,7 +77,7 @@ function Testimonies() {
   return (
     <div className={`${styles.testimonies_wrapper}`}>
       <div className={styles.next_Icons}>
-        <IconContext.Provider value={{ color: theme.colorButtonPrimary,}}>
+        <IconContext.Provider value={{ color: theme.colorButtonPrimary }}>
           <div onClick={prevTestimony}>
             <span
               onClick={prevTestimony}
