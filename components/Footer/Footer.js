@@ -22,7 +22,6 @@ const Upper = styled.div`
     padding: 1rem;
   }
 
-
   h2 {
     font-size: 2.3rem;
     text-transform: uppercase;
@@ -63,16 +62,15 @@ const Upper = styled.div`
         align-items: center;
         width: 100%;
 
-        .input-other{
+        .input-other {
           width: 100%;
-          
         }
         .input-submit {
           margin-top: 3rem;
 
           @media screen and (max-width: ${({ theme }) => theme.tablet}) {
             margin-top: 1rem;
-            padding: .7rem 2.2rem;
+            padding: 0.7rem 2.2rem;
             width: auto;
           }
         }
@@ -135,7 +133,6 @@ const Lower = styled.div`
   }
 
   div h3 {
-
     margin: 1rem;
   }
 `;
