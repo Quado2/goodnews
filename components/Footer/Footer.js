@@ -28,6 +28,9 @@ const Upper = styled.div`
     text-transform: uppercase;
     font-weight: 600;
     color: ${({ theme }) => theme.colorTextPrimary};
+    @media screen and (max-width: ${({ theme }) => theme.tablet}) {
+      font-size: 2rem;
+    }
   }
 
   h3 {
@@ -132,7 +135,7 @@ const Lower = styled.div`
   }
 
   div h3 {
-    
+
     margin: 1rem;
   }
 `;
