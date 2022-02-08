@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, } from "react";
 import Image from "next/image";
 import { useTheme } from "styled-components";
 import { BsFillCaretRightFill, BsFillCaretLeftFill } from "react-icons/bs";
@@ -30,23 +30,21 @@ function Testimony(props) {
 
 function Testimonies() {
   const theme = useTheme();
-  const [intervalId, setIntervalId] = useState(null);
-  let [index, setIndex] = useState(1);
+  const intervalRef = useRef(null);
+  const [index, setIndex] = useState(1);
+const [intervalCall, resetIntervalCall] = useState(1)
   const [mark, setMark] = useState({
     border: `2px solid #1fe5ff`,
     backgroundColor: "white",
   });
 
   useEffect(() => {
-    const innerIntervalId = setInterval(next, 7000);
-    setIntervalId(innerIntervalId);
-    console.log("useEffect ran");
-
+    intervalRef.current = setInterval(next, 7000);
     return () => {
       // componentwillunmount in functional component.
-      clearInterval(intervalId);
+      if(intervalRef.current !== null) clearInterval(intervalRef.current);
     };
-  }, []);
+  }, [intervalCall]);
 
   function next() {
     setIndex((index) => {
@@ -59,9 +57,7 @@ function Testimonies() {
     setIndex(index);
     //there is need to start interval afresh so we have to
     //clear it and set it again
-    clearInterval(intervalId);
-    const innerIntervalId = setInterval(next, 7000);
-    setIntervalId(innerIntervalId);
+    resetIntervalCall(index)
   }
 
   function nextTestimony() {
