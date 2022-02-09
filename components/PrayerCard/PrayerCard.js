@@ -5,7 +5,7 @@ const Container = styled.div`
   width: 300px;
   height: 400px;
   position: relative;
-  border: 1px solid ${({ theme }) => theme.colorTextMuted};
+  /* border: 1px solid ${({ theme }) => theme.colorTextMuted}; */
   background-color: ${({ theme }) => theme.colorBackgroundSecondary};
   margin: 2rem;
   border-radius: 0.5rem;
