@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Image from "next/image";
-import daddyImage from "../../assets/images/daddy.png";
+import daddyImage from "../../assets/images/prophet.png";
 
 
 

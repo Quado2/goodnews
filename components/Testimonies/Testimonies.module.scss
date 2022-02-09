@@ -143,6 +143,12 @@
   }
 }
 
+.testimonies_wrapper .quick_form{
+  display: flex;
+  justify-content: center;
+  align-items: cetner;
+}
+
 //loop over the entire testimony cards and add the following
 $i: 0;
 @for $i from 0 through 4 {
