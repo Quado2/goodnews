@@ -82,7 +82,7 @@ const Upper = styled.div`
       border: 1px solid transparent;
       padding: 0.7rem;
       font-size: 1rem;
-      background-color: #1725256b;
+      background-color: ${({ theme }) => theme.colorBackgroundSecondary};
       margin: 0.1rem;
       color: ${({ theme }) => theme.colorTextSecondary};
       font-weight: 400;
