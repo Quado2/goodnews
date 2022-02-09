@@ -6,6 +6,33 @@ import { IconContext } from "react-icons";
 
 import styles from "./Testimonies.module.scss";
 import { data } from "./data";
+import QuickForm from "../QuickForm/QuickForm";
+
+
+const inputData = [
+  {
+    type: "input",
+    inputType: "text",
+    inputName: "name",
+    placeHolder: "Full Name",
+  },
+  {
+    type: "input",
+    inputType: "email",
+    placeHolder: "Phone Number",
+  },
+  {
+    type: "textarea",
+    inputType: "",
+    placeHolder: "Prayer Request",
+  },
+  {
+    type: "input",
+    inputType: "submit",
+    placeHolder: "Submit",
+  },
+];
+
 
 function Testimony(props) {
   const theme = useTheme();
@@ -137,7 +164,11 @@ const [intervalCall, resetIntervalCall] = useState(1)
           style={index === 4 ? mark : null}
           onClick={() => nextClicked(4)}
         ></div>
+      </div>s
+      <div className={styles.quick_form}>
+        <QuickForm inputData={inputData} message='Share your Testimony'  />
       </div>
+      
     </div>
   );
 }
