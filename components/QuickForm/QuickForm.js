@@ -31,6 +31,10 @@ const FormContainer = styled.div`
     color: ${({ theme }) => theme.colorTextPrimary};
   }
 
+  .message-button{
+    border: 1px solid 
+  }
+
   p {
     color: ${({ theme }) => theme.colorTextSecondary};
     font-weight: 200;
