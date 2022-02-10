@@ -36,6 +36,7 @@ const FormContainer = styled.div`
     padding: .5rem;
     text-transform: capitalize;
     color: ${({theme}) => theme.colorButtonPrimary};
+    font-weight: 300;
   }
 
   p {
