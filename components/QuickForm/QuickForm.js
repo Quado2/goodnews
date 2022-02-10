@@ -29,15 +29,18 @@ const FormContainer = styled.div`
     font-weight: 400;
     margin: 0.5rem;
     color: ${({ theme }) => theme.colorTextPrimary};
+    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1) all;
   }
 
-  .message-button{
-    border: 1px solid ${({theme}) => theme.colorButtonPrimary};
-    padding: .5rem;
+  .message-button {
+    border: 1px solid ${({ theme }) => theme.colorButtonPrimary};
+    padding: 0.7rem;
     text-transform: capitalize;
-    color: ${({theme}) => theme.colorButtonPrimary};
+    color: ${({ theme }) => theme.colorButtonPrimary};
     font-weight: 300;
-    font-size: .75rem;
+    font-size: 0.9rem;
+    border-radius: 0.2rem;
+    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1) all;
   }
 
   p {
@@ -58,21 +61,31 @@ const FormContainer = styled.div`
 
     input,
     textarea {
+      transition: margin 1s ease-in;
       outline: none;
       border: 1px solid transparent;
       padding: 0.7rem;
       font-size: 1rem;
       background-color: ${({ theme }) => theme.colorBackgroundSecondary};
-      margin: 0.5rem 0;
+      margin: 0;
+      opacity: 0;
       color: ${({ theme }) => theme.colorTextSecondary};
       font-weight: 400;
       width: 100%;
       border-radius: 0.2rem;
+      animation: appear-in 1s forwards;
 
       &:hover,
       &:active,
       &:focus {
         outline: none;
+      }
+
+      @keyframes appear-in {
+        to {
+          margin: 0.6rem 0;
+          opacity: 1;
+        }
       }
     }
 
@@ -105,40 +118,42 @@ export default function QuickForm({ inputData, message }) {
     <FormContainer showForm={showForm}>
       <h3
         className={`${showForm ? "message-text" : "message-button"}`}
-        onClick={() => showForm(!showForm)}
+        onClick={() => setShowForm(!showForm)}
       >
         {message}
       </h3>
-      <form>
-        {inputData &&
-          inputData.map((data) => {
-            switch (data.type) {
-              case "input":
-                {
-                  if (data.inputType === "submit") {
+      {showForm && (
+        <form>
+          {inputData &&
+            inputData.map((data) => {
+              switch (data.type) {
+                case "input":
+                  {
+                    if (data.inputType === "submit") {
+                      return (
+                        <input
+                          className="input-submit"
+                          value={data.placeHolder}
+                          type={data.inputType}
+                        />
+                      );
+                    }
                     return (
                       <input
-                        className="input-submit"
-                        value={data.placeHolder}
-                        type={data.inputType}
+                        className="input-name"
+                        type={data.type}
+                        placeholder={data.placeHolder}
                       />
                     );
                   }
-                  return (
-                    <input
-                      className="input-name"
-                      type={data.type}
-                      placeholder={data.placeHolder}
-                    />
-                  );
+                  break;
+                case "textarea": {
+                  return <textarea placeholder={data.placeHolder}></textarea>;
                 }
-                break;
-              case "textarea": {
-                return <textarea placeholder={data.placeHolder}></textarea>;
               }
-            }
-          })}
-      </form>
+            })}
+        </form>
+      )}
     </FormContainer>
   );
 }
