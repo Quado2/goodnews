@@ -94,7 +94,12 @@ export default function QuickForm({ inputData, message }) {
 
   return (
     <FormContainer showForm={showForm}>
-      <h3 className={`${showForm ? 'message-text':'message-button'}`} onClick={() => showForm(!showForm)}>{message}</h3>
+      <h3
+        className={`${showForm ? "message-text" : "message-button"}`}
+        onClick={() => showForm(!showForm)}
+      >
+        {message}
+      </h3>
       <form>
         {inputData &&
           inputData.map((data) => {
