@@ -32,7 +32,9 @@ const FormContainer = styled.div`
   }
 
   .message-button{
-    border: 1px solid 
+    border: 1px solid ${({theme}) => theme.colorButtonPrimary};
+    padding: .5rem;
+    text-transform: uppercase;
   }
 
   p {
