@@ -9,7 +9,7 @@ const FormContainer = styled.div`
   justify-content: center;
   align-items: center;
   @media screen and (max-width: ${({ theme }) => theme.tablet}) {
-    padding: 1rem;
+    padding: 1rem 0;
   }
 
   h2 {
