@@ -44,17 +44,18 @@ const FormContainer = styled.div`
     flex-direction: column;
     flex-wrap: wrap;
 
-    input, textarea {
+    input,
+    textarea {
       outline: none;
       border: 1px solid transparent;
       padding: 0.7rem;
       font-size: 1rem;
-      background-color: ${({theme})=> theme.colorBackgroundSecondary};
+      background-color: ${({ theme }) => theme.colorBackgroundSecondary};
       margin: 0.5rem;
       color: ${({ theme }) => theme.colorTextSecondary};
       font-weight: 400;
       width: 100%;
-      border-radius: .2rem;
+      border-radius: 0.2rem;
 
       &:hover,
       &:active,
@@ -63,7 +64,7 @@ const FormContainer = styled.div`
       }
     }
 
-    textarea{
+    textarea {
       height: 10rem;
       resize: none;
     }
@@ -95,14 +96,14 @@ export default function QuickForm({ inputData, message }) {
             switch (data.type) {
               case "input":
                 {
-                  if(data.inputType === 'submit'){
+                  if (data.inputType === "submit") {
                     return (
                       <input
-                      className="input-submit"
+                        className="input-submit"
                         value={data.placeHolder}
                         type={data.inputType}
-                        />
-                    )
+                      />
+                    );
                   }
                   return (
                     <input
@@ -114,11 +115,8 @@ export default function QuickForm({ inputData, message }) {
                 }
                 break;
               case "textarea": {
-                return(
-                  <textarea placeholder={data.placeHolder}>
-                  </textarea>
-                )
-              };
+                return <textarea placeholder={data.placeHolder}></textarea>;
+              }
             }
           })}
       </form>
