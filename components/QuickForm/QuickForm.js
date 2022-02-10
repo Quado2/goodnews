@@ -37,6 +37,7 @@ const FormContainer = styled.div`
     text-transform: capitalize;
     color: ${({theme}) => theme.colorButtonPrimary};
     font-weight: 300;
+    font-size: .75rem;
   }
 
   p {
