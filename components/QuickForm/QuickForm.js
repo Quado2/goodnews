@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 const FormContainer = styled.div`
@@ -22,7 +23,7 @@ const FormContainer = styled.div`
     }
   }
 
-  h3 {
+  .message-text {
     font-size: 1rem;
     text-transform: uppercase;
     font-weight: 400;
@@ -89,9 +90,11 @@ const FormContainer = styled.div`
 `;
 
 export default function QuickForm({ inputData, message }) {
+  const [showForm, setShowForm] = useState(false);
+
   return (
-    <FormContainer>
-      <h3>{message}</h3>
+    <FormContainer showForm={showForm}>
+      <h3 className={`${showForm ? 'message-text':'message-button'}`} onClick={() => showForm(!showForm)}>{message}</h3>
       <form>
         {inputData &&
           inputData.map((data) => {
