@@ -43,6 +43,8 @@ const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 
     input,
     textarea {
@@ -51,7 +53,7 @@ const FormContainer = styled.div`
       padding: 0.7rem;
       font-size: 1rem;
       background-color: ${({ theme }) => theme.colorBackgroundSecondary};
-      margin: 0.5rem;
+      margin: 0.5rem 0;
       color: ${({ theme }) => theme.colorTextSecondary};
       font-weight: 400;
       width: 100%;
