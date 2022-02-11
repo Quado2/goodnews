@@ -11,6 +11,11 @@ const PrayerContainer = styled.div`
   justify-content: center;
 
   background-color: ${({ theme }) => theme.colorBackgroundPrimary};
+
+  .quickform-wrapper{
+    width: 100%;
+    padding: 1rem
+  }
 `;
 
 const PrayerCardContainer = styled(PrayerContainer)`
@@ -61,8 +66,10 @@ export default function Prayers() {
             />
           ))}
       </PrayerCardContainer>
-
-      <QuickForm inputData={inputData} message={"Send a Prayer Request"}/>
+      <div className="quickform-wrapper">
+        <QuickForm inputData={inputData} message={"Send a Prayer Request"}/>
+      </div>
+      
     </PrayerContainer>
   );
 }

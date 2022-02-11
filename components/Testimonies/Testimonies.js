@@ -98,6 +98,9 @@ const [intervalCall, resetIntervalCall] = useState(1)
   }
 
   return (
+    <div className={styles.main_testimonies_wrapper}>
+
+
     <div className={`${styles.testimonies_wrapper}`}>
       <div className={styles.next_Icons}>
         <IconContext.Provider value={{ color: theme.colorButtonPrimary }}>
@@ -165,10 +168,12 @@ const [intervalCall, resetIntervalCall] = useState(1)
           onClick={() => nextClicked(4)}
         ></div>
       </div>s
-      <div className={styles.quick_form}>
+     
+      
+    </div>
+    <div className={styles.quick_form}>
         <QuickForm inputData={inputData} message='Share your Testimony'  />
       </div>
-      
     </div>
   );
 }
