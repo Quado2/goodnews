@@ -48,6 +48,11 @@
 }
 
 /*Testimonies here.*/
+.main_testimonies_wrapper {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+}
 
 .testimonies_wrapper {
   overflow-x: hidden;
@@ -143,10 +148,11 @@
   }
 }
 
-.testimonies_wrapper .quick_form {
+.main_testimonies_wrapper .quick_form {
   display: flex;
   justify-content: center;
   align-items: cetner;
+  padding: 0 0.75rem;
 }
 
 //loop over the entire testimony cards and add the following
@@ -227,8 +233,6 @@ $i: 0;
 }
 
 @media screen and (max-width: 601px) {
-
-
   .testimonies_wrapper .direct_wrapper {
     position: relative;
     min-height: 520px;
