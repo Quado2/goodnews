@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {useTheme} from "styled-components";
 import Image from "next/image";
 import daddyImage from "../../assets/images/prophet.png";
 
@@ -146,11 +146,16 @@ const Link = styled.a`
 `;
 
 function Landing() {
+  const theme = useTheme();
+
   return (
     <Container>
       <InnerContainer>
         <Title>
-          Love, <Stroked>Faith and Freedom</Stroked>
+          Love, <span style={{color: `${theme.colorBackgroundPrimary}`,
+                      textShadow: `-1px -1px 0 ${theme.colorTextPrimary}, 1px -1px 0 ${theme.colorTextPrimary}, -1px 1px 0 ${theme.colorTextPrimary},
+                      1px 1px 0 ${theme.colorTextPrimary}` }}
+  >Faith and Freedom</span>
         </Title>
         <Desc>Goodnews of Christ Baptist Church</Desc>
       </InnerContainer>

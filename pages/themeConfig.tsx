@@ -14,8 +14,8 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
-  colorBackgroundPrimary: "#010e08",
-  colorBackgroundSecondary: "#1725256b",
+  colorBackgroundPrimary: "#0A0C10",
+  colorBackgroundSecondary: "#272B33",
   colorTextPrimary: "#71B7FF",
   colorTextMuted: "#639fdb",
   colorTextSecondary: "grey",
