@@ -12,7 +12,7 @@ const Header = styled.header`
   justify-content: space-between;
   background-color: #010e08;
   padding: 2% 4%;
-  border-bottom: 1px solid #1fe5ff;
+  border-bottom: 1px solid ${({theme}) => theme.colorTextPrimary};;
   position: fixed;
   top: 0;
   left: 0;
@@ -45,14 +45,14 @@ const Header = styled.header`
   a {
     text-decoration: none;
     font-size: 1rem;
-    color: #1fe5ff;
-    padding: 2px 0;
+    color: ${({theme}) => theme.colorTextPrimary};
+    padding: 2px .3rem;
   }
 
   a:hover,
   a:active,
   a.active {
-    border-bottom: 1px solid #1fe5ff;
+    border-bottom: 1px solid ${({theme}) => theme.colorTextPrimary};;
   }
 `;
 

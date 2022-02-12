@@ -14,7 +14,10 @@ const PrayerContainer = styled.div`
 
   .quickform-wrapper{
     width: 100%;
-    padding: 1rem
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 

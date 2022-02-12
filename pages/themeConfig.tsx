@@ -14,13 +14,15 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
-  colorBackgroundPrimary: "#010e08",
-  colorBackgroundSecondary: "#1725256b",
-  colorTextPrimary: "#1fe5ff",
-  colorTextMuted: "#1594a5",
-  colorTextSecondary: "grey",
-  colorButtonPrimary: "#e379f8",
-  colorButtonSecondary: "",
+  colorBackgroundPrimary: "#0A0C10",
+  colorBackgroundSecondary: "#191a1d",
+  colorTextPrimary: "#71B7FF",
+  colorPrimaryMuted: "#4b7aa8",
+  colorTextSecondary: "#fdfdfd",
+  colorSecondaryMuted: "#d3d4d4",
+  colorButtonPrimary: "#E5861F",
+  colorButtonMuted: "#a86216",
+  colorBorderPrimary: "#333",
   mobile,
   tablet,
 };

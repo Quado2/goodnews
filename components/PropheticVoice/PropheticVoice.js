@@ -5,16 +5,15 @@ import bible from "../../assets/images/bible.png";
 
 const TopContainer = styled.div`
   width: 100%;
-  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: ${({theme})=>theme.colorBackgroundSecondary};
 `;
 
 const Container = styled.div`
   width: 100%;
   max-width: 1100px;
-  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -42,20 +41,21 @@ const Container = styled.div`
  }
 
  .call{
-   width: 85%;
+   width: 90%;
    margin-top: 2rem;
-   box-shadow: 1px 1px .5rem #ccc;
+   box-shadow: 1px 1px .2rem ${({theme})=>theme.colorBorderPrimary}, -1px -1px .2rem ${({theme})=>theme.colorBorderPrimary};
    padding: 2rem;
    border-radius: .5rem;
-;
+
 
   h2{
     
     font-size: 1.5rem;
     font-weight: 400;
     font-style: italic;
-    color: ${({theme}) => theme.colorTextMuted};
-    font-family: 'Quintessential',
+    color: ${({theme}) => theme.colorTextSecondary};
+    font-family: 'Quintessential';
+    min-width: 50%;
     
   }
 
@@ -63,7 +63,11 @@ const Container = styled.div`
     border: 1px solid ${({theme})=> theme.colorButtonPrimary};
     color: ${({theme})=> theme.colorButtonPrimary};
     margin: 2rem;
-    width: auto;
+   min-width: 15rem;
+   &:hover{
+    border: 1px solid ${({theme})=> theme.colorButtonMuted};
+    color: ${({theme})=> theme.colorButtonMuted};
+   }
   }
  }
 
@@ -82,6 +86,7 @@ const ImageContainer = styled.div`
 
   @media screen and (min-width: ${({ theme }) => theme.tablet}) {
     width: 50%;
+    margin: 1rem;
   }
 `;
 
@@ -104,7 +109,7 @@ const TextContainer = styled.div`
 
   h2 {
     width: 100%;
-    color: #1594a5;
+    color: ${({ theme }) => theme.colorPrimaryMuted};;
     margin: 0.1rem 0;
     font-weight: 400;
     font-size: 1.5rem;
@@ -121,12 +126,13 @@ const TextContainer = styled.div`
     font-weight: 200;
     margin: 1rem 0;
     text-align: justify;
-    color: ${({theme}) => theme.colorTextSecondary};
+    color: ${({theme}) => theme.colorSecondaryMuted};
   }
 
   h3 {
     width: 100%;
     font-weight: 400;
+    color: ${({theme}) => theme.colorTextSecondary};
   }
 
   @media screen and (min-width: ${({ theme }) => theme.tablet}) {

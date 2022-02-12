@@ -5,8 +5,7 @@ const Container = styled.div`
   width: 300px;
   height: 400px;
   position: relative;
-  /* border: 1px solid ${({ theme }) => theme.colorTextMuted}; */
-  background-color: ${({ theme }) => theme.colorBackgroundSecondary};
+  border: 1px solid ${({ theme }) => theme.colorBorderPrimary};
   margin: 2rem;
   border-radius: 0.5rem;
 
@@ -18,7 +17,7 @@ const Container = styled.div`
     position: absolute;
     bottom: 0;
     width: 100%;
-    background-color: inherit;
+    background-color: ${({ theme }) => theme.colorBackgroundPrimary};
     padding: 0 1rem;
     display: flex;
     flex-direction: column;
@@ -26,7 +25,7 @@ const Container = styled.div`
   }
 
   h2 {
-    color: ${({ theme }) => theme.colorTextPrimary};
+    color: ${({ theme }) => theme.colorTextSecondary};
     font-weight: 300;
     font-size: 1rem;
     margin: 0.5rem 0;
@@ -34,13 +33,13 @@ const Container = styled.div`
 
   h3 {
     font-size: 0.8rem;
-    color: ${({ theme }) => theme.colorTextMuted};
+    color: ${({ theme }) => theme.colorSecondaryMuted};
     margin-bottom: 1rem;
   }
 
   a {
-    color: ${({ theme }) => theme.colorButtonPrimary};
-    border: 1px solid ${({ theme }) => theme.colorButtonPrimary};
+    color: ${({ theme }) => theme.colorTextPrimary};
+    border: 1px solid ${({ theme }) => theme.colorTextPrimary};
     padding: 0.3rem;
     align-self: center;
     margin: 1rem 0;

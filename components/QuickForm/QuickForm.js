@@ -29,7 +29,8 @@ const FormContainer = styled.div`
     font-weight: 400;
     margin: 0.5rem;
     color: ${({ theme }) => theme.colorTextPrimary};
-    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1) all;
+    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1) all ;
+    cursor: pointer;
   }
 
   .message-button {
@@ -41,6 +42,7 @@ const FormContainer = styled.div`
     font-size: 0.9rem;
     border-radius: 0.2rem;
     transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1) all;
+    cursor: pointer;
   }
 
   p {
@@ -73,7 +75,7 @@ const FormContainer = styled.div`
       font-weight: 400;
       width: 100%;
       border-radius: 0.2rem;
-      animation: appear-in 1s forwards;
+      animation: appear-ina 1s forwards;
 
       &:hover,
       &:active,
@@ -81,7 +83,7 @@ const FormContainer = styled.div`
         outline: none;
       }
 
-      @keyframes appear-in {
+      @keyframes appear-ina {
         to {
           margin: 0.6rem 0;
           opacity: 1;
@@ -99,12 +101,13 @@ const FormContainer = styled.div`
     }
     .input-submit {
       width: 31%;
-      background-color: white;
       align-self: center;
+      color: ${({theme})=>theme.colorTextPrimary};
+      border: 1px solid ${({theme})=>theme.colorTextPrimary};
 
       &:hover {
-        background-color: gray;
-        color: white;
+        color: ${({theme})=>theme.colorPrimaryMuted};
+      border: 1px solid ${({theme})=>theme.colorPrimaryMuted};
         cursor: pointer;
       }
     }
