@@ -71,7 +71,7 @@ const Desc = styled.h1`
   font-size: 2rem;
   margin: 1rem;
   font-weight: 300;
-  color: #1594a5;
+  color: ${({ theme }) => theme.colorSecondaryMuted};
   opacity: 0;
   animation: appear-in 1s .4s forwards ease-in-out;
 
@@ -81,11 +81,6 @@ const Desc = styled.h1`
   }
 `;
 
-const Stroked = styled.span`
-  color: ${({ theme }) => theme.colorBackgroundPrimary};
-  text-shadow: -1px -1px 0 #1fe5ff, 1px -1px 0 #1fe5ff, -1px 1px 0 #1fe5ff,
-    1px 1px 0 #1fe5ff;
-`;
 
 const InnerContainer = styled(Container)`
   height: auto;
@@ -128,8 +123,8 @@ const Link = styled.a`
   width: 10rem;
   padding: 0.75rem;
   font-size: 1.1rem;
-  border: 1px solid  ${(props) => (props.green ? "#1fe5ff" : "#FF5157")};
-  color: ${(props) => (props.green ? "#1fe5ff" : "#FF5157")};
+  border: 1px solid  ${(props) => (props.green ? props.theme.colorTextPrimary : props.theme.colorButtonPrimary)};
+  color: ${(props) => (props.green ? props.theme.colorTextPrimary : props.theme.colorButtonPrimary)};
   margin: 0 1rem;
   text-align: center;
   border-radius: 0.2rem;
