@@ -5,7 +5,6 @@ import bible from "../../assets/images/bible.png";
 
 const TopContainer = styled.div`
   width: 100%;
-  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,7 +13,6 @@ const TopContainer = styled.div`
 const Container = styled.div`
   width: 100%;
   max-width: 1100px;
-  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
