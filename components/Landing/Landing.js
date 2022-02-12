@@ -130,12 +130,12 @@ const Link = styled.a`
     border: 1px solid
       ${(props) =>
         props.green
-          ? props.theme.colorTextPrimary
-          : props.theme.colorButtonPrimary};
+          ? props.theme.colorPrimaryMuted
+          : props.theme.colorButtonMuted};
     color: ${(props) =>
       props.green
-        ? props.theme.colorTextPrimary
-        : props.theme.colorButtonPrimary};
+        ? props.theme.colorPrimaryMuted
+        : props.theme.colorButtonMuted};
   }
 
   @media screen and (max-width: ${({ theme }) => theme.tablet}) {
