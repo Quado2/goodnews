@@ -43,7 +43,7 @@ const Container = styled.div`
  .call{
    width: 90%;
    margin-top: 2rem;
-   box-shadow: 1px 1px .2rem #333, -1px -1px .2rem#333;
+   box-shadow: 1px 1px .2rem ${({theme})=>theme.colorBorderPrimary}, -1px -1px .2rem ${({theme})=>theme.colorBorderPrimary};
    padding: 2rem;
    border-radius: .5rem;
 

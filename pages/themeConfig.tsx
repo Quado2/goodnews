@@ -22,6 +22,7 @@ export const darkTheme = {
   colorSecondaryMuted: "#d3d4d4",
   colorButtonPrimary: "#E5861F",
   colorButtonMuted: "#a86216",
+  colorBorderPrimary: "#333",
   mobile,
   tablet,
 };

@@ -5,7 +5,7 @@ const Container = styled.div`
   width: 300px;
   height: 400px;
   position: relative;
-  border: 1px solid ${({ theme }) => theme.colorSecondaryMuted};
+  border: 1px solid ${({ theme }) => theme.colorBorderPrimary};
   margin: 2rem;
   border-radius: 0.5rem;
 
@@ -17,7 +17,7 @@ const Container = styled.div`
     position: absolute;
     bottom: 0;
     width: 100%;
-    background-color: inherit;
+    background-color: ${({ theme }) => theme.colorBackgroundPrimary};
     padding: 0 1rem;
     display: flex;
     flex-direction: column;
