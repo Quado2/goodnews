@@ -57,6 +57,7 @@ const Title = styled.h1`
   font-weight: 500;
   text-align: center;
   margin: 0;
+  opacity: 0;
   color: ${({ theme }) => theme.colorTextPrimary};
   animation: appear-in 1s forwards ease-in-out;
 

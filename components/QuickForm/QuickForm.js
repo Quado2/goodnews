@@ -73,7 +73,7 @@ const FormContainer = styled.div`
       font-weight: 400;
       width: 100%;
       border-radius: 0.2rem;
-      animation: appear-in 1s forwards;
+      animation: appear-ina 1s forwards;
 
       &:hover,
       &:active,
@@ -81,7 +81,7 @@ const FormContainer = styled.div`
         outline: none;
       }
 
-      @keyframes appear-in {
+      @keyframes appear-ina {
         to {
           margin: 0.6rem 0;
           opacity: 1;
