@@ -16,3 +16,9 @@ model User {
   email     String
   password  String
 }
+
+model Profile {
+  id        String @id @default(dbgenerated()) @map("_id") @db.ObjectId
+  name      String
+  Phone     String
+}
