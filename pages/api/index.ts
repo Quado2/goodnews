@@ -24,6 +24,7 @@ export default function handler(
       res.json(res);
     })
     .catch((err: any) => {
+      res.status(400).json({name: "wE are deeply sorry"});
       console.log;
     });
 
