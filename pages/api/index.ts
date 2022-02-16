@@ -7,6 +7,7 @@ type Data = {
   name: string;
 };
 
+connect();
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
@@ -24,7 +25,7 @@ export default function handler(
       res.json(res);
     })
     .catch((err: any) => {
-      console.log;
+      console.log(err);
       res.status(400).json({name: "wE are deeply sorry"});
       
     });
