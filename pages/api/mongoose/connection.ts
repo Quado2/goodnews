@@ -1,4 +1,4 @@
-import mongoose  from 'mongoose';
+import mongoose from 'mongoose';
 
 
 //CONNECTING TO MONGOOSE
@@ -10,6 +10,18 @@ export const connect = async () => {
   const conn = await mongoose.connect(DATABASE_URL as string)
     .catch(err =>console.log(err))
   console.log("Connection estabalished")
-return conn
+
+
+
+//Create a schema
+const UserSchema = new mongoose.Schema({
+  email: String,
+  password: String,
+  disabled: Boolean,
+})
+
+const User = mongoose.models.UserScema || mongoose.model("UserSchema", UserSchema);
+
+return {conn, User}
 
 }
