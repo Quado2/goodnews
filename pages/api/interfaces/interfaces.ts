@@ -1,9 +1,9 @@
 export  interface MemberInput {
-  firstName: String,
-  sureName: String,
-  phone?: String,
-  email?: String,
-  password: String
+  firstName: string,
+  sureName: string,
+  phone: string,
+  email: string,
+  password: string
 }
 
 export interface UserPayload{
