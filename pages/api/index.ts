@@ -1,36 +1,35 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import mongoose from "mongoose";
-import dbConnect from "./mongoose/connection";
-import {User} from './mongoose/models/user'
-//import { User } from "./mongoose/models/user";
+import { ApolloServer } from "apollo-server-micro";
+import Cors from "micro-cors";
 
-type Data = {
-  name: string;
+import { typeDefs } from "./graphql/schema";
+import { Query, Mutations } from "./graphql/resolvers";
+import { setDefaultResultOrder } from "dns";
+import { FaSleigh } from "react-icons/fa";
+
+const cors = Cors();
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers: {
+    Query,
+    Mutations,
+  },
+});
+
+const startServer = server.start();
+
+export default cors(async function hander(req, res) {
+  if (req.method === "OPTIONS") {
+    res.end();
+    return false;
+  }
+
+  await startServer;
+  await server.createHandler({ path: "/api" })(req, res);
+});
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
 };
-
-dbConnect();
-
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  const user = new User({
-    id: "s",
-    name: "Ndubuisi",
-    email: "email@gmail.com",
-    phone: "08012322323",
-  });
-
-  user
-    .save()
-    .then((result: any) => {
-      res.json(result);
-    })
-    .catch((err: any) => {
-      console.log(err);
-      res.status(400).json({name: "wE are deeply sorry"});
-      
-    });
-
-  //res.status(200).json({ name: 'John Doe' })
-}
