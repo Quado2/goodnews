@@ -12,7 +12,8 @@ type Mutations{
 
 type Member {
   id: ID!
-  name: String!
+  firstName: String!
+  lastName: String!
   email: String
   phone: String
   tithes: [Tithe!]!
