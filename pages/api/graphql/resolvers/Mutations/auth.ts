@@ -10,8 +10,9 @@ export const authResolvers = {
   signup: () => async(_:any, {user}: {user:MemberInput}, __:any):Promise<UserPayload> => {
     const {firstName, sureName, email, password, phone} = user
     
+
+
     //VALIDATING THE DATA
-    
     const isEmail = validator.isEmail(email);
 		if (!isEmail) {
 			return {
@@ -24,8 +25,9 @@ export const authResolvers = {
 			};
 		}
 
+
 		const isValidPassword = validator.isLength(password, {
-			min: 5,
+			min: 6,
 		});
 		if (!isValidPassword) {
 			return {
@@ -37,6 +39,7 @@ export const authResolvers = {
 				token: null,
 			};
 		}
+
 
     const isValidFirstName = validator.isLength(password, {
 			min: 2,
@@ -52,6 +55,7 @@ export const authResolvers = {
 			};
 		}
 
+
     const isValidLastName = validator.isLength(password, {
 			min: 2,
 		});
@@ -60,6 +64,21 @@ export const authResolvers = {
 				userErrors: [
 					{
 						message: "Last name Should not be less than 2 characters",
+					},
+				],
+				token: null,
+			};
+		}
+
+
+    const isValidPhone = validator.isLength(password, {
+			min: 8,
+		});
+    if (!isValidLastName) {
+			return {
+				userErrors: [
+					{
+						message: "Phone number should not be less than 8 characters",
 					},
 				],
 				token: null,
