@@ -1,3 +1,3 @@
 export const Query ={
-  me: "This is me"
+  me: () => "we love me"
 }

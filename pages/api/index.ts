@@ -3,8 +3,7 @@ import Cors from "micro-cors";
 
 import { typeDefs } from "./graphql/schema";
 import { Query, Mutations } from "./graphql/resolvers";
-import { setDefaultResultOrder } from "dns";
-import { FaSleigh } from "react-icons/fa";
+
 
 const cors = Cors();
 

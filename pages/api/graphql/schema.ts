@@ -3,11 +3,11 @@ import {gql} from 'apollo-server-micro'
 export const typeDefs = gql`
 
 type Query {
-  me: Member
+  me: String
 }
 
-type Mutation{
-  memberCreate(user: MemberInput!): AuthPayload!
+type Mutations{
+  signup(user: MemberInput!): AuthPayload!
 }
 
 type Member {
@@ -16,6 +16,12 @@ type Member {
   email: String
   phone: String
   tithes: [Tithe!]!
+}
+
+type Tithe {
+  month: String,
+  year: String,
+  amount: Int,
 }
 
 type AuthPayload{
@@ -27,7 +33,7 @@ type UserError{
   message: String!
 }
 
-type MemberInput{
+input MemberInput{
   name: String!
   email: String
   phone: String
