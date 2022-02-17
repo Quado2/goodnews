@@ -1,28 +1,30 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import mongoose from "mongoose";
-import { connect } from "./mongoose/connection";
-import { User } from "./mongoose/models/user";
+import dbConnect from "./mongoose/connection";
+import {User} from './mongoose/models/user'
+//import { User } from "./mongoose/models/user";
 
 type Data = {
   name: string;
 };
 
-connect();
+dbConnect();
+
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
   const user = new User({
-    id: "adfaf",
-    name: "Okonkwo",
+    id: "s",
+    name: "Ndubuisi",
     email: "email@gmail.com",
-    phone: "2323423",
+    phone: "08012322323",
   });
 
   user
     .save()
-    .then((res: any) => {
-      res.json(res);
+    .then((result: any) => {
+      res.json(result);
     })
     .catch((err: any) => {
       console.log(err);
