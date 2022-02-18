@@ -85,7 +85,7 @@ export const authResolvers = {
       };
     }
 
-    const isValidPhone = validator.isLength(password, {
+    const isValidPhone = validator.isLength(phone, {
       min: 8,
     });
     if (!isValidPhone) {
