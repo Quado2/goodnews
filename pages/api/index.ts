@@ -2,7 +2,7 @@ import { ApolloServer } from "apollo-server-micro";
 import Cors from "micro-cors";
 
 import { typeDefs } from "./graphql/schema";
-import { Query, Mutations } from "./graphql/resolvers";
+import { Query, Mutation } from "./graphql/resolvers";
 
 
 const cors = Cors();
@@ -11,7 +11,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers: {
     Query,
-    Mutations,
+    Mutation,
   },
 });
 

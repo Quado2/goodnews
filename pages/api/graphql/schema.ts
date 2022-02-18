@@ -6,8 +6,9 @@ type Query {
   me: String
 }
 
-type Mutations{
+type Mutation{
   signup(user: MemberInput!): AuthPayload!
+  testIt: String
 }
 
 type Member {
@@ -35,9 +36,10 @@ type UserError{
 }
 
 input MemberInput{
-  name: String!
-  email: String
-  phone: String
+  firstName: String!
+  sureName: String!
+  email: String!
+  phone: String!
   password: String!
 
 }
