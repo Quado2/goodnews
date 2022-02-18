@@ -11,7 +11,7 @@ export const authResolvers = {
     _: any,
     { user }: { user: MemberInput },
     __: any
-  ): Promise<any> => {
+  ): Promise<UserPayload> => {
     
 
     try {
@@ -113,10 +113,18 @@ export const authResolvers = {
     });
 
     const newMember = await member.save();
+    console.log(newMember);
+
+    const token = await JWT.sign({
+      userId: newMember._id,
+    },
+    JSON_SIGNATURE,
+    {expiresIn: "3600000"}
+    )
 
     return {
       userErrors: [],
-      token: newMember,
+      token,
     };
   },
 };

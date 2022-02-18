@@ -12,3 +12,9 @@ export interface UserPayload{
   }[];
   token : string | null;
 }
+
+export interface Context {
+  userInfo:{
+    userId: number | null
+  } | null
+}

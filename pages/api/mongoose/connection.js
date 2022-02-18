@@ -8,6 +8,7 @@ const connection = {};
 
 async function dbConnect() {
   if (connection.isConnected) {
+    console.log("we are connected no need for further connection")
     return;
   }
   console.log("About to try the connection");
