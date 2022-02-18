@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import mongoose from "mongoose";
+
 import dbConnect from "./mongoose/connection";
 import {User} from './mongoose/models/user'
 //import { User } from "./mongoose/models/user";
