@@ -15,10 +15,10 @@ export default function handler(
   res: NextApiResponse<Data>
 ) {
   const user = new User({
-    id: "s",
     name: "Ndubuisi",
     email: "email@gmail.com",
     phone: "08012322323",
+    password: "goodboy"
   });
 
   user
