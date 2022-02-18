@@ -4,7 +4,7 @@ import { JSON_SIGNATURE } from "../../signature";
 import validator from "validator";
 import { MemberInput, UserPayload } from "../../../interfaces/interfaces";
 import dbConnect from "../../../mongoose/connection";
-
+import {Member} from '../../../mongoose/models'
 export const authResolvers = {
   signup:
     () =>
@@ -99,5 +99,28 @@ export const authResolvers = {
           token: null,
         };
       }
+
+      //HASH THE PASSWORD
+
+      const hashedPassword = await bcrypt.hash(password, 6);
+
+
+      //SAVE NOW
+      const member = new Member({
+        firstName,
+        sureName,
+        phone,
+        password: hashedPassword,
+        email
+
+      })
+
+      const newMember = await member.save()
+
+      return {
+        userErrors: [],
+        token: newMember,
+      };
+
     },
 };

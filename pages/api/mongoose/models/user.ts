@@ -26,28 +26,4 @@ const userSchema = new Schema(
 );
 export const User = mongoose.models.User || mongoose.model("User", userSchema);
 
-const MemberSchema = new Schema({
-  firstName: {
-    type: String,
-    required: true,
-  },
-  sureName: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  phone: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-});
 
-export const Member =
-  mongoose.models.Member || mongoose.model("Member", MemberSchema);
