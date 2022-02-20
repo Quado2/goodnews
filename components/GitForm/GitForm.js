@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
 import "./GitForm.scss";
-import OurParticles from "../../Components/Particles/Particles";
-import RollText from "../../Components/RollText/RollText";
-import Input from "../../Components/Input/Input";
+import OurParticles from "../Particles/Particles";
+import RollText from "../RollText/RollText";
+import Input from "../Input/Input";
 
 
 function GitForm({ formInputs, processInputs }) {
