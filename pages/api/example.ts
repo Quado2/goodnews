@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import mongoose from "mongoose";
+
 import dbConnect from "./mongoose/connection";
 import {User} from './mongoose/models/user'
 //import { User } from "./mongoose/models/user";
@@ -15,10 +15,10 @@ export default function handler(
   res: NextApiResponse<Data>
 ) {
   const user = new User({
-    id: "s",
     name: "Ndubuisi",
     email: "email@gmail.com",
     phone: "08012322323",
+    password: "goodboy"
   });
 
   user
