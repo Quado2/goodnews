@@ -52,13 +52,9 @@ function GitForm({ formInputs, processInputs, welcomeMessage, actionMessage }) {
   function handleFormSubmitted(e) {
     e.preventDefault();
     processInputs(formValues);
-    setShowNotification(true);
   }
 
-  function handleOkClicked() {
-    setShowNotification(false);
-    document.location.reload();
-  }
+
 
   return (
     <GitFormWrapper>

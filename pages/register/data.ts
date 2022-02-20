@@ -100,13 +100,13 @@ export const loginInputs = [
 
   {
     inputType: "email",
-    prompt: "What is your email or password",
+    prompt: "What is your email or phone number",
     name: "email",
   },
   {
     inputType: "password",
     prompt: "What is your password",
-    name: "email",
+    name: "password",
   },
 
 ]

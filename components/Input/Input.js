@@ -17,7 +17,7 @@ function Input(props) {
     formValues,
   } = props;
 
-  console.log(formValues);
+
 
   const [blured, setBlured] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -117,7 +117,6 @@ function Input(props) {
     setFocused(true);
     setBlured(false);
     setShowButton(true);
-    console.log("focused");
   }
 
   function handleBlur(e) {
