@@ -98,6 +98,11 @@ const formInputs = [
 ];
 
 export default function Register() {
+
+  function processInputs(inputValues){
+    console.log(inputValues)
+  }
+  
   return (
     <>
       <Head>
@@ -109,7 +114,7 @@ export default function Register() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-
+    <GitForm processInputs={processInputs}  formInputs={formInputs}/>
 
 
     </>

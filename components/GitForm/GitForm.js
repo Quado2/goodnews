@@ -17,7 +17,11 @@ function GitForm({ formInputs, processInputs }) {
   const [visibleFormInputs, setVisibleFormInputs] = useState([]);
 
   useEffect(() => {
-    setVisibleFormInputs([formInputs[0]]);
+    if(formInputs){
+       setVisibleFormInputs([formInputs[0]]);
+    }
+   
+
     const timer = setTimeout(() => {
       setShowSecond(true);
       setTimeout(() => {
@@ -62,15 +66,6 @@ function GitForm({ formInputs, processInputs }) {
   return (
     <GitFormWrapper>
       <OurParticles />
-      <Backdrop show={showNotification} />
-      {showNotification ? (
-        <Notification
-          handleOkClicked={handleOkClicked}
-          title="Application Received"
-          message={`Your Application to join us has been received, Sit back and drink water, You'll be contacted soon`}
-        />
-      ) : null}
-
       <form onSubmit={handleFormSubmitted}>
         <div className="form-top-text" disabled>
           {showSecond ? (

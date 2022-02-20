@@ -1,4 +1,4 @@
-import Particles from 'react-particles-js'
+import Particles from 'react-tsparticles'
 import styles from './OurParticles.module.css'
 
 function  OurParticles (){
