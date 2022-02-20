@@ -1,11 +1,5 @@
-<Head>
-        <title>Goodnews of Christ Baptist Church</title>
-        <meta
-          name="description"
-          content="Official Website of Goodnews of Christ Baptist Church, Awka."
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+import Head from "next/head";
+import GitForm from '../../components/GitForm/GitForm'
 
 const formInputs = [
   {
@@ -39,6 +33,18 @@ const formInputs = [
       },
     },
   },
+  {
+    inputType: "selectInput",
+    prompt: "What is your gender",
+    name: "gender",
+    list: "Choose, Male, Female",
+    rules: {
+      minLength: {
+        expectedValue: 1,
+        errorMessage: "You need to select at least one",
+      },
+    },
+  },
 
   {
     inputType: "email",
@@ -53,21 +59,8 @@ const formInputs = [
   },
 
   {
-    inputType: "selectInput",
-    prompt: "Select your gender",
-    name: "gender",
-    list: "Choose, Male, Female",
-    rules: {
-      minLength: {
-        expectedValue: 1,
-        errorMessage: "You need to select at least one",
-      },
-    }
-  },
-
-  {
     inputType: "text",
-    prompt: "Enter your phone number",
+    prompt: "What is your phone number",
     name: "phone",
     rules: {
       maxLength: {
@@ -81,26 +74,44 @@ const formInputs = [
     },
   },
   {
-    inputType: "checkBox",
-    prompt: "Select the skills you are proficient in:",
-    name: "stack",
-    showContinueButton: true,
-    list: "HTML, CSS, Bootstrap, Node-Js, React, Vue, Go, Laravel,Pyton, Springboot, mysql, Postgres, MongoDb",
+    inputType: "password",
+    prompt: "Choose a password",
+    name: "password",
     rules: {
       minLength: {
-        expectedValue: 1,
-        errorMessage: "You need to select at least one",
+        expectedValue: 6,
+        errorMessage: "Password should be atleast 6 characters",
+      },
+    },
+  },
+  {
+    inputType: "password",
+    prompt: "Repeat your password",
+    name: "passwordRepeat",
+    rules: {
+      compareWithExisting: {
+        expectedValue: "password",
+        errorMessage: "Password doesn't match",
       },
     },
   },
 ];
 
-export default function Register(){
+export default function Register() {
+  return (
+    <>
+      <Head>
+        <title>Goodnews of Christ Baptist Church</title>
+        <meta
+          name="description"
+          content="Official Website of Goodnews of Christ Baptist Church, Awka."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-  return(
-    <div>
-      register
-    </div>
-   
-  )
+
+
+
+    </>
+  );
 }

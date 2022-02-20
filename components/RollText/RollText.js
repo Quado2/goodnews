@@ -1,9 +1,9 @@
-import './RollText.scss'
+import styles from './RollText.module.scss'
 
 function RollText(props){
 
     return(
-        <div className='roll-text' disabled>
+        <div className={styles.roll_text} disabled>
             {props.text.split('').map((letter,i) => {
                 return letter===' ' ? <h2 key={i} disabled>&nbsp;</h2> : <h2 key={i} disabled>{letter}</h2>
             })}

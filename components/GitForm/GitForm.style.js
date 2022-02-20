@@ -1,4 +1,6 @@
-.team-form-wrapper {
+import styled from "styled-components";
+
+export const GitFormWrapper = styled.div`
   width: 100%;
   min-height: 100vh;
   background: radial-gradient(
@@ -67,20 +69,20 @@
       text-align: left;
     }
   }
-}
 
-@media screen and (min-width: 600px) {
-    .team-form-wrapper  form{
-        margin-top: 19vh;
+  @media screen and (min-width: 600px) {
+    form {
+      margin-top: 19vh;
     }
-}
-@keyframes tick-anime {
-  0%,
-  50% {
-    opacity: 1;
   }
-  51%,
-  100% {
-    opacity: 0;
+  @keyframes tick-anime {
+    0%,
+    50% {
+      opacity: 1;
+    }
+    51%,
+    100% {
+      opacity: 0;
+    }
   }
-}
+`;

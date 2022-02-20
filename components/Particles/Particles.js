@@ -1,11 +1,11 @@
 import Particles from 'react-particles-js'
-import './OurParticles.css'
+import styles from './OurParticles.module.css'
 
 function  OurParticles (){
 
     return (
         <Particles
-          className='our-particles'
+          className={styles.our_particles}
           params={{
                   
             'particles':{

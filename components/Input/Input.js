@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons";
 import validator from "validator";
 
-import "./Input.scss";
+import { InputWrapper } from "./Input.style";
 import { useState, useRef } from "react";
 
 function Input(props) {
@@ -14,7 +14,10 @@ function Input(props) {
     clearAllFields,
     handleContinueClicked,
     rules,
+    formValues,
   } = props;
+
+  console.log(formValues);
 
   const [blured, setBlured] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -46,7 +49,6 @@ function Input(props) {
   function handleCheckContinueClicked(e, name1, inputValue1) {
     setShowCheckContinue(false);
     handleContinueClicked(e, name1, inputValue1);
-    
   }
 
   function validateData(value) {
@@ -89,6 +91,14 @@ function Input(props) {
           }
 
           break;
+
+        case "compareWithExisting":
+          if (!(formValues[rules[ruleKey].expectedValue] === value)) {
+            setIsValidInput(false);
+            errorMessagesIn.push(rules[ruleKey].errorMessage);
+          }
+          break;
+
         default:
           break;
       }
@@ -144,7 +154,7 @@ function Input(props) {
   }
 
   return (
-    <div className="our-input">
+    <InputWrapper>
       <label>{prompt}</label>
       <div className="inner-our-input">
         <div className="inner-level-2">
@@ -195,7 +205,7 @@ function Input(props) {
             />
           )}
         </div>
-        {showButton  && (
+        {showButton && (
           <button
             disabled={!isValidInput}
             onClick={(e) => handleContinueClicked(e, name, inputValue)}
@@ -221,7 +231,7 @@ function Input(props) {
             ))}
         </div>
       )}
-    </div>
+    </InputWrapper>
   );
 }
 

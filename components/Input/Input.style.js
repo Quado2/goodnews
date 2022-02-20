@@ -1,8 +1,9 @@
+import styled from 'styled-components'
 
 
 
+export const InputWrapper = styled.div`
 
-.our-input {
   margin-top: 30px;
   text-align: left;
 
@@ -115,14 +116,14 @@
       border: 1px solid #627597;
     }
   }
-}
+
 
 @media screen and (min-width: 544px) {
-  .our-input {
+ 
     .inner-our-input {
       flex-direction: row;
       justify-content: space-between;
     }
   }
-}
 
+`

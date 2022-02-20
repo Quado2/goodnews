@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import "./GitForm.scss";
+import { GitFormWrapper } from "./GitForm.style";
 import OurParticles from "../Particles/Particles";
 import RollText from "../RollText/RollText";
 import Input from "../Input/Input";
@@ -60,7 +60,7 @@ function GitForm({ formInputs, processInputs }) {
   }
 
   return (
-    <div className="team-form-wrapper">
+    <GitFormWrapper>
       <OurParticles />
       <Backdrop show={showNotification} />
       {showNotification ? (
@@ -92,6 +92,7 @@ function GitForm({ formInputs, processInputs }) {
               rules={formInput.rules}
               buttonDisabled={false}
               list={formInput.list}
+              formValues={formValues}
               handleContinueClicked={handleContinueClicked}
             />
           ))}
@@ -109,8 +110,9 @@ function GitForm({ formInputs, processInputs }) {
           priorities.
         </p>
       </div>
-    </div>
+</GitFormWrapper>
   );
+
 }
 
 export default GitForm;
