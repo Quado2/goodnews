@@ -9,7 +9,7 @@ export const InputWrapper = styled.div`
 
   label {
     font-size: 16px;
-    color: #00cfc8;
+    color: #71B7FF;
     font-weight: 200;
   }
 
@@ -48,7 +48,7 @@ export const InputWrapper = styled.div`
       }
       .bad {
         color: red;
-        font-size: 20px;
+        font-size: 17px;
       }
 
       input {
