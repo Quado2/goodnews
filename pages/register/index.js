@@ -102,7 +102,10 @@ export default function Register() {
   function processInputs(inputValues){
     console.log(inputValues)
   }
-  
+
+  const welcomeMessage = "Welcome to Goodnews Baptist church";
+  const actionMessage = "Let's get you registered";
+
   return (
     <>
       <Head>
@@ -114,7 +117,12 @@ export default function Register() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-    <GitForm processInputs={processInputs}  formInputs={formInputs}/>
+    <GitForm 
+      processInputs={processInputs}  
+      formInputs={formInputs}
+      actionMessage={actionMessage}
+      welcomeMessage={welcomeMessage}
+      />
 
 
     </>
