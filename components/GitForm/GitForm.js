@@ -19,16 +19,22 @@ function GitForm({ formInputs, processInputs, welcomeMessage, actionMessage }) {
       setVisibleFormInputs([formInputs[0]]);
     }
 
+    let timer2;
+    let timer3;
     const timer = setTimeout(() => {
       setShowSecond(true);
-      setTimeout(() => {
+      timer2 = setTimeout(() => {
         setShowThird(true);
-        setTimeout(() => {
+        timer3 = setTimeout(() => {
           setShowName(true);
         }, 1000);
       }, 1500);
     }, 2000);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+    };
   }, [formInputs]);
 
   const handleContinueClicked = (e, name, inputValue) => {
@@ -53,8 +59,6 @@ function GitForm({ formInputs, processInputs, welcomeMessage, actionMessage }) {
     e.preventDefault();
     processInputs(formValues);
   }
-
-
 
   return (
     <GitFormWrapper>

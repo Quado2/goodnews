@@ -3,6 +3,34 @@ import styled from "styled-components";
 import GitForm from "../../components/GitForm/GitForm";
 import Tab from "../../components/Tab/Tab";
 
+import { useMutation, gql } from "@apollo/client";
+
+const REGISTER_MUTATION = gql`
+ mutation SignMutation(
+  $firstName: String!
+  $sureName: String!
+  $gender: String!
+  $email: String!
+  $phone: String!
+  $password: String!
+
+ ){
+  signup(
+    firstName: $firstname, 
+    sureName: $sureName, 
+    gender: $gender, 
+    email: $email,
+    phone: $phone,
+    password: $password,
+    ){
+      userErrors{
+        message
+      }
+      token
+  }
+ } 
+`;
+
 export const registerInputs = [
   {
     inputType: "text",
@@ -122,7 +150,8 @@ export default function Register() {
     console.log(inputValues);
   }
 
-  const welcomeRegisterMessage = "Welcome to Goodnews of Christ Baptist church";
+  const welcomeRegisterMessage =
+    "Welcome to Goodnews of Christ Baptist  church";
   const actionRegisterMessage = "Let's get you registered";
 
   const welcomeLoginMessage = "Welcome back";
