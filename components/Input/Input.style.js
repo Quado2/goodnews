@@ -1,14 +1,15 @@
+import styled from 'styled-components'
 
 
 
+export const InputWrapper = styled.div`
 
-.our-input {
   margin-top: 30px;
   text-align: left;
 
   label {
     font-size: 16px;
-    color: #00cfc8;
+    color: #71B7FF;
     font-weight: 200;
   }
 
@@ -47,7 +48,7 @@
       }
       .bad {
         color: red;
-        font-size: 20px;
+        font-size: 17px;
       }
 
       input {
@@ -115,14 +116,14 @@
       border: 1px solid #627597;
     }
   }
-}
+
 
 @media screen and (min-width: 544px) {
-  .our-input {
+ 
     .inner-our-input {
       flex-direction: row;
       justify-content: space-between;
     }
   }
-}
 
+`

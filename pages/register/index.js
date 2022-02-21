@@ -1,4 +1,54 @@
-<Head>
+import Head from "next/head";
+import GitForm from "../../components/GitForm/GitForm";
+import Tab from "../../components/Tab/Tab";
+
+import { registerInputs, loginInputs } from "./data";
+
+export default function Register() {
+  function processInputs(inputValues) {
+    console.log(inputValues);
+  }
+
+  const welcomeRegisterMessage = "Welcome to Goodnews Baptist church";
+  const actionRegisterMessage = "Let's get you registered";
+
+  const welcomeLoginMessage = "Welcome back";
+  const actionLoginMessage = "Let's log you in";
+
+  const registerForm = (
+    <GitForm
+      processInputs={processInputs}
+      formInputs={registerInputs}
+      actionMessage={actionRegisterMessage}
+      welcomeMessage={welcomeRegisterMessage}
+    />
+  );
+
+  const loginForm = (
+    <GitForm
+      processInputs={processInputs}
+      formInputs={loginInputs}
+      actionMessage={actionLoginMessage}
+      welcomeMessage={welcomeLoginMessage}
+    />
+  );
+
+  const tabs = [
+    {
+      form: registerForm,
+      title: "Register",
+      id: "register",
+    },
+    {
+      form: loginForm,
+      title: "Login",
+      id: "login",
+    },
+  ];
+
+  return (
+    <>
+      <Head>
         <title>Goodnews of Christ Baptist Church</title>
         <meta
           name="description"
@@ -7,100 +57,7 @@
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-const formInputs = [
-  {
-    inputType: "text",
-    prompt: "Enter your first name",
-    name: "firstName",
-    rules: {
-      maxLength: {
-        expectedValue: 20,
-        errorMessage: "Should not be more than 20 characters",
-      },
-      minLength: {
-        expectedValue: 2,
-        errorMessage: "Should not be less than 2 characters",
-      },
-    },
-  },
-
-  {
-    inputType: "text",
-    prompt: "Enter your sure name",
-    name: "sureName",
-    rules: {
-      maxLength: {
-        expectedValue: 20,
-        errorMessage: "Should not be more than 20 characters",
-      },
-      minLength: {
-        expectedValue: 2,
-        errorMessage: "Should not be less than 2 characters",
-      },
-    },
-  },
-
-  {
-    inputType: "email",
-    prompt: "Enter your email address",
-    name: "email",
-    rules: {
-      isEmail: {
-        expectedValue: true,
-        errorMessage: "Not a valid email address",
-      },
-    },
-  },
-
-  {
-    inputType: "selectInput",
-    prompt: "Select your gender",
-    name: "gender",
-    list: "Choose, Male, Female",
-    rules: {
-      minLength: {
-        expectedValue: 1,
-        errorMessage: "You need to select at least one",
-      },
-    }
-  },
-
-  {
-    inputType: "text",
-    prompt: "Enter your phone number",
-    name: "phone",
-    rules: {
-      maxLength: {
-        expectedValue: 20,
-        errorMessage: "Phone number should not be more than 15 characters",
-      },
-      minLength: {
-        expectedValue: 8,
-        errorMessage: "Phone number should not be less than 8 characters",
-      },
-    },
-  },
-  {
-    inputType: "checkBox",
-    prompt: "Select the skills you are proficient in:",
-    name: "stack",
-    showContinueButton: true,
-    list: "HTML, CSS, Bootstrap, Node-Js, React, Vue, Go, Laravel,Pyton, Springboot, mysql, Postgres, MongoDb",
-    rules: {
-      minLength: {
-        expectedValue: 1,
-        errorMessage: "You need to select at least one",
-      },
-    },
-  },
-];
-
-export default function Register(){
-
-  return(
-    <div>
-      register
-    </div>
-   
-  )
+      <Tab tabs={tabs} />
+    </>
+  );
 }

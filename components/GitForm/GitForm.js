@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
 
-import "./GitForm.scss";
+import { GitFormWrapper } from "./GitForm.style";
 import OurParticles from "../Particles/Particles";
 import RollText from "../RollText/RollText";
 import Input from "../Input/Input";
 
-
-function GitForm({ formInputs, processInputs }) {
+function GitForm({ formInputs, processInputs, welcomeMessage, actionMessage }) {
   const [showSecond, setShowSecond] = useState(false);
   const [showThird, setShowThird] = useState(false);
   const [showName, setShowName] = useState(false);
   const [showSubmit, setShowSubmit] = useState(false);
-  const [showNotification, setShowNotification] = useState(false);
 
   const [formValues, setFormValues] = useState({});
   const [visibleFormInputs, setVisibleFormInputs] = useState([]);
 
   useEffect(() => {
-    setVisibleFormInputs([formInputs[0]]);
+    if (formInputs) {
+      setVisibleFormInputs([formInputs[0]]);
+    }
+
     const timer = setTimeout(() => {
       setShowSecond(true);
       setTimeout(() => {
@@ -51,34 +52,21 @@ function GitForm({ formInputs, processInputs }) {
   function handleFormSubmitted(e) {
     e.preventDefault();
     processInputs(formValues);
-    setShowNotification(true);
   }
 
-  function handleOkClicked() {
-    setShowNotification(false);
-    document.location.reload();
-  }
+
 
   return (
-    <div className="team-form-wrapper">
+    <GitFormWrapper>
       <OurParticles />
-      <Backdrop show={showNotification} />
-      {showNotification ? (
-        <Notification
-          handleOkClicked={handleOkClicked}
-          title="Application Received"
-          message={`Your Application to join us has been received, Sit back and drink water, You'll be contacted soon`}
-        />
-      ) : null}
-
       <form onSubmit={handleFormSubmitted}>
         <div className="form-top-text" disabled>
           {showSecond ? (
-            <RollText text="Welcome to team Cruisetopia!" />
+            <RollText text={welcomeMessage} />
           ) : (
             <div className="ticking"></div>
           )}
-          {showThird ? <RollText text="Let's get started" /> : null}
+          {showThird ? <RollText text={actionMessage} /> : null}
         </div>
 
         {showName &&
@@ -92,6 +80,7 @@ function GitForm({ formInputs, processInputs }) {
               rules={formInput.rules}
               buttonDisabled={false}
               list={formInput.list}
+              formValues={formValues}
               handleContinueClicked={handleContinueClicked}
             />
           ))}
@@ -100,16 +89,7 @@ function GitForm({ formInputs, processInputs }) {
           <input className="submit" type="submit" value="Submit Application" />
         ) : null}
       </form>
-
-      <div className="team-form-bottom">
-        <p>
-          By joining our team, you agree to be of good behaviour. Your mental is
-          health important, but our deadlines are even more crucial. So, define
-          a fine line between this program and your sanity, and stick to your
-          priorities.
-        </p>
-      </div>
-    </div>
+    </GitFormWrapper>
   );
 }
 
