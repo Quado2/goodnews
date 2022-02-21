@@ -6,6 +6,8 @@ import { navItems } from "./data";
 import Socials from "../Socials";
 import { HambugerContext } from "../../context/HambugerContext";
 
+
+
 const SideContainer = styled.div`
   position: fixed;
   width: 100%;
@@ -50,7 +52,10 @@ const SideContainer = styled.div`
 `;
 
 export default function Sidebar() {
-  const { clicked } = useContext(HambugerContext);
+  const { clicked, setClicked } = useContext(HambugerContext);
+  function handleLinkClicked(){
+  console.log("something had")
+}
   return (
     <SideContainer show={clicked}>
       <div className="logo">Logo</div>
@@ -58,7 +63,7 @@ export default function Sidebar() {
         {navItems &&
           navItems.map((nav, i) => {
             return (
-              <li key={i}>
+              <li onClick={() => setClicked(!clicked)} key={i}>
                 <Link href={nav.link}>{nav.title}</Link>
               </li>
             );

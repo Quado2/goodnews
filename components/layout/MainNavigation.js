@@ -57,6 +57,9 @@ const Header = styled.header`
 `;
 
 function MainNavigation() {
+
+
+
   return (
     <Header>
       <div className="logo">Logo</div>
@@ -65,7 +68,7 @@ function MainNavigation() {
           {navItems &&
             navItems.map((nav, i) => {
               return (
-                <li key={i}>
+                <li  key={i}>
                   <Link href={nav.link}>{nav.title}</Link>
                 </li>
               );
