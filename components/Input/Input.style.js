@@ -31,6 +31,7 @@ export const InputWrapper = styled.div`
       display: flex;
       align-items: center;
       justify-content: flex-start;
+      width: 100%;
 
       
 
@@ -57,8 +58,10 @@ export const InputWrapper = styled.div`
         color: white;
         outline: transparent;
         font-size: 16px;
-        font-weight: 100;
+        font-weight: 300;
         padding: 5px;
+        border-bottom: 1px solid #899ec244;
+        width: 80%;
       }
 
       select {
