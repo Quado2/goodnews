@@ -28,7 +28,7 @@ export const authResolvers = {
       };
     }
 
-    const { firstName, sureName, email, password, phone } = user;
+    const { firstName, sureName, email, password, phone,gender } = user;
 
     //VALIDATING THE DATA
     const isEmail = validator.isEmail(email);
@@ -110,6 +110,7 @@ export const authResolvers = {
       phone,
       password: hashedPassword,
       email,
+      gender,
     });
 
     const newMember = await member.save();

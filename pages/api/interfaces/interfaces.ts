@@ -3,7 +3,8 @@ export  interface MemberInput {
   sureName: string,
   phone: string,
   email: string,
-  password: string
+  password: string,
+  gender: string,
 }
 
 export interface UserPayload{

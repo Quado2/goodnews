@@ -17,12 +17,14 @@ const MemberSchema = new Schema({
   email: {
     type: String,
     required: true,
-    unique: true,
+    index: {unique: true, dropDups: true},
+    dropDups: true,
   },
   phone: {
     type: String,
     required: true,
-    unique: true,
+    index: {unique: true, dropDups: true},
+    dropDups: true,
   },
   password: {
     type: String,
