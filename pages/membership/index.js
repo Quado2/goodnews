@@ -1,8 +1,7 @@
 import Head from "next/head";
+import styled from "styled-components";
 import GitForm from "../../components/GitForm/GitForm";
 import Tab from "../../components/Tab/Tab";
-
-
 
 export const registerInputs = [
   {
@@ -100,10 +99,7 @@ export const registerInputs = [
   },
 ];
 
-
-
 export const loginInputs = [
-
   {
     inputType: "email",
     prompt: "What is your email or phone number",
@@ -114,18 +110,19 @@ export const loginInputs = [
     prompt: "What is your password",
     name: "password",
   },
+];
 
-]
-
-
-
+const MemberContainer = styled.div`
+  width: 100%;
+  padding-bottom: 15rem; ;
+`;
 
 export default function Register() {
   function processInputs(inputValues) {
     console.log(inputValues);
   }
 
-  const welcomeRegisterMessage = "Welcome to Goodnews Baptist church";
+  const welcomeRegisterMessage = "Welcome to Goodnews of Christ Baptist church";
   const actionRegisterMessage = "Let's get you registered";
 
   const welcomeLoginMessage = "Welcome back";
@@ -163,7 +160,7 @@ export default function Register() {
   ];
 
   return (
-    <>
+    <MemberContainer>
       <Head>
         <title>Goodnews of Christ Baptist Church</title>
         <meta
@@ -174,6 +171,6 @@ export default function Register() {
       </Head>
 
       <Tab tabs={tabs} />
-    </>
+    </MemberContainer>
   );
 }
