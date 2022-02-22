@@ -60,7 +60,7 @@ export const GitFormWrapper = styled.div`
       outline: transparent;
       border-radius: 5px;
       font-size: 20px;
-      margin: 20px ;
+      margin: 3rem ;
       align-self: center;
     }
   }

@@ -4,6 +4,8 @@ export const InputWrapper = styled.div`
   margin-top: 30px;
   text-align: left;
   width: 100%;
+  opacity: 0;
+  animation: inputFadeIn .5s ease-in forwards;
 
   label {
     font-size: 16px;
@@ -116,7 +118,7 @@ export const InputWrapper = styled.div`
       font-size: 16px;
       color: green;
       border-radius: 5px;
-      margin-top: 2rem;
+      margin-top: 1rem;
       cursor: pointer;
       max-height: 40px;
       align-self: center;
@@ -136,7 +138,6 @@ export const InputWrapper = styled.div`
 
     .error-message-desktop {
       p {
-        
         display: block;
       }
     }
@@ -145,6 +146,12 @@ export const InputWrapper = styled.div`
       p {
         display: none;
       }
+    }
+  }
+
+  @keyframes inputFadeIn {
+    to{
+      opacity: 1;
     }
   }
 `;

@@ -1,4 +1,4 @@
-import "./Notification.css";
+
 import styled from "styled-components";
 
 const BriefNotificationContainer = styled.div`
@@ -6,14 +6,15 @@ const BriefNotificationContainer = styled.div`
   bottom: 0;
   right: -100vw;
   margin: 1.25rem;
+  margin-bottom: 5rem;
   max-width: 20rem;
   font-size: 1rem;
-  padding: 0.75rem;
+  padding: 1rem;
   color: white;
   z-index: 20;
   border-radius: 0.25rem;
   background-color: ${({ status }) => (status === "success" ? "green" : "red")};
-  animation: comeAndGo 2.5s ease-in forwards;
+  animation: comeAndGo 4s ease-in forwards;
 
   @media screen and (min-width: 600px) {
     font-size: 1.125rem;

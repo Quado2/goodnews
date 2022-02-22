@@ -5,6 +5,7 @@ import { useState } from "react";
 import { registerInputs, loginInputs } from "../../components/data";
 import GitForm from "../../components/GitForm/GitForm";
 import Tab from "../../components/Tab/Tab";
+import BriefNotification from "../../components/Notification/BriefNotification";
 
 import { useMutation, gql } from "@apollo/client";
 
@@ -33,6 +34,9 @@ const actionLoginMessage = "Let's log you in";
 export default function Register() {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showBriefNotification, setShowBriefNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationStatus, setNotificationStatus] = useState("");
 
   const [submitDetails, { data }] = useMutation(REGISTER_MUTATION, {
     variables: {
@@ -48,7 +52,9 @@ export default function Register() {
   });
 
   async function processInputs(inputValues) {
+
     setLoading(true);
+    console.log("pressed setLoading")
     const { email, firstName, gender, password, phone, sureName } = inputValues;
 
     try {
@@ -63,16 +69,28 @@ export default function Register() {
             sureName,
           },
         },
-      }).then(resp => {
-        const {userErrors, token} =  resp.data.signup;
-        
-        if(userErrors.length >= 1) {
+      }).then((resp) => {
+        const { userErrors, token } = resp.data.signup;
+
+        if (userErrors.length >= 1) {
           console.log("Failed");
-          setErrorMessage(userErrors);
+          setNotificationMessage(userErrors[0].message);
+          setNotificationStatus("failed");
+          setShowBriefNotification(true);
+          const timeout = setTimeout(() => {
+            setShowBriefNotification(false);
+            clearTimeout(timeout);
+          }, 4000);
         }
         if (token) {
           localStorage.setItem("nekot", token);
-          console.log("We are succesful bitch");
+          setNotificationMessage("Great! We will head to logging you in");
+          setNotificationStatus("success");
+          setShowBriefNotification(true);
+          const timeout = setTimeout(() => {
+            setShowBriefNotification(false);
+            clearTimeout(timeout);
+          }, 4000);
         }
         setLoading(false);
       });
@@ -81,9 +99,6 @@ export default function Register() {
       setLoading(false);
     }
   }
-
-
-
 
   const registerForm = (
     <GitForm
@@ -130,7 +145,12 @@ export default function Register() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      {showBriefNotification && (
+        <BriefNotification
+          status={notificationStatus}
+          message={notificationMessage}
+        />
+      )}
       <Tab tabs={tabs} />
     </MemberContainer>
   );
