@@ -1,161 +1,89 @@
 import Head from "next/head";
 import styled from "styled-components";
+import { useState } from "react";
+
+import { registerInputs, loginInputs } from "../../components/data";
 import GitForm from "../../components/GitForm/GitForm";
 import Tab from "../../components/Tab/Tab";
 
 import { useMutation, gql } from "@apollo/client";
-
-const REGISTER_MUTATION = gql`
- mutation SignMutation(
-  $firstName: String!
-  $sureName: String!
-  $gender: String!
-  $email: String!
-  $phone: String!
-  $password: String!
-
- ){
-  signup(
-    firstName: $firstname, 
-    sureName: $sureName, 
-    gender: $gender, 
-    email: $email,
-    phone: $phone,
-    password: $password,
-    ){
-      userErrors{
-        message
-      }
-      token
-  }
- } 
-`;
-
-export const registerInputs = [
-  {
-    inputType: "text",
-    prompt: "Enter your first name",
-    name: "firstName",
-    rules: {
-      maxLength: {
-        expectedValue: 20,
-        errorMessage: "Should not be more than 20 characters",
-      },
-      minLength: {
-        expectedValue: 2,
-        errorMessage: "Should not be less than 2 characters",
-      },
-    },
-  },
-
-  {
-    inputType: "text",
-    prompt: "Enter your sure name",
-    name: "sureName",
-    rules: {
-      maxLength: {
-        expectedValue: 20,
-        errorMessage: "Should not be more than 20 characters",
-      },
-      minLength: {
-        expectedValue: 2,
-        errorMessage: "Should not be less than 2 characters",
-      },
-    },
-  },
-  {
-    inputType: "selectInput",
-    prompt: "What is your gender",
-    name: "gender",
-    list: "Choose, Male, Female",
-    rules: {
-      minLength: {
-        expectedValue: 1,
-        errorMessage: "You need to select at least one",
-      },
-    },
-  },
-
-  {
-    inputType: "email",
-    prompt: "Enter your email address",
-    name: "email",
-    rules: {
-      isEmail: {
-        expectedValue: true,
-        errorMessage: "Not a valid email address",
-      },
-    },
-  },
-
-  {
-    inputType: "text",
-    prompt: "What is your phone number",
-    name: "phone",
-    rules: {
-      maxLength: {
-        expectedValue: 20,
-        errorMessage: "Phone number should not be more than 15 characters",
-      },
-      minLength: {
-        expectedValue: 8,
-        errorMessage: "Phone number should not be less than 8 characters",
-      },
-    },
-  },
-  {
-    inputType: "password",
-    prompt: "Choose a password",
-    name: "password",
-    rules: {
-      minLength: {
-        expectedValue: 6,
-        errorMessage: "Password should be atleast 6 characters",
-      },
-    },
-  },
-  {
-    inputType: "password",
-    prompt: "Repeat your password",
-    name: "passwordRepeat",
-    rules: {
-      compareWithExisting: {
-        expectedValue: "password",
-        errorMessage: "Password doesn't match",
-      },
-    },
-  },
-];
-
-export const loginInputs = [
-  {
-    inputType: "email",
-    prompt: "What is your email or phone number",
-    name: "email",
-  },
-  {
-    inputType: "password",
-    prompt: "What is your password",
-    name: "password",
-  },
-];
 
 const MemberContainer = styled.div`
   width: 100%;
   padding-bottom: 15rem; ;
 `;
 
-export default function Register() {
-  function processInputs(inputValues) {
-    console.log(inputValues);
+const REGISTER_MUTATION = gql`
+  mutation ($user: MemberInput!) {
+    signup(user: $user) {
+      userErrors {
+        message
+      }
+      token
+    }
   }
+`;
 
-  const welcomeRegisterMessage =
-    "Welcome to Goodnews of Christ Baptist  church";
-  const actionRegisterMessage = "Let's get you registered";
+const welcomeRegisterMessage = "Welcome to Goodnews of Christ Baptist  church";
+const actionRegisterMessage = "Let's get you registered";
 
-  const welcomeLoginMessage = "Welcome back";
-  const actionLoginMessage = "Let's log you in";
+const welcomeLoginMessage = "Welcome back";
+const actionLoginMessage = "Let's log you in";
+
+export default function Register() {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const [submitDetails, { data }] = useMutation(REGISTER_MUTATION, {
+    variables: {
+      user: {
+        email: "",
+        firstName: "",
+        gender: "",
+        password: "",
+        phone: "",
+        sureName: "",
+      },
+    },
+  });
+
+  async function processInputs(inputValues) {
+    setLoading(true);
+    const { email, firstName, gender, password, phone, sureName } = inputValues;
+
+    try {
+      const response = await submitDetails({
+        variables: {
+          user: {
+            email,
+            firstName,
+            gender,
+            password,
+            phone,
+            sureName,
+          },
+        },
+      });
+
+      console.log({response})
+      if (response) {
+        const { userErrors, token } = reponse.data.signup;
+        console.log(userErrors, token)
+        if(userErrors) {
+          console.log("Failed");
+          setErrorMessage(userErrors.message);
+        }
+        if (token) {
+          localStorage.setItem("nekot", token);
+          console.log("We are succesful bitch");
+        }
+      }
+      setLoading(false);
+    } catch (err) {
+      console.log(JSON.stringify(err, null, 2));
+      setLoading(false);
+    }
+  }
 
   const registerForm = (
     <GitForm

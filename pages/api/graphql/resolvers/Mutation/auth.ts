@@ -4,7 +4,8 @@ import { JSON_SIGNATURE } from "../../signature";
 import validator from "validator";
 import { MemberInput, UserPayload } from "../../../interfaces/interfaces";
 import dbConnect from "../../../mongoose/connection";
-import { Member } from "../../../mongoose/models";
+import { Member, Profile } from "../../../mongoose/models";
+import { profile } from "console";
 
 export const authResolvers = {
   signup: async (
@@ -12,10 +13,8 @@ export const authResolvers = {
     { user }: { user: MemberInput },
     __: any
   ): Promise<UserPayload> => {
-    
-
     try {
-     await dbConnect();
+      await dbConnect();
     } catch (err) {
       console.log(err);
       return {
@@ -28,8 +27,8 @@ export const authResolvers = {
       };
     }
 
-    const { firstName, sureName, email, password, phone,gender } = user;
-
+    const { firstName, sureName, email, password, phone, gender } = user;
+console.log({user})
     //VALIDATING THE DATA
     const isEmail = validator.isEmail(email);
     if (!isEmail) {
@@ -99,33 +98,88 @@ export const authResolvers = {
       };
     }
 
-    //HASH THE PASSWORD
+    //Check if the user with same email exists
+    const oldMember1 = await Member.findOne({ email });
 
+    if (oldMember1) {
+      return {
+        userErrors: [
+          {
+            message: "User with same email exists",
+          },
+        ],
+        token: null,
+      };
+    }
+
+    const oldMember2 = await Profile.findOne({ phone });
+    if (oldMember2) {
+      console.log(oldMember2)
+      return {
+        userErrors: [
+          {
+            message: "User with same phone number exists",
+          },
+        ],
+        token: null,
+      };
+    }
+
+
+    //HASH THE PASSWORD
     const hashedPassword = await bcrypt.hash(password, 6);
 
-    //SAVE NOW
+
+  
+   //CREATE SCHEMAS
     const member = new Member({
+      password: hashedPassword,
+      email,
+      disabled: false,
+      roles: ["user"]
+    });
+
+    const profile = new Profile({
       firstName,
       sureName,
       phone,
-      password: hashedPassword,
-      email,
       gender,
-    });
 
+    })
+
+
+  //SAVE NOW
+  try{
     const newMember = await member.save();
-    console.log(newMember);
+    const newProfile = await profile.save();
+  
 
-    const token = await JWT.sign({
-      userId: newMember._id,
-    },
-    JSON_SIGNATURE,
-    {expiresIn: "3600000"}
-    )
+    const token = await JWT.sign(
+      {
+        userId: newMember._id,
+      },
+      JSON_SIGNATURE,
+      { expiresIn: "3600000"}
+    );
 
     return {
       userErrors: [],
       token,
     };
+  }
+
+  catch(err){
+    console.log(err);
+    return {
+      userErrors: [
+        {
+          message: "An error occured trying to save it, try again",
+        },
+      ],
+      token: null,
+    };
+    
+  }
+    
   },
 };
