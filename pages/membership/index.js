@@ -52,7 +52,7 @@ export default function Register() {
     const { email, firstName, gender, password, phone, sureName } = inputValues;
 
     try {
-      const response = await submitDetails({
+      submitDetails({
         variables: {
           user: {
             email,
@@ -63,27 +63,27 @@ export default function Register() {
             sureName,
           },
         },
-      });
-
-      console.log({response})
-      if (response) {
-        const { userErrors, token } = reponse.data.signup;
-        console.log(userErrors, token)
-        if(userErrors) {
+      }).then(resp => {
+        const {userErrors, token} =  resp.data.signup;
+        
+        if(userErrors.length >= 1) {
           console.log("Failed");
-          setErrorMessage(userErrors.message);
+          setErrorMessage(userErrors);
         }
         if (token) {
           localStorage.setItem("nekot", token);
           console.log("We are succesful bitch");
         }
-      }
-      setLoading(false);
+        setLoading(false);
+      });
     } catch (err) {
       console.log(JSON.stringify(err, null, 2));
       setLoading(false);
     }
   }
+
+
+
 
   const registerForm = (
     <GitForm
@@ -91,6 +91,8 @@ export default function Register() {
       formInputs={registerInputs}
       actionMessage={actionRegisterMessage}
       welcomeMessage={welcomeRegisterMessage}
+      submitLabel={"Register"}
+      loading={loading}
     />
   );
 
@@ -100,6 +102,8 @@ export default function Register() {
       formInputs={loginInputs}
       actionMessage={actionLoginMessage}
       welcomeMessage={welcomeLoginMessage}
+      submitLabel={"Login"}
+      loading={loading}
     />
   );
 

@@ -17,8 +17,6 @@ function Input(props) {
     formValues,
   } = props;
 
-
-
   const [blured, setBlured] = useState(false);
   const [focused, setFocused] = useState(false);
   const [showButton, setShowButton] = useState(false);
@@ -204,6 +202,15 @@ function Input(props) {
             />
           )}
         </div>
+
+        {errorMessages && (
+        <div className="error-message-mobile">
+          {errorMessages.map((errorMessage, i) => (
+            <p key={i}>{errorMessage}</p>
+          ))}
+        </div>
+      )}
+
         {showButton && (
           <button
             disabled={!isValidInput}
@@ -223,11 +230,10 @@ function Input(props) {
         )}
       </div>
       {errorMessages && (
-        <div className="error-message">
-          {errorMessages &&
-            errorMessages.map((errorMessage, i) => (
-              <p key={i}>{errorMessage}</p>
-            ))}
+        <div className="error-message-desktop">
+          {errorMessages.map((errorMessage, i) => (
+            <p key={i}>{errorMessage}</p>
+          ))}
         </div>
       )}
     </InputWrapper>

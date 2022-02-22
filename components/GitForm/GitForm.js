@@ -5,7 +5,7 @@ import OurParticles from "../Particles/Particles";
 import RollText from "../RollText/RollText";
 import Input from "../Input/Input";
 
-function GitForm({ formInputs, processInputs, welcomeMessage, actionMessage }) {
+function GitForm({ loading,submitLabel, formInputs, processInputs, welcomeMessage, actionMessage }) {
   const [showSecond, setShowSecond] = useState(false);
   const [showThird, setShowThird] = useState(false);
   const [showName, setShowName] = useState(false);
@@ -90,7 +90,7 @@ function GitForm({ formInputs, processInputs, welcomeMessage, actionMessage }) {
           ))}
 
         {showSubmit ? (
-          <input className="submit" type="submit" value="Submit Application" />
+          <input className="submit" type="submit" value={submitLabel} />
         ) : null}
       </form>
     </GitFormWrapper>
