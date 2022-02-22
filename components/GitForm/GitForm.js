@@ -5,7 +5,7 @@ import OurParticles from "../Particles/Particles";
 import RollText from "../RollText/RollText";
 import Input from "../Input/Input";
 
-function GitForm({ formInputs, processInputs, welcomeMessage, actionMessage }) {
+function GitForm({ loading, submitLabel, formInputs, processInputs, welcomeMessage, actionMessage }) {
   const [showSecond, setShowSecond] = useState(false);
   const [showThird, setShowThird] = useState(false);
   const [showName, setShowName] = useState(false);
@@ -19,16 +19,22 @@ function GitForm({ formInputs, processInputs, welcomeMessage, actionMessage }) {
       setVisibleFormInputs([formInputs[0]]);
     }
 
+    let timer2;
+    let timer3;
     const timer = setTimeout(() => {
       setShowSecond(true);
-      setTimeout(() => {
+      timer2 = setTimeout(() => {
         setShowThird(true);
-        setTimeout(() => {
+        timer3 = setTimeout(() => {
           setShowName(true);
         }, 1000);
       }, 1500);
     }, 2000);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+    };
   }, [formInputs]);
 
   const handleContinueClicked = (e, name, inputValue) => {
@@ -53,9 +59,7 @@ function GitForm({ formInputs, processInputs, welcomeMessage, actionMessage }) {
     e.preventDefault();
     processInputs(formValues);
   }
-
-
-
+  console.log(loading);
   return (
     <GitFormWrapper>
       <OurParticles />
@@ -85,9 +89,9 @@ function GitForm({ formInputs, processInputs, welcomeMessage, actionMessage }) {
             />
           ))}
 
-        {showSubmit ? (
-          <input className="submit" type="submit" value="Submit Application" />
-        ) : null}
+        {showSubmit ? (loading ? <h2>Loading ...</h2> : (
+          <input className="submit" type="submit" value={submitLabel} />
+        )): null}
       </form>
     </GitFormWrapper>
   );

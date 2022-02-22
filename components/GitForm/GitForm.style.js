@@ -28,7 +28,7 @@ export const GitFormWrapper = styled.div`
 
   form {
     z-index: 1;
-    width: 90%;
+    width: 95%;
     max-width: 600px;
     min-height: 50px;
     border: 1px solid rgb(20, 37, 77);
@@ -37,6 +37,10 @@ export const GitFormWrapper = styled.div`
     padding: 24px;
     margin-top: 20vh;
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;;
     .ticking {
       width: 1px;
       height: 30px;
@@ -51,11 +55,13 @@ export const GitFormWrapper = styled.div`
       border: 1px solid green;
       color: green;
       padding: 10px;
+      min-width: 10rem;
       background-color: transparent;
       outline: transparent;
       border-radius: 5px;
       font-size: 20px;
-      margin: 20px;
+      margin: 3rem ;
+      align-self: center;
     }
   }
 

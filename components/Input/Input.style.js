@@ -1,29 +1,41 @@
-import styled from 'styled-components'
-
-
+import styled from "styled-components";
 
 export const InputWrapper = styled.div`
-
   margin-top: 30px;
   text-align: left;
+  width: 100%;
+  opacity: 0;
+  animation: inputFadeIn .5s ease-in forwards;
 
   label {
     font-size: 16px;
-    color: #71B7FF;
+    color: #71b7ff;
     font-weight: 200;
   }
 
-  .error-message {
+  .error-message-desktop {
     p {
-      color: #627597;
+      color: rgb(234, 74, 170);
       font-size: 14px;
       margin: 4px 0;
+      text-align: center;
+      display: none;
+    }
+  }
+
+  .error-message-mobile {
+    p {
+      color: rgb(234, 74, 170);
+      font-size: 14px;
+      margin: 4px 0;
+      text-align: center;
     }
   }
 
   .inner-our-input {
     display: flex;
     flex-direction: column;
+    width: 100%;
 
     .inner-level-2 {
       margin-top: 10px;
@@ -32,8 +44,6 @@ export const InputWrapper = styled.div`
       align-items: center;
       justify-content: flex-start;
       width: 100%;
-
-      
 
       span {
         font-size: 15px;
@@ -61,7 +71,7 @@ export const InputWrapper = styled.div`
         font-weight: 300;
         padding: 5px;
         border-bottom: 1px solid #899ec244;
-        width: 80%;
+        width: 90%;
       }
 
       select {
@@ -108,7 +118,7 @@ export const InputWrapper = styled.div`
       font-size: 16px;
       color: green;
       border-radius: 5px;
-      margin-top: 10px;
+      margin-top: 1rem;
       cursor: pointer;
       max-height: 40px;
       align-self: center;
@@ -120,13 +130,28 @@ export const InputWrapper = styled.div`
     }
   }
 
-
-@media screen and (min-width: 544px) {
- 
+  @media screen and (min-width: 544px) {
     .inner-our-input {
       flex-direction: row;
       justify-content: space-between;
     }
+
+    .error-message-desktop {
+      p {
+        display: block;
+      }
+    }
+
+    .error-message-mobile {
+      p {
+        display: none;
+      }
+    }
   }
 
-`
+  @keyframes inputFadeIn {
+    to{
+      opacity: 1;
+    }
+  }
+`;
