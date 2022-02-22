@@ -41,23 +41,4 @@
     cursor: pointer;
 }
 
-.brief-notification{
-    animation: comeAndGo 2.5s ease-in  forwards;
-}
 
-@keyframes comeAndGo {
-    0%,100%{
-        right: -100%
-    }
-    10%{
-        right: 3%;
-    }
-
-    13%,85%{
-        right: 0
-    }
-    88%{
-        right: 3%
-    }
-
-}

@@ -1,13 +1,47 @@
-import './Notification.css'
+import "./Notification.css";
+import styled from "styled-components";
 
+const BriefNotificationContainer = styled.div`
+  position: fixed;
+  bottom: 0;
+  right: -100vw;
+  margin: 1.25rem;
+  max-width: 20rem;
+  font-size: 1rem;
+  padding: 0.75rem;
+  color: white;
+  z-index: 20;
+  border-radius: 0.25rem;
+  background-color: ${({ status }) => (status === "success" ? "green" : "red")};
+  animation: comeAndGo 2.5s ease-in forwards;
 
-export default function BriefNotification({status, message}){
+  @media screen and (min-width: 600px) {
+    font-size: 1.125rem;
+  }
 
-    return(
-        <div className= {`brief-notification fixed bottom-0 -right-full m-5 max-w-xs text-base md:text-lg
-             ${status === 'success'? 'bg-green-500' : 'bg-red-500'} p-3 text-white z-20 rounded`}
-        >
-            {message}
-        </div>
-    )
+  @keyframes comeAndGo {
+    0%,
+    100% {
+      right: -100%;
+    }
+    10% {
+      right: 3%;
+    }
+
+    13%,
+    85% {
+      right: 0;
+    }
+    88% {
+      right: 3%;
+    }
+  }
+`;
+
+export default function BriefNotification({ status, message }) {
+  return (
+    <BriefNotificationContainer status={status}>
+      {message}
+    </BriefNotificationContainer>
+  );
 }
