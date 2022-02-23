@@ -25,6 +25,10 @@ const ProfileSchema = new Schema({
   },
   serviceGroups: {
     type: [String]
+  },
+  memberId:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Member"
   }
 
 })

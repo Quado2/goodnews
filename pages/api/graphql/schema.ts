@@ -2,11 +2,13 @@ import { gql } from "apollo-server-micro";
 
 export const typeDefs = gql`
   type Query {
-    me: String
+    me(token: String): Profile
+
   }
 
   type Mutation {
     signup(user: MemberInput!): AuthPayload!
+    signIn(credentials: CredentialsInput!): AuthPayload!
     testIt: String
   }
 
@@ -20,6 +22,11 @@ export const typeDefs = gql`
     tithes: [Tithe!]!
   }
 
+  type Profile{
+    firstName: String
+    sureName: String
+    phone: String
+  }
   type Tithe {
     month: String
     year: String
@@ -42,5 +49,10 @@ export const typeDefs = gql`
     phone: String!
     password: String!
     gender: String!
+  }
+
+  input CredentialsInput{
+    email: String!
+    password: String
   }
 `;

@@ -16,6 +16,15 @@ export interface UserPayload{
 
 export interface Context {
   userInfo:{
-    userId: number | null
+    userId: string | null
   } | null
+}
+
+export interface CredentialsInput{
+  email: string,
+  password: string
+}
+
+export interface UserProfile {
+  firstName: string,
 }

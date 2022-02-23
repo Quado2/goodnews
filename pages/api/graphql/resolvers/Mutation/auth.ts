@@ -2,7 +2,11 @@ import bcrypt from "bcryptjs";
 import JWT from "jsonwebtoken";
 import { JSON_SIGNATURE } from "../../signature";
 import validator from "validator";
-import { MemberInput, UserPayload } from "../../../interfaces/interfaces";
+import {
+  MemberInput,
+  UserPayload,
+  CredentialsInput,
+} from "../../../interfaces/interfaces";
 import dbConnect from "../../../mongoose/connection";
 import { Member, Profile } from "../../../mongoose/models";
 import { profile } from "console";
@@ -28,7 +32,7 @@ export const authResolvers = {
     }
 
     const { firstName, sureName, email, password, phone, gender } = user;
-console.log({user})
+
     //VALIDATING THE DATA
     const isEmail = validator.isEmail(email);
     if (!isEmail) {
@@ -114,7 +118,6 @@ console.log({user})
 
     const oldMember2 = await Profile.findOne({ phone });
     if (oldMember2) {
-      console.log(oldMember2)
       return {
         userErrors: [
           {
@@ -125,61 +128,96 @@ console.log({user})
       };
     }
 
-
     //HASH THE PASSWORD
     const hashedPassword = await bcrypt.hash(password, 6);
 
-
-  
-   //CREATE SCHEMAS
+    //CREATE SCHEMAS
     const member = new Member({
       password: hashedPassword,
       email,
       disabled: false,
-      roles: ["user"]
+      roles: ["user"],
     });
+    const newMember = await member.save();
+    const memberId = newMember._id.toString();
 
     const profile = new Profile({
       firstName,
       sureName,
       phone,
       gender,
+      memberId,
+    });
 
-    })
+    //SAVE NOW
+    try {
+      
+      const newProfile = await profile.save();
 
+      const token = await JWT.sign(
+        {
+          userId: newMember._id,
+        },
+        JSON_SIGNATURE,
+        { expiresIn: "3600000" }
+      );
 
-  //SAVE NOW
-  try{
-    const newMember = await member.save();
-    const newProfile = await profile.save();
-  
+      return {
+        userErrors: [],
+        token,
+      };
+    } catch (err) {
+      console.log(err);
+      return {
+        userErrors: [
+          {
+            message: "An error occured trying to save it, try again",
+          },
+        ],
+        token: null,
+      };
+    }
+  },
 
-    const token = await JWT.sign(
+  signIn: async (
+    _: any,
+    { credentials }: { credentials: CredentialsInput },
+    __: any
+  ): Promise<UserPayload> => {
+    const { email, password } = credentials;
+    const memberDetails = await Member.findOne({
+      email,
+    });
+
+    if (!memberDetails) {
+      return {
+        userErrors: [{ message: "No user with such email exists!" }],
+        token: null,
+      };
+    }
+
+    const obtainedPassword = memberDetails.password;
+
+    const isCorrect = await bcrypt.compare(password, obtainedPassword);
+
+    if (!isCorrect) {
+      return {
+        userErrors: [{ message: "Wrong email or password" }],
+        token: null,
+      };
+    }
+
+    const token = JWT.sign(
       {
-        userId: newMember._id,
+        userId: memberDetails._id,
       },
       JSON_SIGNATURE,
-      { expiresIn: "3600000"}
+      { expiresIn: 3600000 }
     );
 
     return {
       userErrors: [],
       token,
     };
-  }
-
-  catch(err){
-    console.log(err);
-    return {
-      userErrors: [
-        {
-          message: "An error occured trying to save it, try again",
-        },
-      ],
-      token: null,
-    };
-    
-  }
-    
   },
 };

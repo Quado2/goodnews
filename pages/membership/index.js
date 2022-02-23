@@ -2,6 +2,7 @@ import Head from "next/head";
 import styled from "styled-components";
 import { useState } from "react";
 import { useMutation, gql } from "@apollo/client";
+import Router from "next/router";
 
 import { registerInputs, loginInputs } from "../../components/data";
 import GitForm from "../../components/GitForm/GitForm";
@@ -17,6 +18,17 @@ const MemberContainer = styled.div`
 const REGISTER_MUTATION = gql`
   mutation ($user: MemberInput!) {
     signup(user: $user) {
+      userErrors {
+        message
+      }
+      token
+    }
+  }
+`;
+
+const LOGIN_MUTATION = gql`
+  mutation ($credentials: CredentialsInput!) {
+    signIn(credentials: $credentials) {
       userErrors {
         message
       }
@@ -51,7 +63,27 @@ export default function Register() {
     },
   });
 
-  async function processInputs(inputValues) {
+  const [submitLogin] = useMutation(LOGIN_MUTATION, {
+    variables: {
+      credentials: {
+        email: "",
+        password: "",
+      },
+    },
+  });
+
+  function displayNotification(message, stats) {
+    setNotificationMessage(message);
+    setNotificationStatus(stats);
+    setLoadingState(false);
+    setShowBriefNotification(true);
+    const timeout = setTimeout(() => {
+      setShowBriefNotification(false);
+      return () => clearTimeout(timeout);
+    }, 4000);
+  }
+
+  async function processRegister(inputValues) {
     setLoadingState(true);
     console.log("pressed setLoading");
     const { email, firstName, gender, password, phone, sureName } = inputValues;
@@ -83,6 +115,7 @@ export default function Register() {
         }
         if (token) {
           localStorage.setItem("nekot", token);
+      
           setNotificationMessage("Great! We will head to logging you in");
           setNotificationStatus("success");
           setShowBriefNotification(true);
@@ -92,15 +125,41 @@ export default function Register() {
           }, 4000);
         }
         setLoadingState(false);
+        Router.push("/dashboard")
       });
     } catch (err) {
-      setNotificationMessage("Something went wrong. We are not sure what. Check your network and try again");
-      setNotificationStatus("failure");
-      setLoadingState(false);
-      const timeout = setTimeout(() => {
-        setShowBriefNotification(false);
-        clearTimeout(timeout);
-      }, 4000);
+      displayNotification("Something went wrong. We are not sure what. Check your network and try again", 'failure');
+    }
+  }
+
+  //HANDLE LOGIN
+  async function processLogin(inputValues) {
+    setLoadingState(true);
+    const { email, password } = inputValues;
+    submitLogin({
+      variables:{
+        credentials:{
+          email,
+          password
+        }
+      }
+    }).then(res => {
+      const {userErrors, token} = res.data.signIn;
+      if(userErrors.length >= 1){
+        displayNotification(userErrors[0].message, "failure");
+      } else{
+        localStorage.setItem("netok", token)
+        displayNotification("Great! You are in", "success")
+        Router.push("/dashboard")
+      }
+
+
+      
+    })
+   
+    try {
+    } catch (err) { displayNotification("Something went wrong. We are not sure what. Check your network and try again", 'failure');
+      console.log(JSON.stringify(err));
     }
   }
 
@@ -124,7 +183,7 @@ export default function Register() {
 
   const registerForm = (
     <GitForm
-      processInputs={processInputs}
+      processInputs={processRegister}
       formInputs={registerInputs}
       actionMessage={actionRegisterMessage}
       welcomeMessage={welcomeRegisterMessage}
@@ -136,7 +195,7 @@ export default function Register() {
 
   const loginForm = (
     <GitForm
-      processInputs={processInputs}
+      processInputs={processLogin}
       formInputs={loginInputs}
       actionMessage={actionLoginMessage}
       welcomeMessage={welcomeLoginMessage}
