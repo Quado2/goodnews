@@ -33,7 +33,7 @@ const actionLoginMessage = "Let's log you in";
 
 export default function Register() {
   const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loadingState, setLoadingState] = useState(false);
   const [showBriefNotification, setShowBriefNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState("");
@@ -53,7 +53,7 @@ export default function Register() {
 
   async function processInputs(inputValues) {
 
-    setLoading(true);
+    setLoadingState(true);
     console.log("pressed setLoading")
     const { email, firstName, gender, password, phone, sureName } = inputValues;
 
@@ -92,11 +92,11 @@ export default function Register() {
             clearTimeout(timeout);
           }, 4000);
         }
-        setLoading(false);
+        //setLoadingState(false);
       });
     } catch (err) {
       console.log(JSON.stringify(err, null, 2));
-      setLoading(false);
+      //setLoadingState(false);
     }
   }
 
@@ -107,7 +107,7 @@ export default function Register() {
       actionMessage={actionRegisterMessage}
       welcomeMessage={welcomeRegisterMessage}
       submitLabel={"Register"}
-      loading={loading}
+      loadingState={loadingState}
     />
   );
 
@@ -118,7 +118,7 @@ export default function Register() {
       actionMessage={actionLoginMessage}
       welcomeMessage={welcomeLoginMessage}
       submitLabel={"Login"}
-      loading={loading}
+      loadingState={loadingState}
     />
   );
 

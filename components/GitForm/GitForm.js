@@ -5,7 +5,14 @@ import OurParticles from "../Particles/Particles";
 import RollText from "../RollText/RollText";
 import Input from "../Input/Input";
 
-function GitForm({ loading, submitLabel, formInputs, processInputs, welcomeMessage, actionMessage }) {
+function GitForm({
+  loadingState,
+  submitLabel,
+  formInputs,
+  processInputs,
+  welcomeMessage,
+  actionMessage,
+}) {
   const [showSecond, setShowSecond] = useState(false);
   const [showThird, setShowThird] = useState(false);
   const [showName, setShowName] = useState(false);
@@ -13,6 +20,18 @@ function GitForm({ loading, submitLabel, formInputs, processInputs, welcomeMessa
 
   const [formValues, setFormValues] = useState({});
   const [visibleFormInputs, setVisibleFormInputs] = useState([]);
+  const [submitButton, setSubmitButton] = useState(
+    <input className="submit" type="submit" value={submitLabel} />
+  );
+
+  useEffect(() => {
+    console.log('loading has changed', loadingState)
+    loadingState
+      ? setSubmitButton(<p>Loading ...</p>)
+      : setSubmitButton(
+          <input className="submit" type="submit" value={submitLabel} />
+        );
+  }, [loadingState]);
 
   useEffect(() => {
     if (formInputs) {
@@ -59,7 +78,7 @@ function GitForm({ loading, submitLabel, formInputs, processInputs, welcomeMessa
     e.preventDefault();
     processInputs(formValues);
   }
-  console.log(loading);
+
   return (
     <GitFormWrapper>
       <OurParticles />
@@ -89,9 +108,7 @@ function GitForm({ loading, submitLabel, formInputs, processInputs, welcomeMessa
             />
           ))}
 
-        {showSubmit ? (loading ? <h2>Loading ...</h2> : (
-          <input className="submit" type="submit" value={submitLabel} />
-        )): null}
+        {submitButton }
       </form>
     </GitFormWrapper>
   );
