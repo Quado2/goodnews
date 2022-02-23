@@ -28,7 +28,9 @@ export default function Dashboard({ userProfile }) {
   const [showPage, setShowPage] = useState(false);
 
   const { data, loading, error } = useQuery(GET_PROFILE);
-
+  if (sessionStorage.getItem("is_reloaded")) {
+    
+  }
   const router = useRouter();
   useEffect(() => {
     if (data) {
