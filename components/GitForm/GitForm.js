@@ -12,6 +12,7 @@ function GitForm({
   processInputs,
   welcomeMessage,
   actionMessage,
+  spinnerComponent,
 }) {
   const [showSecond, setShowSecond] = useState(false);
   const [showThird, setShowThird] = useState(false);
@@ -20,18 +21,7 @@ function GitForm({
 
   const [formValues, setFormValues] = useState({});
   const [visibleFormInputs, setVisibleFormInputs] = useState([]);
-  const [submitButton, setSubmitButton] = useState(
-    <input className="submit" type="submit" value={submitLabel} />
-  );
 
-  useEffect(() => {
-    console.log('loading has changed', loadingState)
-    loadingState
-      ? setSubmitButton(<p>Loading ...</p>)
-      : setSubmitButton(
-          <input className="submit" type="submit" value={submitLabel} />
-        );
-  }, [loadingState]);
 
   useEffect(() => {
     if (formInputs) {
@@ -79,6 +69,8 @@ function GitForm({
     processInputs(formValues);
   }
 
+  const submitButton = loadingState ? spinnerComponent: <input className="submit" type="submit" value={submitLabel} /> 
+
   return (
     <GitFormWrapper>
       <OurParticles />
@@ -107,7 +99,7 @@ function GitForm({
               handleContinueClicked={handleContinueClicked}
             />
           ))}
-
+        
         {showSubmit ? submitButton : null}
       </form>
     </GitFormWrapper>

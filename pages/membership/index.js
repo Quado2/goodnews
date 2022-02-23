@@ -1,13 +1,13 @@
 import Head from "next/head";
 import styled from "styled-components";
 import { useState } from "react";
+import { useMutation, gql } from "@apollo/client";
 
 import { registerInputs, loginInputs } from "../../components/data";
 import GitForm from "../../components/GitForm/GitForm";
 import Tab from "../../components/Tab/Tab";
 import BriefNotification from "../../components/Notification/BriefNotification";
-
-import { useMutation, gql } from "@apollo/client";
+import Spinner from "../../components/Spinner/Spinner";
 
 const MemberContainer = styled.div`
   width: 100%;
@@ -91,13 +91,36 @@ export default function Register() {
             clearTimeout(timeout);
           }, 4000);
         }
-        //setLoadingState(false);
+        setLoadingState(false);
       });
     } catch (err) {
-      console.log(JSON.stringify(err, null, 2));
-      //setLoadingState(false);
+      setNotificationMessage("Something went wrong. We are not sure what. Check your network and try again");
+      setNotificationStatus("failure");
+      setLoadingState(false);
+      const timeout = setTimeout(() => {
+        setShowBriefNotification(false);
+        clearTimeout(timeout);
+      }, 4000);
     }
   }
+
+  const registerSpinner = (
+    <Spinner
+      textSize="1rem"
+      spinnerSize="2rem"
+      color="green"
+      message="Registering ..."
+    />
+  );
+
+  const loginSpinner = (
+    <Spinner
+      textSize="1rem"
+      spinnerSize="2rem"
+      color="green"
+      message="Loging in ..."
+    />
+  );
 
   const registerForm = (
     <GitForm
@@ -107,6 +130,7 @@ export default function Register() {
       welcomeMessage={welcomeRegisterMessage}
       submitLabel={"Register"}
       loadingState={loadingState}
+      spinnerComponent={registerSpinner}
     />
   );
 
@@ -118,6 +142,7 @@ export default function Register() {
       welcomeMessage={welcomeLoginMessage}
       submitLabel={"Login"}
       loadingState={loadingState}
+      spinnerComponent={loginSpinner}
     />
   );
 
