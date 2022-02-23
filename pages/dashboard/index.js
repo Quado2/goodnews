@@ -18,22 +18,30 @@ const DashboardContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid red;
+  color: white;
 `;
 
-export default function Dashboard() {
+export default function Dashboard({userProfile}) {
   let token;
-  const { data, loading, error } = useQuery({ GET_PROFILE });
-  useEffect(() => {
-    token = localStorage.getItem("nekot");
-    console.log({ data });
-  }, [data]);
+  // const { data, loading, error } = useQuery({ GET_PROFILE }, {
+  //   variables: {
+  //     token: ""
+  //   }
+  // });
+
 
   return (
     <DashboardContainer>
-      <p>We are at the dashboard</p>
+      <p>{userProfile[0]}</p>
     </DashboardContainer>
   );
 }
 
 
+export async function getStaticProps(){
+  return{
+    props:{
+      userProfile: ["Here"]
+    }
+  }
+}
