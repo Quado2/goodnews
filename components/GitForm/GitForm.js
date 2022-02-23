@@ -108,7 +108,7 @@ function GitForm({
             />
           ))}
 
-        {submitButton }
+        {showSubmit ? submitButton : null}
       </form>
     </GitFormWrapper>
   );

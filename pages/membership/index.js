@@ -52,9 +52,8 @@ export default function Register() {
   });
 
   async function processInputs(inputValues) {
-
     setLoadingState(true);
-    console.log("pressed setLoading")
+    console.log("pressed setLoading");
     const { email, firstName, gender, password, phone, sureName } = inputValues;
 
     try {
@@ -122,18 +121,7 @@ export default function Register() {
     />
   );
 
-  const tabs = [
-    {
-      form: registerForm,
-      title: "Register",
-      id: "register",
-    },
-    {
-      form: loginForm,
-      title: "Login",
-      id: "login",
-    },
-  ];
+  const tabsTitle = ["Register", "Login"];
 
   return (
     <MemberContainer>
@@ -151,7 +139,10 @@ export default function Register() {
           message={notificationMessage}
         />
       )}
-      <Tab tabs={tabs} />
+      <Tab tabsTitle={tabsTitle}>
+        {registerForm}
+        {loginForm}
+      </Tab>
     </MemberContainer>
   );
 }
