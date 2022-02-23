@@ -41,31 +41,26 @@ const TabContainer = styled.div`
   }
 `;
 
-export default function Tab({ tabs }) {
-  const [active, setActive] = useState(0);
-  const [component, setComponent] = useState(tabs[0].form);
+export default function Tab({ tabsTitle, children }) {
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  function handleClick(index) {
-    setActive(index);
-    setComponent(tabs[index].form);
-  }
 
   return (
     <TabContainer>
       <div className="tab-buttons">
-        {tabs &&
-          tabs.map((tab, i) => (
+        {tabsTitle &&
+          tabsTitle.map((title, i) => (
             <button
-              key={tab.id}
-              onClick={() => handleClick(i)}
-              className={active === i ? "active" : null}
+              key={i}
+              onClick={() => setActiveIndex(i)}
+              className={activeIndex === i ? "active" : null}
             >
-              {tab.title}
+              {title}
             </button>
           ))}
       </div>
 
-      {component}
+      {children[activeIndex]}
     </TabContainer>
   );
 }

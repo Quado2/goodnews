@@ -16,6 +16,12 @@ const BriefNotificationContainer = styled.div`
   background-color: ${({ status }) => (status === "success" ? "green" : "red")};
   animation: comeAndGo 4s ease-in forwards;
 
+  h3{
+    padding: .35rem;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
   @media screen and (min-width: 600px) {
     font-size: 1.125rem;
   }
@@ -25,15 +31,15 @@ const BriefNotificationContainer = styled.div`
     100% {
       right: -100%;
     }
-    10% {
+    5% {
       right: 3%;
     }
 
-    13%,
-    85% {
+    7%,
+    93% {
       right: 0;
     }
-    88% {
+    95% {
       right: 3%;
     }
   }
@@ -42,7 +48,7 @@ const BriefNotificationContainer = styled.div`
 export default function BriefNotification({ status, message }) {
   return (
     <BriefNotificationContainer status={status}>
-      {message}
+        <h3>{message}</h3> 
     </BriefNotificationContainer>
   );
 }

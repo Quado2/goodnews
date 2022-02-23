@@ -1,13 +1,14 @@
 import Head from "next/head";
 import styled from "styled-components";
 import { useState } from "react";
+import { useMutation, gql } from "@apollo/client";
+import Router from "next/router";
 
 import { registerInputs, loginInputs } from "../../components/data";
 import GitForm from "../../components/GitForm/GitForm";
 import Tab from "../../components/Tab/Tab";
 import BriefNotification from "../../components/Notification/BriefNotification";
-
-import { useMutation, gql } from "@apollo/client";
+import Spinner from "../../components/Spinner/Spinner";
 
 const MemberContainer = styled.div`
   width: 100%;
@@ -25,6 +26,17 @@ const REGISTER_MUTATION = gql`
   }
 `;
 
+const LOGIN_MUTATION = gql`
+  mutation ($credentials: CredentialsInput!) {
+    signIn(credentials: $credentials) {
+      userErrors {
+        message
+      }
+      token
+    }
+  }
+`;
+
 const welcomeRegisterMessage = "Welcome to Goodnews of Christ Baptist  church";
 const actionRegisterMessage = "Let's get you registered";
 
@@ -33,7 +45,7 @@ const actionLoginMessage = "Let's log you in";
 
 export default function Register() {
   const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loadingState, setLoadingState] = useState(false);
   const [showBriefNotification, setShowBriefNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState("");
@@ -51,10 +63,29 @@ export default function Register() {
     },
   });
 
-  async function processInputs(inputValues) {
+  const [submitLogin] = useMutation(LOGIN_MUTATION, {
+    variables: {
+      credentials: {
+        email: "",
+        password: "",
+      },
+    },
+  });
 
-    setLoading(true);
-    console.log("pressed setLoading")
+  function displayNotification(message, stats) {
+    setNotificationMessage(message);
+    setNotificationStatus(stats);
+    setLoadingState(false);
+    setShowBriefNotification(true);
+    const timeout = setTimeout(() => {
+      setShowBriefNotification(false);
+      return () => clearTimeout(timeout);
+    }, 4000);
+  }
+
+  async function processRegister(inputValues) {
+    setLoadingState(true);
+    console.log("pressed setLoading");
     const { email, firstName, gender, password, phone, sureName } = inputValues;
 
     try {
@@ -84,6 +115,7 @@ export default function Register() {
         }
         if (token) {
           localStorage.setItem("nekot", token);
+      
           setNotificationMessage("Great! We will head to logging you in");
           setNotificationStatus("success");
           setShowBriefNotification(true);
@@ -92,48 +124,88 @@ export default function Register() {
             clearTimeout(timeout);
           }, 4000);
         }
-        setLoading(false);
+        setLoadingState(false);
+        Router.push("/dashboard")
       });
     } catch (err) {
-      console.log(JSON.stringify(err, null, 2));
-      setLoading(false);
+      displayNotification("Something went wrong. We are not sure what. Check your network and try again", 'failure');
     }
   }
 
+  //HANDLE LOGIN
+  async function processLogin(inputValues) {
+    setLoadingState(true);
+    const { email, password } = inputValues;
+    submitLogin({
+      variables:{
+        credentials:{
+          email,
+          password
+        }
+      }
+    }).then(res => {
+      const {userErrors, token} = res.data.signIn;
+      if(userErrors.length >= 1){
+        displayNotification(userErrors[0].message, "failure");
+      } else{
+        localStorage.setItem("netok", token)
+        displayNotification("Great! You are in", "success")
+        Router.push("/dashboard")
+      }
+
+
+      
+    })
+   
+    try {
+    } catch (err) { displayNotification("Something went wrong. We are not sure what. Check your network and try again", 'failure');
+      console.log(JSON.stringify(err));
+    }
+  }
+
+  const registerSpinner = (
+    <Spinner
+      textSize="1rem"
+      spinnerSize="2rem"
+      color="green"
+      message="Registering ..."
+    />
+  );
+
+  const loginSpinner = (
+    <Spinner
+      textSize="1rem"
+      spinnerSize="2rem"
+      color="green"
+      message="Loging in ..."
+    />
+  );
+
   const registerForm = (
     <GitForm
-      processInputs={processInputs}
+      processInputs={processRegister}
       formInputs={registerInputs}
       actionMessage={actionRegisterMessage}
       welcomeMessage={welcomeRegisterMessage}
       submitLabel={"Register"}
-      loading={loading}
+      loadingState={loadingState}
+      spinnerComponent={registerSpinner}
     />
   );
 
   const loginForm = (
     <GitForm
-      processInputs={processInputs}
+      processInputs={processLogin}
       formInputs={loginInputs}
       actionMessage={actionLoginMessage}
       welcomeMessage={welcomeLoginMessage}
       submitLabel={"Login"}
-      loading={loading}
+      loadingState={loadingState}
+      spinnerComponent={loginSpinner}
     />
   );
 
-  const tabs = [
-    {
-      form: registerForm,
-      title: "Register",
-      id: "register",
-    },
-    {
-      form: loginForm,
-      title: "Login",
-      id: "login",
-    },
-  ];
+  const tabsTitle = ["Register", "Login"];
 
   return (
     <MemberContainer>
@@ -151,7 +223,10 @@ export default function Register() {
           message={notificationMessage}
         />
       )}
-      <Tab tabs={tabs} />
+      <Tab tabsTitle={tabsTitle}>
+        {registerForm}
+        {loginForm}
+      </Tab>
     </MemberContainer>
   );
 }

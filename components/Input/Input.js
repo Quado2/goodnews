@@ -122,8 +122,9 @@ function Input(props) {
     setFocused(false);
     const wait = setTimeout(() => {
       setShowButton(false);
-      clearTimeout(wait);
     }, 50);
+    return (()=> clearTimeout(wait) )
+    
   }
 
   let inputIcon;
