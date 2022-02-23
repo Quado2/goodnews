@@ -1,6 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useQuery, gql } from "@apollo/client";
+import Router from "next/router";
+import Spinner from "../../components/Spinner/Spinner";
 
 const GET_PROFILE = gql`
   query {
@@ -21,27 +23,35 @@ const DashboardContainer = styled.div`
   color: white;
 `;
 
-export default function Dashboard({userProfile}) {
-  let token;
-  // const { data, loading, error } = useQuery({ GET_PROFILE }, {
-  //   variables: {
-  //     token: ""
-  //   }
-  // });
+export default  function Dashboard({ userProfile }) {
+  const [profile, setProfile] = useState({})
+  const [showPage, setShowPage] = useState(false)
+  
+  const {data, loading, error } =  useQuery(GET_PROFILE);
 
+  useEffect(()=>{
+   if(data){
+     if(data.me === null){
+       //Router.push('/membership');
+     }
+     setProfile(data.me);
+     setShowPage(true);
+   }
+    
+    console.log(data)
+  },[data])
 
-  return (
+  return (   
     <DashboardContainer>
-      <p>{userProfile[0]}</p>
-    </DashboardContainer>
+  <p>Hello! {profile && profile.firstName}</p>
+</DashboardContainer>
   );
 }
 
-
-export async function getStaticProps(){
-  return{
-    props:{
-      userProfile: ["Here"]
-    }
-  }
+export async function getStaticProps() {
+  return {
+    props: {
+      userProfile: "Kwado",
+    },
+  };
 }
