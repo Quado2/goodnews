@@ -2,13 +2,14 @@ import Head from "next/head";
 import styled from "styled-components";
 import { useState } from "react";
 import { useMutation, gql } from "@apollo/client";
-import Router from "next/router";
+
 
 import { registerInputs, loginInputs } from "../../components/data";
 import GitForm from "../../components/GitForm/GitForm";
 import Tab from "../../components/Tab/Tab";
 import BriefNotification from "../../components/Notification/BriefNotification";
 import Spinner from "../../components/Spinner/Spinner";
+import { useRouter } from "next/router";
 
 const MemberContainer = styled.div`
   width: 100%;
@@ -49,6 +50,9 @@ export default function Register() {
   const [showBriefNotification, setShowBriefNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState("");
+
+  const router = useRouter();
+
 
   const [submitDetails, { data }] = useMutation(REGISTER_MUTATION, {
     variables: {
@@ -125,7 +129,7 @@ export default function Register() {
           }, 4000);
         }
         setLoadingState(false);
-        Router.push("/dashboard")
+        router.push("/dashboard")
       });
     } catch (err) {
       displayNotification("Something went wrong. We are not sure what. Check your network and try again", 'failure');
@@ -150,7 +154,7 @@ export default function Register() {
       } else{
         localStorage.setItem("netok", token)
         displayNotification("Great! You are in", "success")
-        Router.push("/dashboard")
+        router.push("/dashboard")
       }
 
 
