@@ -32,19 +32,24 @@ export default function Dashboard({ userProfile }) {
   const router = useRouter();
   useEffect(() => {
 
-    console.log(window.history);
-    console.log(new Date().getTime());
-
-    const time = Number(sessionStorage.getItem("last_reload"));
-    console.log({time})
-    if (!sessionStorage.getItem("is_reload")) {
-      sessionStorage.setItem("is_reload", true);
+    //This block is to help solve next js bug that loads pages
+    //half way using Router redirected
+    const seconds_40 = 40*1000;
+    const lastReloaded = Number( sessionStorage && sessionStorage.getItem("lastReloaded"));
+    const currentTime = new Date().getTime();
+    if(!lastReloaded){
+      sessionStorage.setItem("lastReloaded", new Date().getTime());
       router.reload(window.location.pathname);
     }
+    if((currentTime - lastReloaded) > seconds_40){
+      sessionStorage.setItem("lastReloaded", new Date().getTime());
+      router.reload(window.location.pathname);
+    }
+   
 
     if (data) {
       if (data.me === null) {
-        //Router.push('/membership');
+        Router.push('/membership');
       }
       setProfile(data.me);
       setShowPage(true);
@@ -55,8 +60,8 @@ export default function Dashboard({ userProfile }) {
   }, [data]);
 
   return (
-    <DashboardContainer>
-      <p>Hello! {profile && profile.firstName}</p>
+    <DashboardContainer> 
+      <p>Hello! {profile && profile.firstName}</p> 
     </DashboardContainer>
   );
 }

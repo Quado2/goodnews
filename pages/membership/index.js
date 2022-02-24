@@ -92,7 +92,7 @@ export default function Register() {
     console.log("pressed setLoading");
     const { email, firstName, gender, password, phone, sureName } = inputValues;
 
-    try {
+    
       submitDetails({
         variables: {
           user: {
@@ -130,16 +130,18 @@ export default function Register() {
         }
         setLoadingState(false);
         router.push("/dashboard")
+      }).catch(err=>{
+        displayNotification("Something went wrong. We are not sure what. Check your network and try again", 'failure');
       });
-    } catch (err) {
-      displayNotification("Something went wrong. We are not sure what. Check your network and try again", 'failure');
-    }
-  }
+    } 
+
 
   //HANDLE LOGIN
   async function processLogin(inputValues) {
     setLoadingState(true);
     const { email, password } = inputValues;
+
+    try {
     submitLogin({
       variables:{
         credentials:{
@@ -152,7 +154,7 @@ export default function Register() {
       if(userErrors.length >= 1){
         displayNotification(userErrors[0].message, "failure");
       } else{
-        localStorage.setItem("netok", token)
+        localStorage.setItem("nekot", token)
         displayNotification("Great! You are in", "success")
         router.push("/dashboard")
       }
@@ -161,7 +163,7 @@ export default function Register() {
       
     })
    
-    try {
+   
     } catch (err) { displayNotification("Something went wrong. We are not sure what. Check your network and try again", 'failure');
       console.log(JSON.stringify(err));
     }
