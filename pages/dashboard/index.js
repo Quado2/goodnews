@@ -26,7 +26,7 @@ const DashboardContainer = styled.div`
 function checkReload(seconds){
 //This block is to help solve next js bug that loads pages
     //half way using Router redirected
-    const seconds_40 = 40*1000;
+    const seconds= Number(seconds)*1000;
     const lastReloaded = Number( sessionStorage && sessionStorage.getItem("lastReloaded"));
     const currentTime = new Date().getTime();
     if(!lastReloaded){
@@ -49,7 +49,7 @@ export default function Dashboard({ userProfile }) {
   useEffect(() => {
 
     
-   
+   checkReload(40);
 
     if (data) {
       if (data.me === null) {
