@@ -28,8 +28,9 @@ export default function Dashboard({ userProfile }) {
   const [showPage, setShowPage] = useState(false);
 
   const { data, loading, error } = useQuery(GET_PROFILE);
-  if (sessionStorage.getItem("is_reloaded")) {
-    
+  if (window.sessionStorage.getItem("is_reloaded")) {
+    window.sessionStorage.setItem("is_reloaded", true);
+    router.reload(window.location.pathname);
   }
   const router = useRouter();
   useEffect(() => {
@@ -39,7 +40,7 @@ export default function Dashboard({ userProfile }) {
       }
       setProfile(data.me);
       setShowPage(true);
-      //router.reload(window.location.pathname);
+      
     }
 
     console.log(data);
