@@ -24,19 +24,7 @@ const DashboardContainer = styled.div`
 `;
 
 function checkReload(seconds){
-  
-}
-
-export default function Dashboard({ userProfile }) {
-  const [profile, setProfile] = useState({});
-  const [showPage, setShowPage] = useState(false);
-
-  const { data, loading, error } = useQuery(GET_PROFILE);
- 
-  const router = useRouter();
-  useEffect(() => {
-
-    //This block is to help solve next js bug that loads pages
+//This block is to help solve next js bug that loads pages
     //half way using Router redirected
     const seconds_40 = 40*1000;
     const lastReloaded = Number( sessionStorage && sessionStorage.getItem("lastReloaded"));
@@ -49,6 +37,18 @@ export default function Dashboard({ userProfile }) {
       sessionStorage.setItem("lastReloaded", new Date().getTime());
       router.reload(window.location.pathname);
     }
+}
+
+export default function Dashboard({ userProfile }) {
+  const [profile, setProfile] = useState({});
+  const [showPage, setShowPage] = useState(false);
+
+  const { data, loading, error } = useQuery(GET_PROFILE);
+ 
+  const router = useRouter();
+  useEffect(() => {
+
+    
    
 
     if (data) {
