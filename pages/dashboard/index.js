@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useQuery, gql } from "@apollo/client";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import Spinner from "../../components/Spinner/Spinner";
 
 const GET_PROFILE = gql`
@@ -23,28 +23,33 @@ const DashboardContainer = styled.div`
   color: white;
 `;
 
-export default  function Dashboard({ userProfile }) {
-  const [profile, setProfile] = useState({})
-  const [showPage, setShowPage] = useState(false)
-  
-  const {data, loading, error } =  useQuery(GET_PROFILE);
+export default function Dashboard({ userProfile }) {
+  const [profile, setProfile] = useState({});
+  const [showPage, setShowPage] = useState(false);
 
-  useEffect(()=>{
-   if(data){
-     if(data.me === null){
-       //Router.push('/membership');
-     }
-     setProfile(data.me);
-     setShowPage(true);
-   }
-    
-    console.log(data)
-  },[data])
+  const { data, loading, error } = useQuery(GET_PROFILE);
+  if (window.sessionStorage.getItem("is_reloaded")) {
+    window.sessionStorage.setItem("is_reloaded", true);
+    router.reload(window.location.pathname);
+  }
+  const router = useRouter();
+  useEffect(() => {
+    if (data) {
+      if (data.me === null) {
+        //Router.push('/membership');
+      }
+      setProfile(data.me);
+      setShowPage(true);
+      
+    }
 
-  return (   
+    console.log(data);
+  }, [data]);
+
+  return (
     <DashboardContainer>
-  <p>Hello! {profile && profile.firstName}</p>
-</DashboardContainer>
+      <p>Hello! {profile && profile.firstName}</p>
+    </DashboardContainer>
   );
 }
 
