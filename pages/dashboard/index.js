@@ -28,12 +28,20 @@ export default function Dashboard({ userProfile }) {
   const [showPage, setShowPage] = useState(false);
 
   const { data, loading, error } = useQuery(GET_PROFILE);
-  if (window.sessionStorage.getItem("is_reloaded")) {
-    window.sessionStorage.setItem("is_reloaded", true);
-    router.reload(window.location.pathname);
-  }
+ 
   const router = useRouter();
   useEffect(() => {
+
+    console.log(window.history);
+    console.log(new Date().getTime());
+
+    const time = Number(sessionStorage.getItem("last_reload"));
+    console.log({time})
+    if (!sessionStorage.getItem("is_reload")) {
+      sessionStorage.setItem("is_reload", true);
+      router.reload(window.location.pathname);
+    }
+
     if (data) {
       if (data.me === null) {
         //Router.push('/membership');
