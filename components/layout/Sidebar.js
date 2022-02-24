@@ -4,7 +4,7 @@ import { useContext } from "react";
 
 import { navItems } from "./data";
 import Socials from "../Socials";
-import { HambugerContext } from "../../context/HambugerContext";
+import { HambugerContext } from "../../context/Context";
 
 
 
