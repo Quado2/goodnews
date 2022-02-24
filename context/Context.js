@@ -1,16 +1,14 @@
 import { useState, createContext } from "react";
 
-export const HambugerContext = createContext();
+export const Context = createContext();
 
 export default function ContextProvider(props) {
   const [clicked, setClicked] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
   return (
-    <HambugerContext.Provider
-      value={{ clicked, setClicked, loggedIn, setLoggedIn }}
-    >
+    <Context.Provider value={{ clicked, setClicked, loggedIn, setLoggedIn }}>
       {props.children}
-    </HambugerContext.Provider>
+    </Context.Provider>
   );
 }

@@ -2,7 +2,7 @@ import MainNavigation from "./MainNavigation";
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
 import Hambuger from "../Hambuger";
-import HambugerContextProvider from "../../context/Context";
+import ContextProvider from "../../context/Context";
 import Footer from "../Footer/Footer";
 
 const LayoutContainer = styled.div`
@@ -21,11 +21,11 @@ const Main = styled.main`
 function Layout(props) {
   return (
     <LayoutContainer>
-      <HambugerContextProvider>
+      <ContextProvider>
         <MainNavigation />
         <Sidebar />
         <Hambuger />
-      </HambugerContextProvider>
+      </ContextProvider>
       <Main>{props.children}</Main>
       <Footer />
     </LayoutContainer>
