@@ -15,7 +15,7 @@ import { setContext } from "@apollo/client/link/context";
 const httpLink = createHttpLink({ uri: "/api" });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("netok");
+  const token = localStorage.getItem("nekot");
 
   return {
     headers: {
@@ -31,6 +31,9 @@ const client = new ApolloClient({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+
+  
+
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={darkTheme}>

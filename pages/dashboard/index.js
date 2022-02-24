@@ -23,20 +23,37 @@ const DashboardContainer = styled.div`
   color: white;
 `;
 
+function checkReload(seconds){
+//This block is to help solve next js bug that loads pages
+    //half way using Router redirected
+    const seconds= Number(seconds)*1000;
+    const lastReloaded = Number( sessionStorage && sessionStorage.getItem("lastReloaded"));
+    const currentTime = new Date().getTime();
+    if(!lastReloaded){
+      sessionStorage.setItem("lastReloaded", new Date().getTime());
+      router.reload(window.location.pathname);
+    }
+    if((currentTime - lastReloaded) > seconds_40){
+      sessionStorage.setItem("lastReloaded", new Date().getTime());
+      router.reload(window.location.pathname);
+    }
+}
+
 export default function Dashboard({ userProfile }) {
   const [profile, setProfile] = useState({});
   const [showPage, setShowPage] = useState(false);
 
   const { data, loading, error } = useQuery(GET_PROFILE);
-  if (window.sessionStorage.getItem("is_reloaded")) {
-    window.sessionStorage.setItem("is_reloaded", true);
-    router.reload(window.location.pathname);
-  }
+ 
   const router = useRouter();
   useEffect(() => {
+
+    
+   checkReload(40);
+
     if (data) {
       if (data.me === null) {
-        //Router.push('/membership');
+        Router.push('/membership');
       }
       setProfile(data.me);
       setShowPage(true);
@@ -47,8 +64,8 @@ export default function Dashboard({ userProfile }) {
   }, [data]);
 
   return (
-    <DashboardContainer>
-      <p>Hello! {profile && profile.firstName}</p>
+    <DashboardContainer> 
+      <p>Hello! {profile && profile.firstName}</p> 
     </DashboardContainer>
   );
 }
