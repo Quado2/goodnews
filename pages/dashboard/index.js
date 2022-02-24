@@ -23,6 +23,10 @@ const DashboardContainer = styled.div`
   color: white;
 `;
 
+function checkReload(seconds){
+  
+}
+
 export default function Dashboard({ userProfile }) {
   const [profile, setProfile] = useState({});
   const [showPage, setShowPage] = useState(false);
