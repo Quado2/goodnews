@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import { ThemeProvider } from "styled-components";
 import Layout from "../components/layout/Layout";
 import { darkTheme, lightTheme } from "./themeConfig";
+import ContextProvider from "../context/Context";
 
 import {
   ApolloProvider,
@@ -35,6 +36,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   
 
   return (
+    <ContextProvider>
     <ApolloProvider client={client}>
       <ThemeProvider theme={darkTheme}>
         <Layout>
@@ -42,6 +44,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Layout>
       </ThemeProvider>
     </ApolloProvider>
+    </ContextProvider>
   );
 }
 

@@ -4,7 +4,7 @@ import { useContext } from "react";
 
 import { navItems } from "./data";
 import Socials from "../Socials";
-import { HambugerContext } from "../../context/Context";
+import { Context } from "../../context/Context";
 
 
 
@@ -52,10 +52,8 @@ const SideContainer = styled.div`
 `;
 
 export default function Sidebar() {
-  const { clicked, setClicked } = useContext(HambugerContext);
-  function handleLinkClicked(){
-  console.log("something had")
-}
+  const { clicked, setClicked } = useContext(Context);
+
   return (
     <SideContainer show={clicked}>
       <div className="logo">Logo</div>

@@ -21,11 +21,11 @@ const Main = styled.main`
 function Layout(props) {
   return (
     <LayoutContainer>
-      <ContextProvider>
+      
         <MainNavigation />
         <Sidebar />
         <Hambuger />
-      </ContextProvider>
+      
       <Main>{props.children}</Main>
       <Footer />
     </LayoutContainer>

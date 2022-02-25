@@ -184,6 +184,21 @@ export const authResolvers = {
     { credentials }: { credentials: CredentialsInput },
     __: any
   ): Promise<UserPayload> => {
+
+    try {
+      await dbConnect();
+    } catch (err) {
+      console.log(err);
+      return {
+        userErrors: [
+          {
+            message: "Could not connect to the database",
+          },
+        ],
+        token: null,
+      };
+    }
+
     const { email, password } = credentials;
     const memberDetails = await Member.findOne({
       email,

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useContext } from "react";
-import {HambugerContext} from '../context/Context'
+import {Context} from '../context/Context'
 
 
 
@@ -48,7 +48,7 @@ const HambugerContainer = styled.div`
   }
 `;
 export default function Hambuger() {
-const {clicked, setClicked} = useContext(HambugerContext)
+const {clicked, setClicked} = useContext(Context)
 
   return (
     <HambugerContainer onClick={()=>setClicked(!clicked)} rotate={clicked}>

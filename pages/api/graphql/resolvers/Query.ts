@@ -1,14 +1,27 @@
-import { Context } from "../../interfaces/interfaces"
-import  { UserProfile } from "../../interfaces/interfaces"
-import { Profile } from "../../mongoose/models"
-export const Query ={
-  me: async (_:any, __:any,  {userInfo}:Context) => {
+import { Context, UserProfile } from "../../interfaces/interfaces";
+import { Profile } from "../../mongoose/models";
+import dbConnect from "../../mongoose/connection";
 
-    if(!userInfo){
-      return null
+export const Query = {
+  me: async (_: any, __: any, { userInfo }: Context) => {
+    try {
+      await dbConnect();
+    } catch (err) {
+      console.log(err);
+      return {
+        userErrors: [
+          {
+            message: "Could not connect to the database",
+          },
+        ],
+        token: null,
+      };
     }
-  
-    const profile = await Profile.findOne({memberId: userInfo.userId})
-    return profile
-  }
-}
+    if (!userInfo) {
+      return null;
+    }
+
+    const profile = await Profile.findOne({ memberId: userInfo.userId });
+    return profile;
+  },
+};
