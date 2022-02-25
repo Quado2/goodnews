@@ -62,7 +62,8 @@ function MainNavigation() {
 
   return (
     <Header>
-      <div className="logo">Logo</div>
+      <div className="logo">Logos</div>
+      <div  className="profile" >Chikwado</div>
       <nav>
         <ul>
           {navItems &&
@@ -75,6 +76,8 @@ function MainNavigation() {
             })}
         </ul>
       </nav>
+
+      
     </Header>
   );
 }

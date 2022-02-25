@@ -53,9 +53,7 @@ const SideContainer = styled.div`
 
 export default function Sidebar() {
   const { clicked, setClicked } = useContext(Context);
-  function handleLinkClicked(){
-  console.log("something had")
-}
+
   return (
     <SideContainer show={clicked}>
       <div className="logo">Logo</div>

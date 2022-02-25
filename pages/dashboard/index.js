@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext} from "react";
 import styled from "styled-components";
 import { useQuery, gql } from "@apollo/client";
 import Router, { useRouter } from "next/router";
-import Spinner from "../../components/Spinner/Spinner";
+import RollText from "../../components/RollText/RollText";
+import {Context}  from "../../context/Context";
+
 
 const GET_PROFILE = gql`
   query {
@@ -23,20 +25,22 @@ const DashboardContainer = styled.div`
   color: white;
 `;
 
-function checkReload(inputSeconds, router){
-//This block is to help solve next js bug that loads pages
-    //half way using Router redirected
-    const seconds= Number(inputSeconds)*1000;
-    const lastReloaded = Number( sessionStorage && sessionStorage.getItem("lastReloaded"));
-    const currentTime = new Date().getTime();
-    if(!lastReloaded){
-      sessionStorage.setItem("lastReloaded", new Date().getTime());
-      router.reload(window.location.pathname);
-    }
-    if((currentTime - lastReloaded) > seconds){
-      sessionStorage.setItem("lastReloaded", new Date().getTime());
-      router.reload(window.location.pathname);
-    }
+function checkReload(inputSeconds, router) {
+  //This block is to help solve next js bug that loads pages
+  //half way using Router redirected
+  const seconds = Number(inputSeconds) * 1000;
+  const lastReloaded = Number(
+    sessionStorage && sessionStorage.getItem("lastReloaded")
+  );
+  const currentTime = new Date().getTime();
+  if (!lastReloaded) {
+    sessionStorage.setItem("lastReloaded", new Date().getTime());
+    router.reload(window.location.pathname);
+  }
+  if (currentTime - lastReloaded > seconds) {
+    sessionStorage.setItem("lastReloaded", new Date().getTime());
+    router.reload(window.location.pathname);
+  }
 }
 
 export default function Dashboard({ userProfile }) {
@@ -44,29 +48,37 @@ export default function Dashboard({ userProfile }) {
   const [showPage, setShowPage] = useState(false);
 
   const { data, loading, error } = useQuery(GET_PROFILE);
- 
-  const router = useRouter();
-  
-  useEffect(() => {
 
-    
+  const {loggedInUser, setLoggedInUser} = useContext(Context)
+
+  const router = useRouter();
+
+  useEffect(() => {
    checkReload(40, router);
+   
 
     if (data) {
       if (data.me === null) {
-        Router.push('/membership');
+        Router.push("/membership");
       }
-      setProfile(data.me);
+      setLoggedInUser(data.me);
       setShowPage(true);
-      
     }
 
-    console.log({data});
+    console.log({ data });
   }, [data]);
+  if (!data) {
+    return (
+      <DashboardContainer>
+        
+      </DashboardContainer>
+    );
+  }
 
   return (
-    <DashboardContainer> 
-      <p>Hello! {profile && profile.firstName}</p> 
+    <DashboardContainer>
+      <p>Hello! <RollText text = {loggedInUser && loggedInUser.firstName} /></p>
+      
     </DashboardContainer>
   );
 }
