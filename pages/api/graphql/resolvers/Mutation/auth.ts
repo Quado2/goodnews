@@ -200,7 +200,6 @@ export const authResolvers = {
     }
 
     const { email, password } = credentials;
-    console.log({email, password})
     const memberDetails = await Member.findOne({
       email,
     });
