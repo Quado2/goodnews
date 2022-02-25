@@ -23,7 +23,7 @@ const DashboardContainer = styled.div`
   color: white;
 `;
 
-function checkReload(inputSeconds){
+function checkReload(inputSeconds, router){
 //This block is to help solve next js bug that loads pages
     //half way using Router redirected
     const seconds= Number(inputSeconds)*1000;
@@ -46,10 +46,11 @@ export default function Dashboard({ userProfile }) {
   const { data, loading, error } = useQuery(GET_PROFILE);
  
   const router = useRouter();
+  
   useEffect(() => {
 
     
-   checkReload(40);
+   checkReload(40, router);
 
     if (data) {
       if (data.me === null) {
@@ -60,7 +61,7 @@ export default function Dashboard({ userProfile }) {
       
     }
 
-    console.log(data);
+    console.log({data});
   }, [data]);
 
   return (

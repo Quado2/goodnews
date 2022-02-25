@@ -185,6 +185,7 @@ export const authResolvers = {
     __: any
   ): Promise<UserPayload> => {
     const { email, password } = credentials;
+    console.log({email, password})
     const memberDetails = await Member.findOne({
       email,
     });
