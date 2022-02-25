@@ -5,6 +5,8 @@ import { useContext } from "react";
 import { navItems } from "./data";
 import Hambuger from "../Hambuger";
 import { Context } from "../../context/Context";
+import { MdAccountCircle } from "react-icons/md";
+import RollText from '../../components/RollText/RollText'
 
 const Header = styled.header`
   width: 100%;
@@ -36,10 +38,18 @@ const Header = styled.header`
   }
 
   .profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     color: white;
     align-self: center;
     flex: 1 1 0px;
+
+    h4{
+      font-size: .9rem;
+      font-weight: 400;
+    };
   }
 
   .hidden {
@@ -75,11 +85,12 @@ const Header = styled.header`
 function MainNavigation() {
 
   const {loggedInUser} = useContext(Context)
+  
 
   return (
     <Header>
       <div className="logo">Logos</div>
-      <div className="profile">{loggedInUser && loggedInUser.firstName}</div>
+      {loggedInUser && <div className="profile"><MdAccountCircle fontSize={'2rem'} /><h4>{loggedInUser.firstName}</h4> </div>}
       <div className="hidden"></div>
       {navItems && (
         <nav>
