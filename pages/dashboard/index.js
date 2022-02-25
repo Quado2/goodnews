@@ -23,17 +23,17 @@ const DashboardContainer = styled.div`
   color: white;
 `;
 
-function checkReload(seconds){
+function checkReload(inputSeconds){
 //This block is to help solve next js bug that loads pages
     //half way using Router redirected
-    const seconds= Number(seconds)*1000;
+    const seconds= Number(inputSeconds)*1000;
     const lastReloaded = Number( sessionStorage && sessionStorage.getItem("lastReloaded"));
     const currentTime = new Date().getTime();
     if(!lastReloaded){
       sessionStorage.setItem("lastReloaded", new Date().getTime());
       router.reload(window.location.pathname);
     }
-    if((currentTime - lastReloaded) > seconds_40){
+    if((currentTime - lastReloaded) > seconds){
       sessionStorage.setItem("lastReloaded", new Date().getTime());
       router.reload(window.location.pathname);
     }
