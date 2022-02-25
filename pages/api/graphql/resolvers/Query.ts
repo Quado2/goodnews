@@ -2,8 +2,7 @@ import { Context, UserProfile } from "../../interfaces/interfaces";
 import { Profile } from "../../mongoose/models";
 import dbConnect from "../../mongoose/connection";
 
-
-(async function connectToDb (){
+(async () => {
   try {
     await dbConnect();
   } catch (err) {
@@ -19,15 +18,13 @@ import dbConnect from "../../mongoose/connection";
   }
 })();
 
-
-export const Query ={
-  me: async (_:any, __:any,  {userInfo}:Context) => {
-
-    if(!userInfo){
-      return null
+export const Query = {
+  me: async (_: any, __: any, { userInfo }: Context) => {
+    if (!userInfo) {
+      return null;
     }
-  
-    const profile = await Profile.findOne({memberId: userInfo.userId})
-    return profile
-  }
-}
+
+    const profile = await Profile.findOne({ memberId: userInfo.userId });
+    return profile;
+  },
+};
