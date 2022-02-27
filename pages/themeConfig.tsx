@@ -23,6 +23,7 @@ export const darkTheme = {
   colorButtonPrimary: "#E5861F",
   colorButtonMuted: "#a86216",
   colorBorderPrimary: "#333",
+  colorBorderSecondary: "#6fb7ff55",
   mobile,
   tablet,
   navHeight: "4rem"

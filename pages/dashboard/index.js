@@ -2,7 +2,6 @@ import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { useQuery, gql } from "@apollo/client";
 import Router, { useRouter } from "next/router";
-import RollText from "../../components/RollText/RollText";
 import { Context } from "../../context/Context";
 import DashboardCard from "../../components/DashboardCard";
 
