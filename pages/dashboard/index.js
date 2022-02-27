@@ -38,8 +38,8 @@ const DashboardContainer = styled.div`
     padding-top: ${({ theme }) => theme.navHeight};
     color: white;
      
-    @media screen {
-      
+    @media screen and (min-width: ${({theme})=>theme.mobile}) {
+      padding-left: 200px;
     }
   }
 `;
