@@ -28,6 +28,8 @@ const DashboardContainer = styled.div`
   padding-top: ${({ theme }) => theme.navHeight};
   color: white;
 
+  @
+
   .cards-container {
     width: 100%;
     display: flex;
@@ -117,7 +119,7 @@ export default function Dashboard({ userProfile }) {
           title="Partnership"
           link={"/partnership"}
           icon={<FaRegHandshake size={'2rem'}  />}
-          bColor={"yellow"}
+          bColor={"#4DA8EF"}
           textColor={"white"}
         />
       </div>
