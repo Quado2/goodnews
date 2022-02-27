@@ -89,7 +89,7 @@ const DashboardNav = () => {
         <h3>Partnership</h3>
       </div>
       <div>
-        <FaRegHandshake />
+        <HiLogout />
         <h3>Log out</h3>
       </div>
     </div>
