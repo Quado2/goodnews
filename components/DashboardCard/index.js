@@ -2,15 +2,19 @@ import styled from "styled-components";
 import Link from "next/link";
 
 const DCContainer = styled.div`
-  width: 250px;
+  width: 90%;
   height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  margin: 2rem;
+  margin: 1rem;
   border-radius: .25rem;
   background-color: ${({bColor}) => bColor};
+
+  @media screen and (min-width: ${({theme})=> theme.mobile}) {
+    width: 250px;
+  }
 
   h3{
     color: ${({textColor}) => textColor};

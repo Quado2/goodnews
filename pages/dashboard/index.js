@@ -28,7 +28,7 @@ const DashboardContainer = styled.div`
   padding-top: ${({ theme }) => theme.navHeight};
   color: white;
 
-  @
+  
 
   .cards-container {
     width: 100%;
