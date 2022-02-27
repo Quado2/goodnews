@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar";
 import Hambuger from "../Hambuger";
 import ContextProvider from "../../context/Context";
 import Footer from "../Footer/Footer";
+import DashboardNav from './DashboardNav'
 
 const LayoutContainer = styled.div`
   width: 100%;
@@ -25,6 +26,7 @@ function Layout(props) {
         <MainNavigation />
         <Sidebar />
         <Hambuger />
+        <DashboardNav />
       
       <Main>{props.children}</Main>
       <Footer />
