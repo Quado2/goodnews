@@ -1,10 +1,13 @@
-import { useEffect, useState, useContext} from "react";
+import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { useQuery, gql } from "@apollo/client";
 import Router, { useRouter } from "next/router";
 import RollText from "../../components/RollText/RollText";
-import {Context}  from "../../context/Context";
+import { Context } from "../../context/Context";
+import DashboardCard from "../../components/DashboardCard";
 
+import { GiPrayer, GiLoveSong } from "react-icons/gi";
+import { FaRegHandshake, FaMoneyCheckAlt } from "react-icons/fa";
 
 const GET_PROFILE = gql`
   query {
@@ -19,10 +22,21 @@ const DashboardContainer = styled.div`
   width: 100%;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding-top: ${({ theme }) => theme.navHeight};
   color: white;
+
+  .cards-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: ${({ theme }) => theme.navHeight};
+    color: white;
+  }
 `;
 
 function checkReload(inputSeconds, router) {
@@ -49,13 +63,12 @@ export default function Dashboard({ userProfile }) {
 
   const { data, loading, error } = useQuery(GET_PROFILE);
 
-  const {loggedInUser, setLoggedInUser} = useContext(Context)
+  const { loggedInUser, setLoggedInUser } = useContext(Context);
 
   const router = useRouter();
 
   useEffect(() => {
-   checkReload(40, router);
-   
+    checkReload(40, router);
 
     if (data) {
       if (data.me === null) {
@@ -67,18 +80,47 @@ export default function Dashboard({ userProfile }) {
 
     console.log({ data });
   }, [data]);
+
   if (!data) {
     return (
       <DashboardContainer>
-        
+        <p>Page is loading ...</p>
       </DashboardContainer>
     );
   }
 
   return (
     <DashboardContainer>
-      <p>Hello! <RollText text = {loggedInUser && loggedInUser.firstName} /></p>
-      
+      <div className="cards-container">
+        <DashboardCard
+          title="Prayer Requests"
+          link={"/dashboard/requests"}
+          icon={<GiPrayer />}
+          bColor={"purple"}
+          textColor={"white"}
+        />
+        <DashboardCard
+          title="Testimonies"
+          link={"/dashboard/testimonies"}
+          icon={<GiLoveSong />}
+          bColor={"green"}
+          textColor={"white"}
+        />
+        <DashboardCard
+          title="Tithe"
+          link={"/dashboard/tithe"}
+          icon={<FaMoneyCheckAlt />}
+          bColor={"cyan"}
+          textColor={"white"}
+        />
+        <DashboardCard
+          title="Partnership"
+          link={"/partnership"}
+          icon={<FaRegHandshake />}
+          bColor={"yellow"}
+          textColor={"white"}
+        />
+      </div>
     </DashboardContainer>
   );
 }
