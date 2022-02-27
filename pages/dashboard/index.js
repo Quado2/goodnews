@@ -95,28 +95,28 @@ export default function Dashboard({ userProfile }) {
         <DashboardCard
           title="Prayer Requests"
           link={"/dashboard/requests"}
-          icon={<GiPrayer />}
+          icon={<GiPrayer size={'2rem'}  />}
           bColor={"purple"}
           textColor={"white"}
         />
         <DashboardCard
           title="Testimonies"
           link={"/dashboard/testimonies"}
-          icon={<GiLoveSong />}
+          icon={<GiLoveSong size={'2rem'} />}
           bColor={"green"}
           textColor={"white"}
         />
         <DashboardCard
           title="Tithe"
           link={"/dashboard/tithe"}
-          icon={<FaMoneyCheckAlt />}
+          icon={<FaMoneyCheckAlt size={'2rem'}  />}
           bColor={"cyan"}
           textColor={"white"}
         />
         <DashboardCard
           title="Partnership"
           link={"/partnership"}
-          icon={<FaRegHandshake />}
+          icon={<FaRegHandshake size={'2rem'}  />}
           bColor={"yellow"}
           textColor={"white"}
         />
