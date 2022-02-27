@@ -11,7 +11,7 @@ import { FaRegHandshake, FaMoneyCheckAlt } from "react-icons/fa";
 const DNContainer = styled.div`
   width: 200px;
   height: 100vh;
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
@@ -19,6 +19,12 @@ const DNContainer = styled.div`
   top: ${({ theme }) => theme.navHeight};
   left: 0;
   background-color: ${({ theme }) => theme.colorBackgroundSecondary};
+
+  @media screen and (min-width: ${({theme})=> theme.mobile}) {
+    display: flex;
+  }
+  
+
 
   .top{
     height: 150px;

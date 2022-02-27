@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useContext } from "react";
 
-import { navItems } from "./data";
+import { navItems, dashboardItems } from "./data";
 import Socials from "../Socials";
 import { Context } from "../../context/Context";
 
@@ -52,14 +52,17 @@ const SideContainer = styled.div`
 `;
 
 export default function Sidebar() {
-  const { clicked, setClicked } = useContext(Context);
+  const { clicked, setClicked,loggedInUser } = useContext(Context);
+
+  const displayItems = (loggedInUser && loggedInUser.firstName) ? dashboardItems : navItems
+
 
   return (
     <SideContainer show={clicked}>
       <div className="logo">Logo</div>
       <ul className={"nav-list"}>
-        {navItems &&
-          navItems.map((nav, i) => {
+        {displayItems &&
+          displayItems.map((nav, i) => {
             return (
               <li onClick={() => setClicked(!clicked)} key={i}>
                 <Link href={nav.link}>{nav.title}</Link>
