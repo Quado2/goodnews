@@ -41,16 +41,16 @@ const DNContainer = styled.div`
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    padding: 1.3rem .7rem;
+    padding: 1.3rem .75rem;
     
 
     div{
       width:  100%;;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       color: ${({theme})=> theme.colorTextPrimary};
-      border-bottom: 1px solid ${({theme})=> theme.colorBorderSecondary};
+      margin-bottom: 2rem;
 
 
       h3{
@@ -75,6 +75,18 @@ const DashboardNav = () => {
       <div>
         <GiPrayer />
         <h3>Prayer Requests</h3>
+      </div>
+      <div>
+        <GiLoveSong />
+        <h3>Testimonies</h3>
+      </div>
+      <div>
+        <FaMoneyCheckAlt />
+        <h3>Tithe</h3>
+      </div>
+      <div>
+        <FaRegHandshake />
+        <h3>Partnership</h3>
       </div>
     </div>
   </DNContainer>;

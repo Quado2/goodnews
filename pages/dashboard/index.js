@@ -37,6 +37,10 @@ const DashboardContainer = styled.div`
     align-items: flex-start;
     padding-top: ${({ theme }) => theme.navHeight};
     color: white;
+     
+    @media screen {
+      
+    }
   }
 `;
 
