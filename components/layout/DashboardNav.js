@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Context } from "../../context/Context";
 
 
+import { HiLogout } from "react-icons/hi";
 import { MdAccountCircle } from "react-icons/md";
 import { GiPrayer, GiLoveSong } from "react-icons/gi";
 import { FaRegHandshake, FaMoneyCheckAlt } from "react-icons/fa";
