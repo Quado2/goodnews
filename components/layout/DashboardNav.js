@@ -88,6 +88,10 @@ const DashboardNav = () => {
         <FaRegHandshake />
         <h3>Partnership</h3>
       </div>
+      <div>
+        <FaRegHandshake />
+        <h3>Log out</h3>
+      </div>
     </div>
   </DNContainer>;
 };
