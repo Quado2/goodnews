@@ -7,6 +7,8 @@ import Prayers from "../components/Prayers/Prayers";
 import Title from "../components/Title";
 import Testimonies from "../components/Testimonies/Testimonies";
 
+import { Context } from "../context/Context";
+import { useContext } from "react";
 
 
 // import prayerpdf from "../assets/prayer-books/prayerpdf.pdf";
@@ -27,6 +29,9 @@ const Container = styled.div`
 
 
 const Home: NextPage = () => {
+  const {setShowDashboard} = useContext(Context)
+  setShowDashboard(false);
+
   return (
     <div>
       <Head>

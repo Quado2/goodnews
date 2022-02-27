@@ -1,15 +1,15 @@
 import Head from "next/head";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useMutation, gql } from "@apollo/client";
-
+import { useRouter } from "next/router";
 
 import { registerInputs, loginInputs } from "../../components/data";
 import GitForm from "../../components/GitForm/GitForm";
 import Tab from "../../components/Tab/Tab";
 import BriefNotification from "../../components/Notification/BriefNotification";
 import Spinner from "../../components/Spinner/Spinner";
-import { useRouter } from "next/router";
+import { Context } from "../../context/Context";
 
 const MemberContainer = styled.div`
   width: 100%;
@@ -50,6 +50,9 @@ export default function Register() {
   const [showBriefNotification, setShowBriefNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState("");
+
+  const {setShowDashboard} = useContext(Context)
+  setShowDashboard(false);
 
   const router = useRouter();
 

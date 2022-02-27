@@ -68,7 +68,7 @@ export default function Dashboard({ userProfile }) {
 
   const { data, loading, error } = useQuery(GET_PROFILE);
 
-  const { loggedInUser, setLoggedInUser } = useContext(Context);
+  const { loggedInUser, setLoggedInUser, setShowDashboard } = useContext(Context);
 
   const router = useRouter();
 
@@ -81,6 +81,7 @@ export default function Dashboard({ userProfile }) {
       }
       setLoggedInUser(data.me);
       setShowPage(true);
+      setShowDashboard(true)
     }
 
     console.log({ data });
