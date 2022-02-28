@@ -163,8 +163,9 @@ export default function Register() {
         } else {
           //localStorage.setItem("nekot", token)
           console.log("about to set cookie");
-          
+
           setCookie("nekot", token, 45);
+          console.log(document.cookie)
           displayNotification("Great! You are in", "success");
           router.push("/dashboard");
         }

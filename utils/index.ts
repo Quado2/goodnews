@@ -1,11 +1,10 @@
 import JWT from "jsonwebtoken";
 import { JSON_SIGNATURE } from "../pages/api/graphql/signature";
 
-export const getUserInfoFromToken = async (cookie: string) => {
-	console.log({cookie});
-	const token = getCookie("nekot",cookie);
+export const getUserInfoFromToken = async (token: string) => {
+	console.log("GetUserInfo ran", {token});
+//	const token = getCookie("nekot",cookie);
 	 
-
 	try {
 		return JWT.verify(token, JSON_SIGNATURE) as {
 			userId: string;

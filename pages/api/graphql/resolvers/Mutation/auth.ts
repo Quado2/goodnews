@@ -199,6 +199,8 @@ export const authResolvers = {
       };
     }
 
+
+
     const { email, password } = credentials;
     const memberDetails = await Member.findOne({
       email,
@@ -229,6 +231,8 @@ export const authResolvers = {
       JSON_SIGNATURE,
       { expiresIn: 3600000 }
     );
+
+    console.log("The token we are returning", {token})
 
     return {
       userErrors: [],

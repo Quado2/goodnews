@@ -62,33 +62,33 @@ function checkReload(inputSeconds, router) {
   }
 }
 
-export default function Dashboard({ dataServer }) {
+
+
+
+
+
+export default function Dashboard({ dataFromServer }) {
   const [showPage, setShowPage] = useState(false);
-  const data = {};
   //const { data, loading, error } = useQuery(GET_PROFILE);
 
-  const { loggedInUser, setLoggedInUser, setShowDashboard } =
-    useContext(Context);
+  const { loggedInUser, setLoggedInUser, setShowDashboard } = useContext(Context);
 
   const router = useRouter();
-  console.log("from server", { dataServer });
+  console.log("from server", { dataFromServer });
 
   useEffect(() => {
-    checkReload(40, router);
+    //checkReload(40, router);
 
-    if (data) {
-      if (data.me === null) {
-        //Router.push("/membership");
-      }
-      setLoggedInUser(data.me);
+    if (dataFromServer) {
+      
+      setLoggedInUser(dataFromServer.me);
       setShowPage(true);
       setShowDashboard(true);
     }
 
-    console.log({ data });
-  }, [data]);
+  }, [dataFromServer]);
 
-  if (!data) {
+  if (!dataFromServer) {
     return (
       <DashboardContainer>
         <p>Page is loading ...</p>
@@ -133,9 +133,9 @@ export default function Dashboard({ dataServer }) {
 }
 
 export async function getServerSideProps(context) {
-const cookies = context.req.headers.cookie;
-const token = getCookie("nekot", cookies)
-
+  const cookies = context.req.headers.cookie;
+  const token = getCookie("nekot", cookies);
+  console.log("Serverside Props started")
   const { data } = await client2.query({
     query: gql`
       query {
@@ -145,19 +145,25 @@ const token = getCookie("nekot", cookies)
         }
       }
     `,
-  },{
-    options: {
       context: {
-        headers:{
-          authorization: token
-        }
-      }
-    }
+        headers: {
+          authorization: token,
+        },
+      },
   });
+
+  if (data.me === null) {
+    Router.push("/membership");
+  }
+
+  console.log("Serverside finished")
 
   return {
     props: {
-      dataServer: data,
+      dataFromServer: data,
     },
   };
 }
+
+//_xsrf=2|eb1a54a2|d6e56fdd558135bf3cdcbe8722b79bab|1645801745; nekot=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjE2N2RhMGE0N2RiYjZkN2Y2NDQ5YjEiLCJpYXQiOjE2NDYwODg0NjUsImV4cCI6MTY0OTY4ODQ2NX0.7840Xj4tgM_KdJkTJlSKpa5xTnVCfF23pdFAtcsUjzo
+
