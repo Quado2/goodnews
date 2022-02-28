@@ -2,8 +2,10 @@ import MainNavigation from "./MainNavigation";
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
 import Hambuger from "../Hambuger";
-import ContextProvider from "../../context/Context";
 import Footer from "../Footer/Footer";
+import DashboardNav from './DashboardNav'
+import { Context } from "../../context/Context";
+import { useContext } from "react";
 
 const LayoutContainer = styled.div`
   width: 100%;
@@ -19,12 +21,17 @@ const Main = styled.main`
 `;
 
 function Layout(props) {
+
+  const {showDashboard} = useContext(Context)
+   
   return (
     <LayoutContainer>
       
         <MainNavigation />
         <Sidebar />
         <Hambuger />
+        {showDashboard && <DashboardNav />}
+        
       
       <Main>{props.children}</Main>
       <Footer />

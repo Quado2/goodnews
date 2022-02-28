@@ -1,15 +1,16 @@
 import Head from "next/head";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useMutation, gql } from "@apollo/client";
-
+import { useRouter } from "next/router";
 
 import { registerInputs, loginInputs } from "../../components/data";
 import GitForm from "../../components/GitForm/GitForm";
 import Tab from "../../components/Tab/Tab";
 import BriefNotification from "../../components/Notification/BriefNotification";
 import Spinner from "../../components/Spinner/Spinner";
-import { useRouter } from "next/router";
+import { Context } from "../../context/Context";
+import { setCookie } from "../../utils/index";
 
 const MemberContainer = styled.div`
   width: 100%;
@@ -51,8 +52,10 @@ export default function Register() {
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState("");
 
-  const router = useRouter();
+  const { setShowDashboard } = useContext(Context);
+  setShowDashboard(false);
 
+  const router = useRouter();
 
   const [submitDetails, { data }] = useMutation(REGISTER_MUTATION, {
     variables: {
@@ -92,19 +95,19 @@ export default function Register() {
     console.log("pressed setLoading");
     const { email, firstName, gender, password, phone, sureName } = inputValues;
 
-    
-      submitDetails({
-        variables: {
-          user: {
-            email,
-            firstName,
-            gender,
-            password,
-            phone,
-            sureName,
-          },
+    submitDetails({
+      variables: {
+        user: {
+          email,
+          firstName,
+          gender,
+          password,
+          phone,
+          sureName,
         },
-      }).then((resp) => {
+      },
+    })
+      .then((resp) => {
         const { userErrors, token } = resp.data.signup;
 
         if (userErrors.length >= 1) {
@@ -118,8 +121,9 @@ export default function Register() {
           }, 4000);
         }
         if (token) {
-          localStorage.setItem("nekot", token);
-      
+          //localStorage.setItem("nekot", token);
+          setCookie("nekot", token, 45);
+
           setNotificationMessage("Great! We will head to logging you in");
           setNotificationStatus("success");
           setShowBriefNotification(true);
@@ -129,12 +133,15 @@ export default function Register() {
           }, 4000);
         }
         setLoadingState(false);
-        router.push("/dashboard")
-      }).catch(err=>{
-        displayNotification("Something went wrong. We are not sure what. Check your network and try again", 'failure');
+        router.push("/dashboard");
+      })
+      .catch((err) => {
+        displayNotification(
+          "Something went wrong. We are not sure what. Check your network and try again",
+          "failure"
+        );
       });
-    } 
-
+  }
 
   //HANDLE LOGIN
   async function processLogin(inputValues) {
@@ -142,29 +149,32 @@ export default function Register() {
     const { email, password } = inputValues;
 
     try {
-    submitLogin({
-      variables:{
-        credentials:{
-          email,
-          password
+      submitLogin({
+        variables: {
+          credentials: {
+            email,
+            password,
+          },
+        },
+      }).then((res) => {
+        const { userErrors, token } = res.data.signIn;
+        if (userErrors.length >= 1) {
+          displayNotification(userErrors[0].message, "failure");
+        } else {
+          //localStorage.setItem("nekot", token)
+          console.log("about to set cookie");
+
+          setCookie("nekot", token, 45);
+          console.log(document.cookie)
+          displayNotification("Great! You are in", "success");
+          router.push("/dashboard");
         }
-      }
-    }).then(res => {
-      const {userErrors, token} = res.data.signIn;
-      if(userErrors.length >= 1){
-        displayNotification(userErrors[0].message, "failure");
-      } else{
-        localStorage.setItem("nekot", token)
-        displayNotification("Great! You are in", "success")
-        router.push("/dashboard")
-      }
-
-
-      
-    })
-   
-   
-    } catch (err) { displayNotification("Something went wrong. We are not sure what. Check your network and try again", 'failure');
+      });
+    } catch (err) {
+      displayNotification(
+        "Something went wrong. We are not sure what. Check your network and try again",
+        "failure"
+      );
       console.log(JSON.stringify(err));
     }
   }

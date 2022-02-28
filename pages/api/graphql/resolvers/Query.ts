@@ -4,6 +4,7 @@ import dbConnect from "../../mongoose/connection";
 
 export const Query = {
   me: async (_: any, __: any, { userInfo }: Context) => {
+    console.log({userInfo})
     try {
       await dbConnect();
     } catch (err) {

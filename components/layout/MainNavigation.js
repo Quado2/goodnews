@@ -46,6 +46,10 @@ const Header = styled.header`
     align-self: center;
     flex: 1 1 0px;
 
+    @media screen and (min-width: ${({theme})=> theme.mobile}) {
+      display: none;
+    }
+
     h4{
       font-size: .9rem;
       font-weight: 400;
@@ -90,7 +94,7 @@ function MainNavigation() {
   return (
     <Header>
       <div className="logo">Logos</div>
-      {loggedInUser && <div className="profile"><MdAccountCircle fontSize={'2rem'} /><h4>{loggedInUser.firstName}</h4> </div>}
+      {(loggedInUser && loggedInUser.firstName) && <div className="profile"><MdAccountCircle fontSize={'2rem'} /><h4>{loggedInUser.firstName}</h4> </div>}
       <div className="hidden"></div>
       {navItems && (
         <nav>

@@ -2,9 +2,10 @@ import { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { useQuery, gql } from "@apollo/client";
 import Router, { useRouter } from "next/router";
-import RollText from "../../components/RollText/RollText";
 import { Context } from "../../context/Context";
 import DashboardCard from "../../components/DashboardCard";
+import { client2 } from "../_app";
+import { getCookie } from "../../utils";
 
 import { GiPrayer, GiLoveSong } from "react-icons/gi";
 import { FaRegHandshake, FaMoneyCheckAlt } from "react-icons/fa";
@@ -28,8 +29,6 @@ const DashboardContainer = styled.div`
   padding-top: ${({ theme }) => theme.navHeight};
   color: white;
 
-  
-
   .cards-container {
     width: 100%;
     display: flex;
@@ -38,6 +37,10 @@ const DashboardContainer = styled.div`
     align-items: flex-start;
     padding-top: ${({ theme }) => theme.navHeight};
     color: white;
+
+    @media screen and (min-width: ${({ theme }) => theme.mobile}) {
+      padding-left: 200px;
+    }
   }
 `;
 
@@ -59,31 +62,33 @@ function checkReload(inputSeconds, router) {
   }
 }
 
-export default function Dashboard({ userProfile }) {
-  const [profile, setProfile] = useState({});
+
+
+
+
+
+export default function Dashboard({ dataFromServer }) {
   const [showPage, setShowPage] = useState(false);
+  //const { data, loading, error } = useQuery(GET_PROFILE);
 
-  const { data, loading, error } = useQuery(GET_PROFILE);
-
-  const { loggedInUser, setLoggedInUser } = useContext(Context);
+  const { loggedInUser, setLoggedInUser, setShowDashboard } = useContext(Context);
 
   const router = useRouter();
+  console.log("from server", { dataFromServer });
 
   useEffect(() => {
-    checkReload(40, router);
+    //checkReload(40, router);
 
-    if (data) {
-      if (data.me === null) {
-        Router.push("/membership");
-      }
-      setLoggedInUser(data.me);
+    if (dataFromServer) {
+      
+      setLoggedInUser(dataFromServer.me);
       setShowPage(true);
+      setShowDashboard(true);
     }
 
-    console.log({ data });
-  }, [data]);
+  }, [dataFromServer]);
 
-  if (!data) {
+  if (!dataFromServer) {
     return (
       <DashboardContainer>
         <p>Page is loading ...</p>
@@ -97,28 +102,28 @@ export default function Dashboard({ userProfile }) {
         <DashboardCard
           title="Prayer Requests"
           link={"/dashboard/requests"}
-          icon={<GiPrayer size={'2rem'}  />}
+          icon={<GiPrayer size={"2rem"} />}
           bColor={"purple"}
           textColor={"white"}
         />
         <DashboardCard
           title="Testimonies"
           link={"/dashboard/testimonies"}
-          icon={<GiLoveSong size={'2rem'} />}
+          icon={<GiLoveSong size={"2rem"} />}
           bColor={"green"}
           textColor={"white"}
         />
         <DashboardCard
           title="Tithe"
           link={"/dashboard/tithe"}
-          icon={<FaMoneyCheckAlt size={'2rem'}  />}
+          icon={<FaMoneyCheckAlt size={"2rem"} />}
           bColor={"cyan"}
           textColor={"white"}
         />
         <DashboardCard
           title="Partnership"
           link={"/partnership"}
-          icon={<FaRegHandshake size={'2rem'}  />}
+          icon={<FaRegHandshake size={"2rem"} />}
           bColor={"#4DA8EF"}
           textColor={"white"}
         />
@@ -127,10 +132,38 @@ export default function Dashboard({ userProfile }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps(context) {
+  const cookies = context.req.headers.cookie;
+  const token = getCookie("nekot", cookies);
+  console.log("Serverside Props started")
+  const { data } = await client2.query({
+    query: gql`
+      query {
+        me {
+          firstName
+          sureName
+        }
+      }
+    `,
+      context: {
+        headers: {
+          authorization: token,
+        },
+      },
+  });
+
+  if (data.me === null) {
+    Router.push("/membership");
+  }
+
+  console.log("Serverside finished")
+
   return {
     props: {
-      userProfile: "Kwado",
+      dataFromServer: data,
     },
   };
 }
+
+//_xsrf=2|eb1a54a2|d6e56fdd558135bf3cdcbe8722b79bab|1645801745; nekot=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjE2N2RhMGE0N2RiYjZkN2Y2NDQ5YjEiLCJpYXQiOjE2NDYwODg0NjUsImV4cCI6MTY0OTY4ODQ2NX0.7840Xj4tgM_KdJkTJlSKpa5xTnVCfF23pdFAtcsUjzo
+
