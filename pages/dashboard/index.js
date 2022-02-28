@@ -5,6 +5,7 @@ import Router, { useRouter } from "next/router";
 import { Context } from "../../context/Context";
 import DashboardCard from "../../components/DashboardCard";
 import { client2 } from "../_app";
+import { getCookie } from "../../utils";
 
 import { GiPrayer, GiLoveSong } from "react-icons/gi";
 import { FaRegHandshake, FaMoneyCheckAlt } from "react-icons/fa";
@@ -62,10 +63,9 @@ function checkReload(inputSeconds, router) {
 }
 
 export default function Dashboard({ dataServer }) {
-  const [profile, setProfile] = useState({});
   const [showPage, setShowPage] = useState(false);
-
-  const { data, loading, error } = useQuery(GET_PROFILE);
+  const data = {};
+  //const { data, loading, error } = useQuery(GET_PROFILE);
 
   const { loggedInUser, setLoggedInUser, setShowDashboard } =
     useContext(Context);
@@ -78,7 +78,7 @@ export default function Dashboard({ dataServer }) {
 
     if (data) {
       if (data.me === null) {
-        Router.push("/membership");
+        //Router.push("/membership");
       }
       setLoggedInUser(data.me);
       setShowPage(true);
@@ -132,7 +132,10 @@ export default function Dashboard({ dataServer }) {
   );
 }
 
-export async function getServersideProps() {
+export async function getServerSideProps(context) {
+const cookies = context.req.headers.cookie;
+const token = getCookie("nekot", cookies)
+
   const { data } = await client2.query({
     query: gql`
       query {
@@ -142,6 +145,14 @@ export async function getServersideProps() {
         }
       }
     `,
+  },{
+    options: {
+      context: {
+        headers:{
+          authorization: token
+        }
+      }
+    }
   });
 
   return {
