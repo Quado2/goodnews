@@ -4,6 +4,7 @@ import { useQuery, gql } from "@apollo/client";
 import Router, { useRouter } from "next/router";
 import { Context } from "../../context/Context";
 import DashboardCard from "../../components/DashboardCard";
+import { client2 } from "../_app";
 
 import { GiPrayer, GiLoveSong } from "react-icons/gi";
 import { FaRegHandshake, FaMoneyCheckAlt } from "react-icons/fa";
@@ -27,8 +28,6 @@ const DashboardContainer = styled.div`
   padding-top: ${({ theme }) => theme.navHeight};
   color: white;
 
-  
-
   .cards-container {
     width: 100%;
     display: flex;
@@ -37,8 +36,8 @@ const DashboardContainer = styled.div`
     align-items: flex-start;
     padding-top: ${({ theme }) => theme.navHeight};
     color: white;
-     
-    @media screen and (min-width: ${({theme})=>theme.mobile}) {
+
+    @media screen and (min-width: ${({ theme }) => theme.mobile}) {
       padding-left: 200px;
     }
   }
@@ -62,15 +61,17 @@ function checkReload(inputSeconds, router) {
   }
 }
 
-export default function Dashboard({ userProfile }) {
+export default function Dashboard({ dataServer }) {
   const [profile, setProfile] = useState({});
   const [showPage, setShowPage] = useState(false);
 
   const { data, loading, error } = useQuery(GET_PROFILE);
 
-  const { loggedInUser, setLoggedInUser, setShowDashboard } = useContext(Context);
+  const { loggedInUser, setLoggedInUser, setShowDashboard } =
+    useContext(Context);
 
   const router = useRouter();
+  console.log("from server", { dataServer });
 
   useEffect(() => {
     checkReload(40, router);
@@ -81,7 +82,7 @@ export default function Dashboard({ userProfile }) {
       }
       setLoggedInUser(data.me);
       setShowPage(true);
-      setShowDashboard(true)
+      setShowDashboard(true);
     }
 
     console.log({ data });
@@ -101,28 +102,28 @@ export default function Dashboard({ userProfile }) {
         <DashboardCard
           title="Prayer Requests"
           link={"/dashboard/requests"}
-          icon={<GiPrayer size={'2rem'}  />}
+          icon={<GiPrayer size={"2rem"} />}
           bColor={"purple"}
           textColor={"white"}
         />
         <DashboardCard
           title="Testimonies"
           link={"/dashboard/testimonies"}
-          icon={<GiLoveSong size={'2rem'} />}
+          icon={<GiLoveSong size={"2rem"} />}
           bColor={"green"}
           textColor={"white"}
         />
         <DashboardCard
           title="Tithe"
           link={"/dashboard/tithe"}
-          icon={<FaMoneyCheckAlt size={'2rem'}  />}
+          icon={<FaMoneyCheckAlt size={"2rem"} />}
           bColor={"cyan"}
           textColor={"white"}
         />
         <DashboardCard
           title="Partnership"
           link={"/partnership"}
-          icon={<FaRegHandshake size={'2rem'}  />}
+          icon={<FaRegHandshake size={"2rem"} />}
           bColor={"#4DA8EF"}
           textColor={"white"}
         />
@@ -131,10 +132,21 @@ export default function Dashboard({ userProfile }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServersideProps() {
+  const { data } = await client2.query({
+    query: gql`
+      query {
+        me {
+          firstName
+          sureName
+        }
+      }
+    `,
+  });
+
   return {
     props: {
-      userProfile: "Kwado",
+      dataServer: data,
     },
   };
 }

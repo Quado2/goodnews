@@ -11,6 +11,12 @@ const DCContainer = styled.div`
   margin: 1rem;
   border-radius: .25rem;
   background-color: ${({bColor}) => bColor};
+  transition: transform .2s ease-in;
+
+  &:hover{
+   transform: scale(1.02);
+   cursor: pointer;
+  }
 
   @media screen and (min-width: ${({theme})=> theme.mobile}) {
     width: 250px;
