@@ -45,7 +45,6 @@ export const prayersResolvers = {
       }
     }
 
-
     const newPrayer = new Prayer({
       title,
       details,
@@ -53,10 +52,12 @@ export const prayersResolvers = {
       memberId: userInfo.userId
     })
 
-    await newPrayer.save();
+    const savedPrayer = await newPrayer.save();
+    
 
-    const prayers = await Prayer.findById(userInfo.userId);
-
+    console.log(userInfo.userId)
+    const prayers = await Prayer.find({memberId: userInfo.userId});
+    console.log(prayers)
     return {
       userErrors: [],
       prayers

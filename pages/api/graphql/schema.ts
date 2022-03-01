@@ -3,13 +3,14 @@ import { gql } from "apollo-server-micro";
 export const typeDefs = gql`
   type Query {
     me(token: String): Profile
+    prayersMe(token: String): Profile
 
   }
 
   type Mutation {
     signup(user: MemberInput!): AuthPayload!
     signIn(credentials: CredentialsInput!): AuthPayload!
-    prayerSubmit(prayer: PrayerInput!)!: PrayerPayload!
+    prayerSubmit(prayer: PrayerInput!): PrayerPayload!
     testIt: String
   }
 
@@ -47,7 +48,7 @@ export const typeDefs = gql`
   type Prayer{
     title: String!
     details: String!
-    date: number!
+    date: Float!
     _id: ID!
   }
 
