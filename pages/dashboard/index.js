@@ -150,6 +150,7 @@ export async function getServerSideProps(context) {
           authorization: token,
         },
       },
+      fetchPolicy: 'no-cache',
   });
 
   if (data.me === null) {
