@@ -1,4 +1,4 @@
-export const tableData = [
+export const tableData1 = [
   ["Title", "Details", "Date"],
   [
     "Mother In law issues",

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { tableData } from "./data";
+import { tableData1 } from "./data";
 import styled from "styled-components";
 
 const TableContainer = styled.div`
@@ -70,39 +70,44 @@ const TableContainer = styled.div`
   }
 `;
 
-const Table = () => {
+const Table = ({tableHeaders, tableData, actionsData}) => {
   const [showForm, setShowForm] = useState(false);
 
-  const headers = tableData[0];
-  const tableBody = tableData.slice(1, tableData.length);
+  const headers = tableData1[0];
+  const tableBody = tableData1.slice(1, tableData1.length);
   const actions = ["Edit", "Delete"];
+  const monthList = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+  function getDate(dateInt){
+    const date = new Date(dateInt);
+    const year = date.getFullYear();
+    const month = monthList[date.getUTCMonth()]
+    const day = date.getUTCDate();
+
+    return `${day} ${month} ${year}`
+  }
   return (
     <TableContainer>
      
       <div>
         <table>
           <tr>
-            {headers.map((header, i) => (
+            { tableHeaders && tableHeaders.map((header, i) => (
               <th key={i}>{header}</th>
             ))}
-            {actions.map((action) => (
-              <th>{action}</th>
-            ))}
+      
           </tr>
-          {tableBody.map((tbody) => {
-            return (
-              <tr>
-                {tbody.map((body, i) => (
-                  <td key={i}>{body}</td>
-                ))}
-                {actions.map((action) => (
-                  <td>
-                    <button>{action}</button>
-                  </td>
-                ))}
-              </tr>
-            );
-          })}
+          {tableData && tableData.map(data1 => {
+            return <tr key={data1._id}>
+              <td>{data1.title}</td>
+              <td>{data1.details}</td>
+              <td>{getDate(data1.date)}</td>
+              {actionsData && actionsData.map(acData => 
+                <td><button onClick={() => acData.action(data1._id)}>{acData.title}</button></td>
+              )}
+            </tr>
+             })}
+         
         </table>
       </div>
     </TableContainer>
