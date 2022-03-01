@@ -49,9 +49,10 @@ const HambugerContainer = styled.div`
 `;
 export default function Hambuger() {
 const {clicked, setClicked} = useContext(Context)
+const value = clicked ? 1 : 0;
 
   return (
-    <HambugerContainer onClick={()=>setClicked(!clicked)} rotate={clicked}>
+    <HambugerContainer onClick={()=>setClicked(!clicked)} rotate={value}>
       <div></div>
       <div></div>
       <div></div>
