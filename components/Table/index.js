@@ -17,21 +17,7 @@ const TableContainer = styled.div`
       border-radius: 0.2rem;
     }
 
-  .add-button {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    button {
-      background-color: transparent;
-      outline: none;
-      border: 1px solid ${({ theme }) => theme.colorTextPrimary};
-      margin: 2rem;
-      padding: 1rem;
-      color: ${({ theme }) => theme.colorTextPrimary};
-      border-radius: 0.2rem;
-    }
-  }
+ 
 
   div {
     overflow-x: scroll;
@@ -62,8 +48,8 @@ const TableContainer = styled.div`
   }
 
   td {
-    color: ${({ theme }) => theme.colorTextSecondary};
-    font-size: 0.8rem;
+    color: ${({ theme }) => theme.colorSecondaryMuted};
+    font-size: 0.95rem;
     font-weight: 400;
     padding:2rem 0.5rem 0.7rem 0.6rem;
     
@@ -92,9 +78,7 @@ const Table = () => {
   const actions = ["Edit", "Delete"];
   return (
     <TableContainer>
-      <div className="add-button ">
-        <button onClick={() => setShowForm(true)}>New Prayer Request</button>
-      </div>
+     
       <div>
         <table>
           <tr>

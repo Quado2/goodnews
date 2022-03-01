@@ -123,8 +123,7 @@ function Input(props) {
     const wait = setTimeout(() => {
       setShowButton(false);
     }, 50);
-    return (()=> clearTimeout(wait) )
-    
+    return () => clearTimeout(wait);
   }
 
   let inputIcon;
@@ -191,6 +190,15 @@ function Input(props) {
                 );
               })}
             </div>
+          ) : inputType === "textarea" ? (
+            <textarea
+              ref={inputRef}
+              onChange={handleChange}
+              onFocus={handleInputFocus}
+              onBlur={handleBlur}
+              name={name}
+              autoFocus={true}
+            ></textarea>
           ) : (
             <input
               ref={inputRef}
@@ -205,12 +213,12 @@ function Input(props) {
         </div>
 
         {errorMessages && (
-        <div className="error-message-mobile">
-          {errorMessages.map((errorMessage, i) => (
-            <p key={i}>{errorMessage}</p>
-          ))}
-        </div>
-      )}
+          <div className="error-message-mobile">
+            {errorMessages.map((errorMessage, i) => (
+              <p key={i}>{errorMessage}</p>
+            ))}
+          </div>
+        )}
 
         {showButton && (
           <button

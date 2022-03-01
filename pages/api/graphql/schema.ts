@@ -9,6 +9,7 @@ export const typeDefs = gql`
   type Mutation {
     signup(user: MemberInput!): AuthPayload!
     signIn(credentials: CredentialsInput!): AuthPayload!
+    prayerSubmit(prayer: PrayerInput!)!: PrayerPayload!
     testIt: String
   }
 
@@ -37,6 +38,18 @@ export const typeDefs = gql`
     userErrors: [UserError!]!
     token: String
   }
+  
+  type PrayerPayload{
+    userErrors: [UserError!]!
+    prayers: [Prayer]
+  }
+  
+  type Prayer{
+    title: String!
+    details: String!
+    date: String!
+    _id: ID!
+  }
 
   type UserError {
     message: String!
@@ -49,6 +62,11 @@ export const typeDefs = gql`
     phone: String!
     password: String!
     gender: String!
+  }
+
+  input PrayerInput{
+    title: String!
+    details: String!
   }
 
   input CredentialsInput{
