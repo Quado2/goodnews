@@ -18,7 +18,7 @@ export interface Prayer{
   _id: String,
   title: string,
   details: string,
-  date: 
+  date: number
   
 }
 

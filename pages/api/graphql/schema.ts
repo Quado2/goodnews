@@ -47,7 +47,7 @@ export const typeDefs = gql`
   type Prayer{
     title: String!
     details: String!
-    date: String!
+    date: number!
     _id: ID!
   }
 
