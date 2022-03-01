@@ -3,7 +3,7 @@ import { gql } from "apollo-server-micro";
 export const typeDefs = gql`
   type Query {
     me(token: String): Profile
-    prayersMe(token: String): Profile
+    prayersMe(token: String): PrayersMe
 
   }
 
@@ -12,6 +12,11 @@ export const typeDefs = gql`
     signIn(credentials: CredentialsInput!): AuthPayload!
     prayerSubmit(prayer: PrayerInput!): PrayerPayload!
     testIt: String
+  }
+  type PrayersMe{
+    userErrors: [UserError]
+    me: Profile!
+    prayers: [Prayer]
   }
 
   type Member {
