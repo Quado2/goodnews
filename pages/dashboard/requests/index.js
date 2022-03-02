@@ -4,16 +4,18 @@ import { client2 } from "../../_app";
 import { gql } from "apollo-server-micro";
 import styled from "styled-components";
 import { GiTireIronCross } from "react-icons/gi";
+import { useMutation } from "@apollo/client";
 
 import Table from "../../../components/Table";
 import { prayerRequestInputs } from "../../../components/data";
 import GitForm from "../../../components/GitForm/GitForm";
 import Spinner from "../../../components/Spinner/Spinner";
 import { Context } from "../../../context/Context";
+import BriefNotification from "../../../components/Notification/BriefNotification";
 
 const RequestContainer = styled.div`
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   margin-top: ${({ theme }) => theme.navHeight};
 
   .add-button {
@@ -71,15 +73,58 @@ const RequestContainer = styled.div`
   }
 `;
 
+const NEWREQUEST_MUTATION = gql`
+  mutation ($prayer: PrayerInput!) {
+    prayerSubmit(prayer: $prayer) {
+      userErrors {
+        message
+      }
+      prayers {
+        date
+        details
+        title
+        _id
+      }
+    }
+  }
+`;
+
 const Requests = ({ dataFromServer }) => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [tableData, setTableData] = useState([]);
+  const [showBriefNotification, setShowBriefNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationStatus, setNotificationStatus] = useState("");
+
   const { loggedInUser, setLoggedInUser, setShowDashboard } =
     useContext(Context);
 
+
+  const [submitRequest, { data }] = useMutation(NEWREQUEST_MUTATION, {
+    variables: {
+      prayer: {
+        title: "",
+        details: "",
+      },
+    },
+  });
+
+  
+
+ function displayNotification(message, stats) {
+   console.log("Dislay notification ran")
+    setNotificationMessage(message);
+    setNotificationStatus(stats);
+    setShowBriefNotification(true);
+    // const timeout = setTimeout(() => {
+    //   setShowBriefNotification(false);
+    //   return () => clearTimeout(timeout);
+    // }, 4000);
+  }
+
   if (dataFromServer.prayersMe) {
-    const { me, prayers } = dataFromServer.prayersMe;
+    const { me, } = dataFromServer.prayersMe;
     setLoggedInUser(me);
     setShowDashboard(true);
   }
@@ -88,7 +133,6 @@ const Requests = ({ dataFromServer }) => {
     const { me, prayers } = dataFromServer.prayersMe;
     setTableData(prayers);
   }, []);
-  console.log({ dataFromServer });
 
   const requestSpinner = (
     <Spinner
@@ -99,14 +143,51 @@ const Requests = ({ dataFromServer }) => {
     />
   );
 
+
+
   function sendNewRequest(formValues) {
+    const { title, details } = formValues;
     setLoading(true);
+    submitRequest({
+      variables: {
+        prayer: {
+          title,
+          details,
+        },
+      },
+    })
+      .then((resp) => {
+        if(resp.data.prayerSubmit){
+          const {prayers, userErrors} = resp.data.prayerSubmit;
+          if(userErrors.length> 1){
+            displayNotification(userErrors[0].message, "failure");
+            setLoading(false);
+          }
+          else{
+            setTableData(prayers);
+            displayNotification("Great! Your prayer request has been received.", "success");
+            setShowBriefNotification(true);
+            setLoading(false);
+            setShowForm(false);
+          }
+
+        }
+      })
+      .catch((err) => {
+        setLoading(false)
+        console.log({ err });
+      });
     console.log({ formValues });
   }
+
+
+
 
   function editRequest(id) {
     console.log(id);
   }
+
+
 
   function deleteRequest(id) {
     console.log(id);
@@ -120,6 +201,13 @@ const Requests = ({ dataFromServer }) => {
 
   return (
     <RequestContainer>
+      {showBriefNotification && (
+        <BriefNotification
+          status={notificationStatus}
+          message={notificationMessage}
+        />
+      )}
+
       {showForm && (
         <div className="new-request">
           <div onClick={() => setShowForm(false)} className="close">
