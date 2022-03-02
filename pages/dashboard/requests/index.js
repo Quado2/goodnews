@@ -110,7 +110,7 @@ const Requests = ({ dataFromServer }) => {
   });
 
   function displayNotification(message, stats) {
-    console.log("Dislay notification ran");
+    
     setNotificationMessage(message);
     setNotificationStatus(stats);
     setShowBriefNotification(true);
@@ -173,7 +173,6 @@ const Requests = ({ dataFromServer }) => {
         setLoading(false);
         console.log({ err });
       });
-    console.log({ formValues });
   }
 
   function editRequest(id) {
@@ -216,7 +215,7 @@ const Requests = ({ dataFromServer }) => {
           message={notificationMessage}
         />
       )}
-      
+
       <div className="add-button ">
         <button onClick={() => setShowForm(true)}>New Prayer Request</button>
       </div>

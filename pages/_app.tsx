@@ -19,7 +19,6 @@ const httpLink = createHttpLink({ uri: "/api" });
 const authLink = setContext((_, { headers }) => {
   const cookies = document.cookie
   const token = getCookie("nekot", cookies);
-  console.log({cookies, token})
   //const token = localStorage.getItem("nekot");
 
   return {

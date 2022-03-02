@@ -54,10 +54,8 @@ export const prayersResolvers = {
 
     const savedPrayer = await newPrayer.save();
     
-
-    console.log(userInfo.userId)
     const prayers = await Prayer.find({memberId: userInfo.userId});
-    console.log(prayers)
+    
     return {
       userErrors: [],
       prayers

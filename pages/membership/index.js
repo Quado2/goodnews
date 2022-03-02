@@ -92,7 +92,6 @@ export default function Register() {
 
   async function processRegister(inputValues) {
     setLoadingState(true);
-    console.log("pressed setLoading");
     const { email, firstName, gender, password, phone, sureName } = inputValues;
 
     submitDetails({
@@ -111,7 +110,7 @@ export default function Register() {
         const { userErrors, token } = resp.data.signup;
 
         if (userErrors.length >= 1) {
-          console.log("Failed");
+          
           setNotificationMessage(userErrors[0].message);
           setNotificationStatus("failed");
           setShowBriefNotification(true);
@@ -162,10 +161,9 @@ export default function Register() {
           displayNotification(userErrors[0].message, "failure");
         } else {
           //localStorage.setItem("nekot", token)
-          console.log("about to set cookie");
+         
 
           setCookie("nekot", token, 45);
-          console.log(document.cookie)
           displayNotification("Great! You are in", "success");
           router.push("/dashboard");
         }
