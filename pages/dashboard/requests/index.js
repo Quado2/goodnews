@@ -100,7 +100,6 @@ const Requests = ({ dataFromServer }) => {
   const { loggedInUser, setLoggedInUser, setShowDashboard } =
     useContext(Context);
 
-
   const [submitRequest, { data }] = useMutation(NEWREQUEST_MUTATION, {
     variables: {
       prayer: {
@@ -110,10 +109,8 @@ const Requests = ({ dataFromServer }) => {
     },
   });
 
-  
-
- function displayNotification(message, stats) {
-   console.log("Dislay notification ran")
+  function displayNotification(message, stats) {
+    console.log("Dislay notification ran");
     setNotificationMessage(message);
     setNotificationStatus(stats);
     setShowBriefNotification(true);
@@ -124,7 +121,7 @@ const Requests = ({ dataFromServer }) => {
   }
 
   if (dataFromServer.prayersMe) {
-    const { me, } = dataFromServer.prayersMe;
+    const { me } = dataFromServer.prayersMe;
     setLoggedInUser(me);
     setShowDashboard(true);
   }
@@ -143,8 +140,6 @@ const Requests = ({ dataFromServer }) => {
     />
   );
 
-
-
   function sendNewRequest(formValues) {
     const { title, details } = formValues;
     setLoading(true);
@@ -157,37 +152,33 @@ const Requests = ({ dataFromServer }) => {
       },
     })
       .then((resp) => {
-        if(resp.data.prayerSubmit){
-          const {prayers, userErrors} = resp.data.prayerSubmit;
-          if(userErrors.length> 1){
+        if (resp.data.prayerSubmit) {
+          const { prayers, userErrors } = resp.data.prayerSubmit;
+          if (userErrors.length > 1) {
             displayNotification(userErrors[0].message, "failure");
             setLoading(false);
-          }
-          else{
+          } else {
             setTableData(prayers);
-            displayNotification("Great! Your prayer request has been received.", "success");
+            displayNotification(
+              "Great! Your prayer request has been received.",
+              "success"
+            );
             setShowBriefNotification(true);
             setLoading(false);
             setShowForm(false);
           }
-
         }
       })
       .catch((err) => {
-        setLoading(false)
+        setLoading(false);
         console.log({ err });
       });
     console.log({ formValues });
   }
 
-
-
-
   function editRequest(id) {
     console.log(id);
   }
-
-
 
   function deleteRequest(id) {
     console.log(id);
@@ -201,13 +192,6 @@ const Requests = ({ dataFromServer }) => {
 
   return (
     <RequestContainer>
-      {showBriefNotification && (
-        <BriefNotification
-          status={notificationStatus}
-          message={notificationMessage}
-        />
-      )}
-
       {showForm && (
         <div className="new-request">
           <div onClick={() => setShowForm(false)} className="close">
@@ -225,6 +209,14 @@ const Requests = ({ dataFromServer }) => {
           />
         </div>
       )}
+
+      {showBriefNotification && (
+        <BriefNotification
+          status={notificationStatus}
+          message={notificationMessage}
+        />
+      )}
+      
       <div className="add-button ">
         <button onClick={() => setShowForm(true)}>New Prayer Request</button>
       </div>
