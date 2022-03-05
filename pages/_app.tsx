@@ -4,6 +4,7 @@ import { ThemeProvider } from "styled-components";
 import Layout from "../components/layout/Layout";
 import { darkTheme, lightTheme } from "./themeConfig";
 import ContextProvider from "../context/Context";
+import { getCookie } from "../utils";
 
 import {
   ApolloProvider,
@@ -16,7 +17,9 @@ import { setContext } from "@apollo/client/link/context";
 const httpLink = createHttpLink({ uri: "/api" });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem("nekot");
+  const cookies = document.cookie
+  const token = getCookie("nekot", cookies);
+  //const token = localStorage.getItem("nekot");
 
   return {
     headers: {

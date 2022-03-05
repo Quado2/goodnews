@@ -3,13 +3,20 @@ import { gql } from "apollo-server-micro";
 export const typeDefs = gql`
   type Query {
     me(token: String): Profile
+    prayersMe(token: String): PrayersMe
 
   }
 
   type Mutation {
     signup(user: MemberInput!): AuthPayload!
     signIn(credentials: CredentialsInput!): AuthPayload!
+    prayerSubmit(prayer: PrayerInput!): PrayerPayload!
     testIt: String
+  }
+  type PrayersMe{
+    userErrors: [UserError]
+    me: Profile!
+    prayers: [Prayer]
   }
 
   type Member {
@@ -37,6 +44,18 @@ export const typeDefs = gql`
     userErrors: [UserError!]!
     token: String
   }
+  
+  type PrayerPayload{
+    userErrors: [UserError!]!
+    prayers: [Prayer]
+  }
+  
+  type Prayer{
+    title: String!
+    details: String!
+    date: Float!
+    _id: ID!
+  }
 
   type UserError {
     message: String!
@@ -49,6 +68,11 @@ export const typeDefs = gql`
     phone: String!
     password: String!
     gender: String!
+  }
+
+  input PrayerInput{
+    title: String!
+    details: String!
   }
 
   input CredentialsInput{

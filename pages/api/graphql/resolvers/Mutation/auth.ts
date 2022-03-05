@@ -9,7 +9,7 @@ import {
 } from "../../../interfaces/interfaces";
 import dbConnect from "../../../mongoose/connection";
 import { Member, Profile } from "../../../mongoose/models";
-import { profile } from "console";
+
 
 export const authResolvers = {
   signup: async (
@@ -232,7 +232,6 @@ export const authResolvers = {
       { expiresIn: 3600000 }
     );
 
-    console.log("The token we are returning", {token})
 
     return {
       userErrors: [],

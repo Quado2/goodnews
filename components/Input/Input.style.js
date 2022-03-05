@@ -74,6 +74,21 @@ export const InputWrapper = styled.div`
         width: 90%;
       }
 
+      textarea {
+        background: transparent;
+        border: transparent;
+        color: white;
+        outline: transparent;
+        font-size: 16px;
+        font-weight: 300;
+        padding: 1rem;
+        border: 1px solid #899ec244;
+        width: 90%;
+        height: 10rem;
+        resize: none;
+        border-radius: .2rem;
+      }
+
       select {
         width: 200px;
         font-size: 16px;

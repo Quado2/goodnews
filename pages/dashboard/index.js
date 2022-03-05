@@ -74,7 +74,6 @@ export default function Dashboard({ dataFromServer }) {
   const { loggedInUser, setLoggedInUser, setShowDashboard } = useContext(Context);
 
   const router = useRouter();
-  console.log("from server", { dataFromServer });
 
   useEffect(() => {
     //checkReload(40, router);
@@ -135,7 +134,7 @@ export default function Dashboard({ dataFromServer }) {
 export async function getServerSideProps(context) {
   const cookies = context.req.headers.cookie;
   const token = getCookie("nekot", cookies);
-  console.log("Serverside Props started")
+
   const { data } = await client2.query({
     query: gql`
       query {
@@ -150,13 +149,14 @@ export async function getServerSideProps(context) {
           authorization: token,
         },
       },
+      fetchPolicy: 'no-cache',
   });
 
   if (data.me === null) {
     Router.push("/membership");
   }
 
-  console.log("Serverside finished")
+
 
   return {
     props: {

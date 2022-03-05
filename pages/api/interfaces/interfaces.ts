@@ -14,6 +14,21 @@ export interface UserPayload{
   token : string | null;
 }
 
+export interface Prayer{
+  _id: String,
+  title: string,
+  details: string,
+  date: number
+  
+}
+
+export interface PrayerPayload{
+  userErrors:{
+    message: string,
+  }[],
+  prayers: Prayer[] | null
+}
+
 export interface Context {
   userInfo:{
     userId: string | null
@@ -28,3 +43,9 @@ export interface CredentialsInput{
 export interface UserProfile {
   firstName: string,
 }
+
+export interface PrayerInput{
+  title: string,
+  details:string,
+}
+

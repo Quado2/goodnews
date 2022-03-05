@@ -106,3 +106,16 @@ export const loginInputs = [
     name: "password",
   },
 ];
+
+export const prayerRequestInputs = [
+  {
+    inputType: "text",
+    prompt: "Title of your prayer request",
+    name: "title",
+  },
+  {
+    inputType: "textarea",
+    prompt: "Give details of what you want God to do for you",
+    name: "details",
+  },
+];
