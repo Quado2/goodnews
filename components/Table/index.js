@@ -91,22 +91,27 @@ const Table = ({tableHeaders, tableData, actionsData}) => {
      
       <div>
         <table>
-          <tr>
+          <thead>
+             <tr>
             { tableHeaders && tableHeaders.map((header, i) => (
               <th key={i}>{header}</th>
             ))}
       
           </tr>
-          {tableData && tableData.map(data1 => {
+          </thead>
+         <tbody>
+           {tableData && tableData.map(data1 => {
             return <tr key={data1._id}>
               <td>{data1.title}</td>
               <td>{data1.details}</td>
               <td>{getDate(data1.date)}</td>
-              {actionsData && actionsData.map(acData => 
-                <td><button onClick={() => acData.action(data1._id)}>{acData.title}</button></td>
+              {actionsData && actionsData.map((acData,i) => 
+                <td key={data1._id+i} ><button  onClick={() => acData.action(data1._id)}>{acData.title}</button></td>
               )}
             </tr>
              })}
+         </tbody>
+          
          
         </table>
       </div>

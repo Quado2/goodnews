@@ -110,25 +110,27 @@ const Requests = ({ dataFromServer }) => {
   });
 
   function displayNotification(message, stats) {
-    
     setNotificationMessage(message);
     setNotificationStatus(stats);
     setShowBriefNotification(true);
-    // const timeout = setTimeout(() => {
-    //   setShowBriefNotification(false);
-    //   return () => clearTimeout(timeout);
-    // }, 4000);
-  }
-
-  if (dataFromServer.prayersMe) {
-    const { me } = dataFromServer.prayersMe;
-    setLoggedInUser(me);
-    setShowDashboard(true);
+    const timeout = setTimeout(() => {
+      setShowBriefNotification(false);
+      return () => clearTimeout(timeout);
+    }, 4000);
   }
 
   useEffect(() => {
+    let isMounted = true;
     const { me, prayers } = dataFromServer.prayersMe;
-    setTableData(prayers);
+    if (isMounted) {
+      setTableData(prayers);
+      setLoggedInUser(me);
+      setShowDashboard(true);
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const requestSpinner = (
@@ -143,36 +145,47 @@ const Requests = ({ dataFromServer }) => {
   function sendNewRequest(formValues) {
     const { title, details } = formValues;
     setLoading(true);
-    submitRequest({
-      variables: {
-        prayer: {
-          title,
-          details,
-        },
-      },
-    })
-      .then((resp) => {
-        if (resp.data.prayerSubmit) {
-          const { prayers, userErrors } = resp.data.prayerSubmit;
-          if (userErrors.length > 1) {
-            displayNotification(userErrors[0].message, "failure");
-            setLoading(false);
-          } else {
-            setTableData(prayers);
-            displayNotification(
-              "Great! Your prayer request has been received.",
-              "success"
-            );
-            setShowBriefNotification(true);
-            setLoading(false);
-            setShowForm(false);
-          }
-        }
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log({ err });
-      });
+    setTimeout(() => {
+      setLoading(false);
+      displayNotification(
+        "Great! Your prayer request has been received.",
+        "success"
+      );
+      
+      setLoading(false);
+      setShowForm(false);
+    }, 1000);
+
+    // submitRequest({
+    //   variables: {
+    //     prayer: {
+    //       title,
+    //       details,
+    //     },
+    //   },
+    // })
+    //   .then((resp) => {
+    //     if (resp.data.prayerSubmit) {
+    //       const { prayers, userErrors } = resp.data.prayerSubmit;
+    //       if (userErrors.length > 1) {
+    //         displayNotification(userErrors[0].message, "failure");
+    //         setLoading(false);
+    //       } else {
+    //         setTableData(prayers);
+    //         displayNotification(
+    //           "Great! Your prayer request has been received.",
+    //           "success"
+    //         );
+    //         setShowBriefNotification(true);
+    //         setLoading(false);
+    //         setShowForm(false);
+    //       }
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     setLoading(false);
+    //     console.log({ err });
+    //   });
   }
 
   function editRequest(id) {
