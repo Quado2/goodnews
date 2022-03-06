@@ -155,9 +155,8 @@ function Input(props) {
 
   const removeButtonStyle = {
     opacity: "0",
-    height: 0,
-    padding: 0,
-    margin: 0
+    height: "0"
+   
   }
 
   return (
