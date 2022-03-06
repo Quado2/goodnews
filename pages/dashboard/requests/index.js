@@ -145,16 +145,15 @@ const Requests = ({ dataFromServer }) => {
   function sendNewRequest(formValues) {
     const { title, details } = formValues;
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    fetch("https://randomuser.me/api/").then((res) => {
+      console.log(res);
       displayNotification(
         "Great! Your prayer request has been received.",
         "success"
       );
-      
       setLoading(false);
       setShowForm(false);
-    }, 1000);
+    });
 
     // submitRequest({
     //   variables: {
