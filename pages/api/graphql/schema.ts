@@ -2,8 +2,8 @@ import { gql } from "apollo-server-micro";
 
 export const typeDefs = gql`
   type Query {
-    me(token: String): Profile
-    prayersMe(token: String): PrayersMe
+    me: Profile
+    prayersMe: PrayersMe
 
   }
 
