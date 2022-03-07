@@ -49,6 +49,17 @@ export const GitFormWrapper = styled.div`
     }
     .form-top-text {
       width: 100%;
+
+      .wait_alil{
+        opacity: 0;
+        animation: enterLater forwards 1s ease-in 1.5s;
+
+        @keyframes enterLater {
+          to{
+            opacity: 1;
+          }
+        }
+      }
     }
 
     .submit {

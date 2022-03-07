@@ -15,6 +15,7 @@ function Input(props) {
     handleContinueClicked,
     rules,
     formValues,
+    value
   } = props;
 
   let timeOut;
@@ -207,6 +208,7 @@ function Input(props) {
               onBlur={handleBlur}
               name={name}
               autoFocus={true}
+              value={value}
             ></textarea>
           ) : (
             <input
@@ -217,6 +219,7 @@ function Input(props) {
               name={name}
               autoFocus={true}
               type={inputType}
+              value={value}
             />
           )}
         </div>

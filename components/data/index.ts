@@ -3,6 +3,7 @@ export const registerInputs = [
     inputType: "text",
     prompt: "Enter your first name",
     name: "firstName",
+    initialValue:"boy",
     rules: {
       maxLength: {
         expectedValue: 20,

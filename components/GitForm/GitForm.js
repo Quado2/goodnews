@@ -13,23 +13,18 @@ function GitForm({
   welcomeMessage,
   actionMessage,
   spinnerComponent,
-  isediting
+  isediting,
 }) {
-  
   const [showSubmit, setShowSubmit] = useState(false);
-
+  const [showName, setShowName] = useState(true);
   const [formValues, setFormValues] = useState({});
   const [visibleFormInputs, setVisibleFormInputs] = useState([]);
-
 
   useEffect(() => {
     if (formInputs) {
       setVisibleFormInputs([formInputs[0]]);
     }
-
-  
   }, [formInputs]);
-  
 
   const handleContinueClicked = (e, name, inputValue) => {
     e.preventDefault();
@@ -54,25 +49,29 @@ function GitForm({
     processInputs(formValues);
   }
 
-  const submitButton = loadingState ? spinnerComponent: <input className="submit" type="submit" value={submitLabel} /> 
+  const submitButton = loadingState ? (
+    spinnerComponent
+  ) : (
+    <input className="submit" type="submit" value={submitLabel} />
+  );
 
   return (
     <GitFormWrapper>
       <OurParticles />
       <form onSubmit={handleFormSubmitted}>
         <div className="form-top-text" disabled>
-          {showSecond ? (
-            <RollText text={welcomeMessage} />
-          ) : (
-            <div className="ticking"></div>
-          )}
-          {showThird ? <RollText text={actionMessage} /> : null}
+          {<RollText text={welcomeMessage} />}
+          <div className="wait_alil"> 
+          <RollText text={actionMessage} />
+          </div>
+          
         </div>
 
         {showName &&
           visibleFormInputs &&
-          visibleFormInputs.map((formInput) => (
-            <Input
+          visibleFormInputs.map((formInput) => {
+            console.log("The input", formInput.initialValue)
+            return  <Input
               key={formInput.name}
               inputType={formInput.inputType}
               prompt={formInput.prompt}
@@ -81,10 +80,11 @@ function GitForm({
               buttonDisabled={false}
               list={formInput.list}
               formValues={formValues}
+              value={formInput.initialValue}
               handleContinueClicked={handleContinueClicked}
             />
-          ))}
-        
+          })}
+
         {showSubmit ? submitButton : null}
       </form>
     </GitFormWrapper>

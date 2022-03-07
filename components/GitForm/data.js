@@ -3,6 +3,7 @@ export const formInputs = [
     inputType: "text",
     prompt: "Enter your first name",
     name: "firstName",
+    initialValue:"Kwado Eze",
     rules: {
       maxLength: {
         expectedValue: 20,
