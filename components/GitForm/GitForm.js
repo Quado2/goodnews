@@ -29,17 +29,7 @@ function GitForm({
       setVisibleFormInputs([formInputs[0]]);
     }
 
-    let timer2;
-    let timer3;
-    const timer = setTimeout(() => {
-      setShowSecond(true);
-      timer2 = setTimeout(() => {
-        setShowThird(true);
-        timer3 = setTimeout(() => {
-          setShowName(true);
-        }, 1000);
-      }, 1500);
-    }, 2000);
+  
     return () => {
       clearTimeout(timer);
       clearTimeout(timer2);
