@@ -46,7 +46,7 @@ function GitForm({
       clearTimeout(timer3);
     };
   }, [formInputs]);
-
+  
 
   const handleContinueClicked = (e, name, inputValue) => {
     e.preventDefault();
@@ -78,7 +78,7 @@ function GitForm({
       <OurParticles />
       <form onSubmit={handleFormSubmitted}>
         <div className="form-top-text" disabled>
-          {true ? (
+          {showSecond ? (
             <RollText text={welcomeMessage} />
           ) : (
             <div className="ticking"></div>
