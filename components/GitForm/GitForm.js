@@ -47,6 +47,7 @@ function GitForm({
     };
   }, [formInputs]);
 
+
   const handleContinueClicked = (e, name, inputValue) => {
     e.preventDefault();
     setFormValues((prevValue) => {
@@ -77,7 +78,7 @@ function GitForm({
       <OurParticles />
       <form onSubmit={handleFormSubmitted}>
         <div className="form-top-text" disabled>
-          {showSecond ? (
+          {true ? (
             <RollText text={welcomeMessage} />
           ) : (
             <div className="ticking"></div>
