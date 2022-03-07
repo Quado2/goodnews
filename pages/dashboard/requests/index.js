@@ -240,14 +240,13 @@ export async function getServerSideProps(context) {
   const { data } = await client2.query({
     query: gql`
       query {
-        prayersMe {
+        me {
           userErrors {
             message
           }
-          me {
-            firstName
-            sureName
-          }
+          firstName
+          sureName
+          
           prayers {
             title
             details

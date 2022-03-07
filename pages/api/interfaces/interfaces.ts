@@ -49,3 +49,7 @@ export interface PrayerInput{
   details:string,
 }
 
+export interface UserParent{
+  _id: string;
+}
+
