@@ -14,9 +14,33 @@ import { Context } from "../../../context/Context";
 import BriefNotification from "../../../components/Notification/BriefNotification";
 
 const RequestContainer = styled.div`
+
   width: 100%;
   min-height: 100vh;
   margin-top: ${({ theme }) => theme.navHeight};
+  display: flex;
+  justify-content: center;
+
+  .empty-left{
+    width: ${({ theme }) => theme.adminWidth};
+    height: 100%;
+    border: 2px solid red;
+    
+    @media (max-width: ${({theme})=> theme.mobile}) {
+      display: none;
+    }
+    
+  }
+
+  .main-right{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    overflow-x: scroll;
+
+  }
 
   .add_button {
     display: flex;
@@ -71,6 +95,10 @@ const RequestContainer = styled.div`
       cursor: pointer;
     }
   }
+
+
+  
+
 `;
 
 const NEWREQUEST_MUTATION = gql`
@@ -222,8 +250,11 @@ const Requests = ({ dataFromServer }) => {
           message={notificationMessage}
         />
       )}
+  <div className="empty-left">
 
-      <div className="add_button ">
+  </div>
+  <div className="main-right">
+    <div className="add_button ">
         <button onClick={() => setShowForm(true)}>New Prayer Request</button>
       </div>
       <Table
@@ -231,6 +262,8 @@ const Requests = ({ dataFromServer }) => {
         tableHeaders={tableHeaders}
         actionsData={actionsData}
       />
+  </div>
+      
     </RequestContainer>
   );
 };

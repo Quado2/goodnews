@@ -26,7 +26,8 @@ export const darkTheme = {
   colorBorderSecondary: "#6fb7ff55",
   mobile,
   tablet,
-  navHeight: "4rem"
+  navHeight: "4rem",
+  adminWidth: "13rem"
 };
 
 export default function nothingToshow() {

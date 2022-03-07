@@ -9,7 +9,7 @@ import { GiPrayer, GiLoveSong } from "react-icons/gi";
 import { FaRegHandshake, FaMoneyCheckAlt } from "react-icons/fa";
 
 const DNContainer = styled.div`
-  width: 200px;
+  width: ${({ theme }) => theme.adminWidth};
   height: 100vh;
   display: none;
   flex-direction: column;
