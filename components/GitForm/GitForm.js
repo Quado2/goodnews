@@ -15,9 +15,7 @@ function GitForm({
   spinnerComponent,
   isediting
 }) {
-  const [showSecond, setShowSecond] = useState(false);
-  const [showThird, setShowThird] = useState(false);
-  const [showName, setShowName] = useState(false);
+  
   const [showSubmit, setShowSubmit] = useState(false);
 
   const [formValues, setFormValues] = useState({});
