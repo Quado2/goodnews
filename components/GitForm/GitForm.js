@@ -13,6 +13,7 @@ function GitForm({
   welcomeMessage,
   actionMessage,
   spinnerComponent,
+  isediting
 }) {
   const [showSecond, setShowSecond] = useState(false);
   const [showThird, setShowThird] = useState(false);

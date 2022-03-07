@@ -81,6 +81,20 @@ export const prayersResolvers = {
     { prayerId }: { prayerId: String },
     { userInfo }: Context
   ) => {
+
+    //We check if the user owns the prayer
+    const prayer = await Prayer.findOne({ _id: prayerId });
+    if (prayer) {
+      if (!(prayer.memberId.toString() === userInfo?.userId)) {
+        return {
+          userErrors: [
+            {message: "You don't have permision to delete the message."}
+          ]
+        }
+      }
+    } 
+
+    //We go ahead to delete
     const remove = await Prayer.deleteOne({ _id: prayerId });
 
     if (remove.deletedCount === 1) {
@@ -88,6 +102,11 @@ export const prayersResolvers = {
       return {
         userErrors: [],
         prayers,
+      };
+    } else {
+      return {
+        userErrors: [{ message: "We could not delete the prayer." }],
+        prayers: [],
       };
     }
   },

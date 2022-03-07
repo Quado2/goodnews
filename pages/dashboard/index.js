@@ -80,7 +80,7 @@ export default function Dashboard({ dataFromServer }) {
 
     if (dataFromServer) {
       
-      setLoggedInUser(dataFromServer.me);
+      setLoggedInUser(dataFromServer.me.member.profile);
       setShowPage(true);
       setShowDashboard(true);
     }
@@ -137,12 +137,21 @@ export async function getServerSideProps(context) {
 
   const { data } = await client2.query({
     query: gql`
-      query {
-        me {
-          firstName
-          sureName
-        }
+     query{
+  me {
+    member {
+    
+      profile {
+        firstName
+        sureName
+        gender
       }
+    }
+    userErrors {
+      message
+    }
+  }
+}
     `,
       context: {
         headers: {

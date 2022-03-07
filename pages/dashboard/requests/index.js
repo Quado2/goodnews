@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { getCookie } from "../../../utils";
-import { client2 } from "../../_app";
+import { client2, client } from "../../_app";
 import { gql } from "apollo-server-micro";
 import styled from "styled-components";
 import { GiTireIronCross } from "react-icons/gi";
@@ -89,7 +89,19 @@ const NEWREQUEST_MUTATION = gql`
 `;
 
 const DELETE_MUTATION = gql`
-
+mutation($prayerId: ID!){
+  prayerDelete(prayerId: $prayerId) {
+    prayers {
+      date
+        details
+        title
+        _id
+    }
+    userErrors {
+      message
+    }
+  }
+}
 `
 
 const Requests = ({ dataFromServer }) => {
@@ -109,6 +121,12 @@ const Requests = ({ dataFromServer }) => {
         title: "",
         details: "",
       },
+    },
+  });
+
+  const [deletePrayer,] = useMutation(DELETE_MUTATION, {
+    variables: {
+      prayerId: "",
     },
   });
 
@@ -189,8 +207,26 @@ const Requests = ({ dataFromServer }) => {
   }
 
   function deleteRequest(id) {
-    console.log(id);
+    deletePrayer({variables:{
+      prayerId: id
+    }}).then(resp => {
+     const {prayers, userErrors} = resp.data.prayerDelete;
+     if(userErrors.length > 1){
+       displayNotification(userErrors[0].message, "failure");
+     } else{
+       setTableData(prayers)
+       displayNotification("You have succesfully deleted the prayer request", "success")
+     }
+      
+    })
+    .catch(err=> {
+      displayNotification("An error Occured. Please try agian","failure")
+      console.log(err)
+    })
   }
+
+
+
 
   const tableHeaders = ["Title", "Details", "Date", "Edit", "Delete"];
   const actionsData = [
