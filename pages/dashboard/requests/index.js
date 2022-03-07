@@ -13,6 +13,8 @@ import Spinner from "../../../components/Spinner/Spinner";
 import { Context } from "../../../context/Context";
 import BriefNotification from "../../../components/Notification/BriefNotification";
 import DashboardLayout from "../../../HOC/DashboardLayout";
+
+
 const RequestContainer = styled.div`
   .add_button {
     display: flex;
@@ -69,6 +71,7 @@ const RequestContainer = styled.div`
   }
 `;
 
+
 const NEWREQUEST_MUTATION = gql`
   mutation ($prayer: PrayerInput!) {
     prayerSubmit(prayer: $prayer) {
@@ -84,6 +87,10 @@ const NEWREQUEST_MUTATION = gql`
     }
   }
 `;
+
+const DELETE_MUTATION = gql`
+
+`
 
 const Requests = ({ dataFromServer }) => {
   const [showForm, setShowForm] = useState(false);
@@ -117,10 +124,10 @@ const Requests = ({ dataFromServer }) => {
 
   useEffect(() => {
     let isMounted = true;
-    const { me, prayers } = dataFromServer.prayersMe;
+    const { member } = dataFromServer.me;
     if (isMounted) {
-      setTableData(prayers);
-      setLoggedInUser(me);
+      setTableData(member.prayers);
+      setLoggedInUser(member.profile);
       setShowDashboard(true);
     }
 
@@ -241,17 +248,21 @@ export async function getServerSideProps(context) {
     query: gql`
       query {
         me {
+          member {
+            profile {
+              firstName
+              sureName
+              gender
+            }
+            prayers {
+              _id
+              date
+              title
+              details
+            }
+          }
           userErrors {
             message
-          }
-          firstName
-          sureName
-          
-          prayers {
-            title
-            details
-            date
-            _id
           }
         }
       }

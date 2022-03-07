@@ -38,7 +38,7 @@ export const Query = {
 
 
   profile:async (_: any, {memberId}: {memberId: string},__:any ) => {
-    console.log(memberId)
+   
 
     try {
       await dbConnect();
@@ -50,11 +50,15 @@ export const Query = {
             message: "Could not connect to the database",
           },
         ],
-        member: [],
+        profile: [],
       };
     }
 
-    
+    const profile = await Profile.findOne({memberId});
+     return {
+       userErrors: [],
+       profile
+     }
 
   },
 

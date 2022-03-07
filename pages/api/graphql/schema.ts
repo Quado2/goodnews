@@ -13,6 +13,7 @@ export const typeDefs = gql`
     signup(user: MemberInput!): AuthPayload!
     signIn(credentials: CredentialsInput!): AuthPayload!
     prayerSubmit(prayer: PrayerInput!): PrayerPayload!
+    prayerDelete(prayerId: ID!): PrayerPayload!
     testIt: String
   }
   type PrayersMe{
