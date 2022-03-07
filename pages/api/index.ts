@@ -2,7 +2,7 @@ import { ApolloServer } from "apollo-server-micro";
 import Cors from "micro-cors";
 
 import { typeDefs } from "./graphql/schema";
-import { Query, Mutation } from "./graphql/resolvers";
+import { Query, Mutation, Member } from "./graphql/resolvers";
 import { Context } from "./interfaces/interfaces";
 import { getUserInfoFromToken } from "../../utils";
 
@@ -14,6 +14,7 @@ const server = new ApolloServer({
   resolvers: {
     Query,
     Mutation,
+    Member,
   },
   context:async ({req}:any): Promise<Context> => {
     const token = req.headers.authorization;

@@ -2,8 +2,10 @@ import { gql } from "apollo-server-micro";
 
 export const typeDefs = gql`
   type Query {
-    me(token: String): Profile
-    prayersMe(token: String): PrayersMe
+    me: MemberPayload
+    prayers(userId: ID!): [Prayer]
+    profile(memberId: ID!): ProfilePayload
+    prayersMe: PrayerPayload
 
   }
 
@@ -11,6 +13,7 @@ export const typeDefs = gql`
     signup(user: MemberInput!): AuthPayload!
     signIn(credentials: CredentialsInput!): AuthPayload!
     prayerSubmit(prayer: PrayerInput!): PrayerPayload!
+    prayerDelete(prayerId: ID!): PrayerPayload!
     testIt: String
   }
   type PrayersMe{
@@ -19,21 +22,41 @@ export const typeDefs = gql`
     prayers: [Prayer]
   }
 
+  type MemberPayload{
+    userErrors: [UserError!]!
+    member: Member!
+  }
+
   type Member {
     _id: ID!
-    firstName: String!
-    lastName: String!
     email: String
-    phone: String
-    gender: String!
-    tithes: [Tithe!]!
+    prayers: [Prayer]
+    profile: Profile
+  }
+
+  type User {
+    _id: ID!
+    firstName: String!
+    sureName: String!
+    phone: String!
+    email: String!
+    prayers: [Prayer]
+    
+  }
+
+  type ProfilePayload{
+    profile: Profile
+    userErrors: [UserError]
   }
 
   type Profile{
     firstName: String
     sureName: String
     phone: String
+    gender: String
+    serviveGroups: [String]
   }
+
   type Tithe {
     month: String
     year: String

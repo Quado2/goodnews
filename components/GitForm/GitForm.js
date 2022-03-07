@@ -13,10 +13,9 @@ function GitForm({
   welcomeMessage,
   actionMessage,
   spinnerComponent,
+  isediting
 }) {
-  const [showSecond, setShowSecond] = useState(false);
-  const [showThird, setShowThird] = useState(false);
-  const [showName, setShowName] = useState(false);
+  
   const [showSubmit, setShowSubmit] = useState(false);
 
   const [formValues, setFormValues] = useState({});
@@ -28,23 +27,9 @@ function GitForm({
       setVisibleFormInputs([formInputs[0]]);
     }
 
-    let timer2;
-    let timer3;
-    const timer = setTimeout(() => {
-      setShowSecond(true);
-      timer2 = setTimeout(() => {
-        setShowThird(true);
-        timer3 = setTimeout(() => {
-          setShowName(true);
-        }, 1000);
-      }, 1500);
-    }, 2000);
-    return () => {
-      clearTimeout(timer);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
-    };
+  
   }, [formInputs]);
+  
 
   const handleContinueClicked = (e, name, inputValue) => {
     e.preventDefault();

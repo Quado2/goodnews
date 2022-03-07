@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { getCookie } from "../../../utils";
-import { client2 } from "../../_app";
+import { client2, client } from "../../_app";
 import { gql } from "apollo-server-micro";
 import styled from "styled-components";
 import { GiTireIronCross } from "react-icons/gi";
@@ -12,13 +12,11 @@ import GitForm from "../../../components/GitForm/GitForm";
 import Spinner from "../../../components/Spinner/Spinner";
 import { Context } from "../../../context/Context";
 import BriefNotification from "../../../components/Notification/BriefNotification";
+import DashboardLayout from "../../../HOC/DashboardLayout";
+
 
 const RequestContainer = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  margin-top: ${({ theme }) => theme.navHeight};
-
-  .add-button {
+  .add_button {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -73,6 +71,7 @@ const RequestContainer = styled.div`
   }
 `;
 
+
 const NEWREQUEST_MUTATION = gql`
   mutation ($prayer: PrayerInput!) {
     prayerSubmit(prayer: $prayer) {
@@ -88,6 +87,22 @@ const NEWREQUEST_MUTATION = gql`
     }
   }
 `;
+
+const DELETE_MUTATION = gql`
+mutation($prayerId: ID!){
+  prayerDelete(prayerId: $prayerId) {
+    prayers {
+      date
+        details
+        title
+        _id
+    }
+    userErrors {
+      message
+    }
+  }
+}
+`
 
 const Requests = ({ dataFromServer }) => {
   const [showForm, setShowForm] = useState(false);
@@ -109,6 +124,12 @@ const Requests = ({ dataFromServer }) => {
     },
   });
 
+  const [deletePrayer,] = useMutation(DELETE_MUTATION, {
+    variables: {
+      prayerId: "",
+    },
+  });
+
   function displayNotification(message, stats) {
     setNotificationMessage(message);
     setNotificationStatus(stats);
@@ -121,10 +142,10 @@ const Requests = ({ dataFromServer }) => {
 
   useEffect(() => {
     let isMounted = true;
-    const { me, prayers } = dataFromServer.prayersMe;
+    const { member } = dataFromServer.me;
     if (isMounted) {
-      setTableData(prayers);
-      setLoggedInUser(me);
+      setTableData(member.prayers);
+      setLoggedInUser(member.profile);
       setShowDashboard(true);
     }
 
@@ -145,47 +166,40 @@ const Requests = ({ dataFromServer }) => {
   function sendNewRequest(formValues) {
     const { title, details } = formValues;
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      displayNotification(
-        "Great! Your prayer request has been received.",
-        "success"
-      );
-      
-      setLoading(false);
-      setShowForm(false);
-    }, 1000);
-
-    // submitRequest({
-    //   variables: {
-    //     prayer: {
-    //       title,
-    //       details,
-    //     },
-    //   },
-    // })
-    //   .then((resp) => {
-    //     if (resp.data.prayerSubmit) {
-    //       const { prayers, userErrors } = resp.data.prayerSubmit;
-    //       if (userErrors.length > 1) {
-    //         displayNotification(userErrors[0].message, "failure");
-    //         setLoading(false);
-    //       } else {
-    //         setTableData(prayers);
-    //         displayNotification(
-    //           "Great! Your prayer request has been received.",
-    //           "success"
-    //         );
-    //         setShowBriefNotification(true);
-    //         setLoading(false);
-    //         setShowForm(false);
-    //       }
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     setLoading(false);
-    //     console.log({ err });
-    //   });
+    submitRequest({
+      variables: {
+        prayer: {
+          title,
+          details,
+        },
+      },
+    })
+      .then((resp) => {
+        if (resp.data.prayerSubmit) {
+          const { prayers, userErrors } = resp.data.prayerSubmit;
+          if (userErrors.length > 1) {
+            displayNotification(userErrors[0].message, "failure");
+            setLoading(false);
+          } else {
+            setTableData(prayers);
+            displayNotification(
+              "Great! Your prayer request has been received.",
+              "success"
+            );
+            setShowBriefNotification(true);
+            setLoading(false);
+            setShowForm(false);
+          }
+        }
+      })
+      .catch((err) => {
+        displayNotification(
+          "Sorry, We couldn't save your prayer request. Try again.",
+          "failure"
+        );
+        setLoading(false);
+        console.log({ err });
+      });
   }
 
   function editRequest(id) {
@@ -193,8 +207,26 @@ const Requests = ({ dataFromServer }) => {
   }
 
   function deleteRequest(id) {
-    console.log(id);
+    deletePrayer({variables:{
+      prayerId: id
+    }}).then(resp => {
+     const {prayers, userErrors} = resp.data.prayerDelete;
+     if(userErrors.length > 1){
+       displayNotification(userErrors[0].message, "failure");
+     } else{
+       setTableData(prayers)
+       displayNotification("You have succesfully deleted the prayer request", "success")
+     }
+      
+    })
+    .catch(err=> {
+      displayNotification("An error Occured. Please try agian","failure")
+      console.log(err)
+    })
   }
+
+
+
 
   const tableHeaders = ["Title", "Details", "Date", "Edit", "Delete"];
   const actionsData = [
@@ -203,41 +235,42 @@ const Requests = ({ dataFromServer }) => {
   ];
 
   return (
-    <RequestContainer>
-      {showForm && (
-        <div className="new-request">
-          <div onClick={() => setShowForm(false)} className="close">
-            <GiTireIronCross />
+    <DashboardLayout>
+      <RequestContainer>
+        {showForm && (
+          <div className="new-request">
+            <div onClick={() => setShowForm(false)} className="close">
+              <GiTireIronCross />
+            </div>
+
+            <GitForm
+              loadingState={loading}
+              formInputs={prayerRequestInputs}
+              welcomeMessage="Prayer requests will be entered here"
+              actionMessage="Fill out the form below"
+              processInputs={sendNewRequest}
+              submitLabel="Submit"
+              spinnerComponent={requestSpinner}
+            />
           </div>
+        )}
 
-          <GitForm
-            loadingState={loading}
-            formInputs={prayerRequestInputs}
-            welcomeMessage="Prayer requests will be entered here"
-            actionMessage="Fill out the form below"
-            processInputs={sendNewRequest}
-            submitLabel="Submit"
-            spinnerComponent={requestSpinner}
+        {showBriefNotification && (
+          <BriefNotification
+            status={notificationStatus}
+            message={notificationMessage}
           />
+        )}
+        <div className="add_button ">
+          <button onClick={() => setShowForm(true)}>New Prayer Request</button>
         </div>
-      )}
-
-      {showBriefNotification && (
-        <BriefNotification
-          status={notificationStatus}
-          message={notificationMessage}
+        <Table
+          tableData={tableData}
+          tableHeaders={tableHeaders}
+          actionsData={actionsData}
         />
-      )}
-
-      <div className="add-button ">
-        <button onClick={() => setShowForm(true)}>New Prayer Request</button>
-      </div>
-      <Table
-        tableData={tableData}
-        tableHeaders={tableHeaders}
-        actionsData={actionsData}
-      />
-    </RequestContainer>
+      </RequestContainer>
+    </DashboardLayout>
   );
 };
 
@@ -250,19 +283,22 @@ export async function getServerSideProps(context) {
   const { data } = await client2.query({
     query: gql`
       query {
-        prayersMe {
+        me {
+          member {
+            profile {
+              firstName
+              sureName
+              gender
+            }
+            prayers {
+              _id
+              date
+              title
+              details
+            }
+          }
           userErrors {
             message
-          }
-          me {
-            firstName
-            sureName
-          }
-          prayers {
-            title
-            details
-            date
-            _id
           }
         }
       }

@@ -3,7 +3,7 @@ import { faLongArrowAltRight } from "@fortawesome/free-solid-svg-icons";
 import validator from "validator";
 
 import { InputWrapper } from "./Input.style";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 function Input(props) {
   const {
@@ -16,6 +16,12 @@ function Input(props) {
     rules,
     formValues,
   } = props;
+
+  let timeOut;
+
+  useEffect(() => {
+    return () => clearTimeout(timeOut);
+  }, []);
 
   const [blured, setBlured] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -120,10 +126,7 @@ function Input(props) {
   function handleBlur(e) {
     setBlured(true);
     setFocused(false);
-    const wait = setTimeout(() => {
-      setShowButton(false);
-    }, 50);
-    return () => clearTimeout(wait);
+    setShowButton(false);
   }
 
   let inputIcon;
@@ -148,6 +151,12 @@ function Input(props) {
     if (inputRef.current) {
       inputRef.current.value = "";
     }
+  }
+
+  const removeButtonStyle = {
+    opacity: "0",
+    height: "0"
+   
   }
 
   return (
@@ -220,8 +229,8 @@ function Input(props) {
           </div>
         )}
 
-        {showButton && (
-          <button
+        {(
+          <button style={showButton? {}: removeButtonStyle}
             disabled={!isValidInput}
             onClick={(e) => handleContinueClicked(e, name, inputValue)}
           >

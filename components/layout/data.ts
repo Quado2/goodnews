@@ -8,6 +8,7 @@ export const navItems = [
 export const dashboardItems = [
   {title: "Home", link: '/'},
   {title: "Membersip", link: '/membership'},
+  {title: "Dashboard", link: "/dashboard"},
   {title: "Prayer Request", link: '/dashboard/requests'},
   {title: "Testimonies", link: '/dashboard/testimonies'},
   {title: "Tithe", link: '/dashboard/tithe'},

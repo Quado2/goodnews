@@ -17,7 +17,7 @@ import { setContext } from "@apollo/client/link/context";
 const httpLink = createHttpLink({ uri: "/api" });
 
 const authLink = setContext((_, { headers }) => {
-  const cookies = document.cookie
+  const cookies = document.cookie;
   const token = getCookie("nekot", cookies);
   //const token = localStorage.getItem("nekot");
 
@@ -30,8 +30,8 @@ const authLink = setContext((_, { headers }) => {
 });
 
 export const client2 = new ApolloClient({
-  uri: 'http://localhost:3000/api',
-  cache: new InMemoryCache()
+  uri: "http://localhost:3000/api",
+  cache: new InMemoryCache(),
 });
 
 export const client = new ApolloClient({
@@ -40,18 +40,15 @@ export const client = new ApolloClient({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
-
-  
-
   return (
     <ContextProvider>
-    <ApolloProvider client={client}>
-      <ThemeProvider theme={darkTheme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ThemeProvider>
-    </ApolloProvider>
+      <ApolloProvider client={client}>
+        <ThemeProvider theme={darkTheme}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ThemeProvider>
+      </ApolloProvider>
     </ContextProvider>
   );
 }
