@@ -30,11 +30,6 @@ function GitForm({
     }
 
   
-    return () => {
-      clearTimeout(timer);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
-    };
   }, [formInputs]);
   
 
