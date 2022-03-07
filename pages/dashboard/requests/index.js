@@ -12,13 +12,14 @@ import GitForm from "../../../components/GitForm/GitForm";
 import Spinner from "../../../components/Spinner/Spinner";
 import { Context } from "../../../context/Context";
 import BriefNotification from "../../../components/Notification/BriefNotification";
+import styles from './styles.module.scss';
 
 const RequestContainer = styled.div`
   width: 100%;
   min-height: 100vh;
   margin-top: ${({ theme }) => theme.navHeight};
 
-  .add-button {
+  .add_button {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -228,7 +229,7 @@ const Requests = ({ dataFromServer }) => {
         />
       )}
 
-      <div className="add-button ">
+      <div className="add_button ">
         <button onClick={() => setShowForm(true)}>New Prayer Request</button>
       </div>
       <Table
