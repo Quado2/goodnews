@@ -27,7 +27,12 @@ const DLContainer = styled.div`
 `;
 
 const DashboardLayout = ({ children }) => {
-  return <div></div>;
+  return (
+    <DLContainer>
+      <div className="empty-left"></div>
+      <div className="main-right">{children}</div>
+    </DLContainer>
+  );
 };
 
 export default DashboardLayout;

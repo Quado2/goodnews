@@ -12,11 +12,8 @@ import GitForm from "../../../components/GitForm/GitForm";
 import Spinner from "../../../components/Spinner/Spinner";
 import { Context } from "../../../context/Context";
 import BriefNotification from "../../../components/Notification/BriefNotification";
-
+import DashboardLayout from "../../../HOC/DashboardLayout";
 const RequestContainer = styled.div`
-
- 
-
   .add_button {
     display: flex;
     flex-direction: column;
@@ -70,10 +67,6 @@ const RequestContainer = styled.div`
       cursor: pointer;
     }
   }
-
-
-  
-
 `;
 
 const NEWREQUEST_MUTATION = gql`
@@ -175,7 +168,6 @@ const Requests = ({ dataFromServer }) => {
         }
       })
       .catch((err) => {
-        
         displayNotification(
           "Sorry, We couldn't save your prayer request. Try again.",
           "failure"
@@ -200,46 +192,42 @@ const Requests = ({ dataFromServer }) => {
   ];
 
   return (
-    <RequestContainer>
-      {showForm && (
-        <div className="new-request">
-          <div onClick={() => setShowForm(false)} className="close">
-            <GiTireIronCross />
+    <DashboardLayout>
+      <RequestContainer>
+        {showForm && (
+          <div className="new-request">
+            <div onClick={() => setShowForm(false)} className="close">
+              <GiTireIronCross />
+            </div>
+
+            <GitForm
+              loadingState={loading}
+              formInputs={prayerRequestInputs}
+              welcomeMessage="Prayer requests will be entered here"
+              actionMessage="Fill out the form below"
+              processInputs={sendNewRequest}
+              submitLabel="Submit"
+              spinnerComponent={requestSpinner}
+            />
           </div>
+        )}
 
-          <GitForm
-            loadingState={loading}
-            formInputs={prayerRequestInputs}
-            welcomeMessage="Prayer requests will be entered here"
-            actionMessage="Fill out the form below"
-            processInputs={sendNewRequest}
-            submitLabel="Submit"
-            spinnerComponent={requestSpinner}
+        {showBriefNotification && (
+          <BriefNotification
+            status={notificationStatus}
+            message={notificationMessage}
           />
+        )}
+        <div className="add_button ">
+          <button onClick={() => setShowForm(true)}>New Prayer Request</button>
         </div>
-      )}
-
-      {showBriefNotification && (
-        <BriefNotification
-          status={notificationStatus}
-          message={notificationMessage}
+        <Table
+          tableData={tableData}
+          tableHeaders={tableHeaders}
+          actionsData={actionsData}
         />
-      )}
-  <div className="empty-left">
-
-  </div>
-  <div className="main-right">
-    <div className="add_button ">
-        <button onClick={() => setShowForm(true)}>New Prayer Request</button>
-      </div>
-      <Table
-        tableData={tableData}
-        tableHeaders={tableHeaders}
-        actionsData={actionsData}
-      />
-  </div>
-      
-    </RequestContainer>
+      </RequestContainer>
+    </DashboardLayout>
   );
 };
 
