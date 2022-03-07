@@ -27,7 +27,7 @@ function Layout(props) {
   return (
     <LayoutContainer>
       
-        {/* <MainNavigation /> */}
+        <MainNavigation />
         <Sidebar />
         <Hambuger />
         {showDashboard && <DashboardNav />}

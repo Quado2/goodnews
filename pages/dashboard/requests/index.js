@@ -12,7 +12,6 @@ import GitForm from "../../../components/GitForm/GitForm";
 import Spinner from "../../../components/Spinner/Spinner";
 import { Context } from "../../../context/Context";
 import BriefNotification from "../../../components/Notification/BriefNotification";
-import styles from './styles.module.scss';
 
 const RequestContainer = styled.div`
   width: 100%;
@@ -146,46 +145,41 @@ const Requests = ({ dataFromServer }) => {
   function sendNewRequest(formValues) {
     const { title, details } = formValues;
     setLoading(true);
-    fetch("https://randomuser.me/api/").then((res) => {
-      console.log(res);
-      displayNotification(
-        "Great! Your prayer request has been received.",
-        "success"
-      );
-      setLoading(false);
-      setShowForm(false);
-    });
-
-    // submitRequest({
-    //   variables: {
-    //     prayer: {
-    //       title,
-    //       details,
-    //     },
-    //   },
-    // })
-    //   .then((resp) => {
-    //     if (resp.data.prayerSubmit) {
-    //       const { prayers, userErrors } = resp.data.prayerSubmit;
-    //       if (userErrors.length > 1) {
-    //         displayNotification(userErrors[0].message, "failure");
-    //         setLoading(false);
-    //       } else {
-    //         setTableData(prayers);
-    //         displayNotification(
-    //           "Great! Your prayer request has been received.",
-    //           "success"
-    //         );
-    //         setShowBriefNotification(true);
-    //         setLoading(false);
-    //         setShowForm(false);
-    //       }
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     setLoading(false);
-    //     console.log({ err });
-    //   });
+    submitRequest({
+      variables: {
+        prayer: {
+          title,
+          details,
+        },
+      },
+    })
+      .then((resp) => {
+        if (resp.data.prayerSubmit) {
+          const { prayers, userErrors } = resp.data.prayerSubmit;
+          if (userErrors.length > 1) {
+            displayNotification(userErrors[0].message, "failure");
+            setLoading(false);
+          } else {
+            setTableData(prayers);
+            displayNotification(
+              "Great! Your prayer request has been received.",
+              "success"
+            );
+            setShowBriefNotification(true);
+            setLoading(false);
+            setShowForm(false);
+          }
+        }
+      })
+      .catch((err) => {
+        
+        displayNotification(
+          "Sorry, We couldn't save your prayer request. Try again.",
+          "failure"
+        );
+        setLoading(false);
+        console.log({ err });
+      });
   }
 
   function editRequest(id) {
