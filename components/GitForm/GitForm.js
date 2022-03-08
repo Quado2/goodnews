@@ -44,6 +44,15 @@ function GitForm({
     }
   };
 
+  function updateData(name, inputValue){
+    setFormValues((prevValue) => {
+      return {
+        ...prevValue,
+        [name]: inputValue,
+      };
+    });
+  }
+
   function handleFormSubmitted(e) {
     e.preventDefault();
     processInputs(formValues);
@@ -82,6 +91,7 @@ function GitForm({
               formValues={formValues}
               value={formInput.initialValue}
               handleContinueClicked={handleContinueClicked}
+              updateData = {updateData}
             />
           })}
 

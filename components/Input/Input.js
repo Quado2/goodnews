@@ -13,6 +13,7 @@ function Input(props) {
     inputType,
     clearAllFields,
     handleContinueClicked,
+    updateData,
     rules,
     formValues,
     value
@@ -21,9 +22,16 @@ function Input(props) {
   let timeOut;
 
   useEffect(() => {
+    if(value){
+      setCurrentValue(value)
+    }else{
+      setCurrentValue("")
+    }
+    
     return () => clearTimeout(timeOut);
   }, []);
 
+  const [currentValue, setCurrentValue]= useState('')
   const [blured, setBlured] = useState(false);
   const [focused, setFocused] = useState(false);
   const [showButton, setShowButton] = useState(false);
@@ -115,7 +123,9 @@ function Input(props) {
   function handleChange(e) {
     const value = e.target.value;
     validateData(value);
-    setInputValue(e.target.value);
+    setInputValue(value);
+    setCurrentValue(value);
+    updateData(name,value)
   }
 
   function handleInputFocus() {
@@ -219,7 +229,7 @@ function Input(props) {
               name={name}
               autoFocus={true}
               type={inputType}
-              value={value}
+              value={currentValue}
             />
           )}
         </div>
