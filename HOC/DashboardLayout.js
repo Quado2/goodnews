@@ -18,7 +18,6 @@ const DLContainer = styled.div`
     }
   }
   .main-right {
-    padding-top: ${({ theme }) => theme.navHeight};;
     display: flex;
     flex-direction: column;
     align-items: center;

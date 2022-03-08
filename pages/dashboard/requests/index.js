@@ -16,6 +16,7 @@ import DashboardLayout from "../../../HOC/DashboardLayout";
 import { set } from "mongoose";
 
 const RequestContainer = styled.div`
+width: 100%;
   .add_button {
     display: flex;
     flex-direction: column;
@@ -266,9 +267,12 @@ const Requests = ({ dataFromServer }) => {
       .then((response) => {
         if (response.data.prayerEdit) {
           const { userErrors, prayers } = response.data.prayerEdit;
-          if (userErrors.length >= 1) {
+          console.log({ userErrors, prayers });
+          if (userErrors !== undefined && userErrors.length >= 1) {
             displayNotification(userErrors[0].message, "failure");
             setLoading(false);
+            setShowForm(false);
+            setEditForm(false);
           } else {
             setTableData(prayers);
             displayNotification(
@@ -276,6 +280,8 @@ const Requests = ({ dataFromServer }) => {
               "success"
             );
             setLoading(false);
+            setShowForm(false);
+            setEditForm(false);
           }
         }
       })
