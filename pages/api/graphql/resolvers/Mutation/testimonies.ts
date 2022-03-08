@@ -151,21 +151,21 @@ export const testimoniesResolvers = {
 
     //We check if the user owns the prayer
     const testimony = await Testimony.findOne({ _id: prayerId });
-    if (prayer) {
-      if (!(prayer.memberId.toString() === userInfo?.userId)) {
+    if (testimony) {
+      if (!(testimony.memberId.toString() === userInfo?.userId)) {
         return {
           userErrors: [
-            {message: "You don't have permision to edit the prayer."}
+            {message: "You don't have permision to edit the testimony"}
           ],
-          prayers: []
+          testimonies: []
         }
       }
     } 
 
     //We go ahead to edit
-    const edited = await Prayer.updateOne({ _id: prayerId }, {title, details});
+    const edited = await Testimony.updateOne({ _id: prayerId }, {title, details});
 
-    console.log(edited)
+  
     
     if (edited.acknowledged && edited.modifiedCount>0) {
       const prayers = await Prayer.find({ memberId: userInfo?.userId });
