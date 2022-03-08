@@ -168,15 +168,15 @@ export const testimoniesResolvers = {
   
     
     if (edited.acknowledged && edited.modifiedCount>0) {
-      const prayers = await Prayer.find({ memberId: userInfo?.userId });
+      const testimonies = await Testimony.find({ memberId: userInfo?.userId });
       return {
         userErrors: [],
-        prayers,
+        testimonies,
       };
     } else {
       return {
-        userErrors: [{ message: "We could not edit the prayer." }],
-        prayers: [],
+        userErrors: [{ message: "We could not edit the testimony." }],
+        testimonies: [],
       };
     }
   },
