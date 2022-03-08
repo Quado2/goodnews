@@ -3,7 +3,7 @@ import {
   PrayerInput,
   Context,
   PrayerPayload,
-  PrayerEditInput
+  PrayerEditInput,
 } from "../../../interfaces/interfaces";
 import dbConnect from "../../../mongoose/connection";
 import { Prayer } from "../../../mongoose/models";
@@ -82,7 +82,6 @@ export const prayersResolvers = {
     { prayerId }: { prayerId: String },
     { userInfo }: Context
   ) => {
-
     try {
       await dbConnect();
     } catch (err) {
@@ -102,11 +101,11 @@ export const prayersResolvers = {
       if (!(prayer.memberId.toString() === userInfo?.userId)) {
         return {
           userErrors: [
-            {message: "You don't have permision to delete the message."}
-          ]
-        }
+            { message: "You don't have permision to delete the message." },
+          ],
+        };
       }
-    } 
+    }
 
     //We go ahead to delete
     const remove = await Prayer.deleteOne({ _id: prayerId });
@@ -125,15 +124,12 @@ export const prayersResolvers = {
     }
   },
 
-
-
   prayerEdit: async (
     _: any,
-    {editPrayer}: {editPrayer:PrayerEditInput},
+    { editPrayer }: { editPrayer: PrayerEditInput },
     { userInfo }: Context
   ) => {
-
-   const {prayerId, title, details} = editPrayer
+    const { prayerId, title, details } = editPrayer;
 
     try {
       await dbConnect();
@@ -154,19 +150,20 @@ export const prayersResolvers = {
       if (!(prayer.memberId.toString() === userInfo?.userId)) {
         return {
           userErrors: [
-            {message: "You don't have permision to edit the prayer."}
+            { message: "You don't have permision to edit the prayer." },
           ],
-          prayers: []
-        }
+          prayers: [],
+        };
       }
-    } 
+    }
 
     //We go ahead to edit
-    const edited = await Prayer.updateOne({ _id: prayerId }, {title, details});
+    const edited = await Prayer.updateOne(
+      { _id: prayerId },
+      { title, details }
+    );
 
-    console.log(edited)
-    
-    if (edited.acknowledged && edited.modifiedCount>0) {
+    if (edited.acknowledged && edited.modifiedCount > 0) {
       const prayers = await Prayer.find({ memberId: userInfo?.userId });
       return {
         userErrors: [],
