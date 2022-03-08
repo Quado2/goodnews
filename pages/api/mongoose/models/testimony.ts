@@ -22,4 +22,4 @@ const TestimonySchema = new Schema({
   }
 })
 
-export const Prayer = mongoose.models.Testimony || mongoose.model("Testimony", TestimonySchema);
+export const Testimony = mongoose.models.Testimony || mongoose.model("Testimony", TestimonySchema);

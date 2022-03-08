@@ -4,6 +4,7 @@ export const typeDefs = gql`
   type Query {
     me: MemberPayload
     prayers(userId: ID!): [Prayer]
+    testimonies(userId: ID!): [Testimony]
     profile(memberId: ID!): ProfilePayload
     prayersMe: PrayerPayload
 
