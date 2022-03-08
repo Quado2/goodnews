@@ -6,6 +6,8 @@ import { Context } from "../../context/Context";
 import DashboardCard from "../../components/DashboardCard";
 import { client2 } from "../_app";
 import { getCookie } from "../../utils";
+import styles from './styles.module.scss'
+import DashboardLayout from "../../HOC/DashboardLayout";
 
 import { GiPrayer, GiLoveSong } from "react-icons/gi";
 import { FaRegHandshake, FaMoneyCheckAlt } from "react-icons/fa";
@@ -19,48 +21,9 @@ const GET_PROFILE = gql`
   }
 `;
 
-const DashboardContainer = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: ${({ theme }) => theme.navHeight};
-  color: white;
 
-  .cards-container {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: ${({ theme }) => theme.navHeight};
-    color: white;
 
-    @media screen and (min-width: ${({ theme }) => theme.mobile}) {
-      padding-left: 200px;
-    }
-  }
-`;
 
-function checkReload(inputSeconds, router) {
-  //This block is to help solve next js bug that loads pages
-  //half way using Router redirected
-  const seconds = Number(inputSeconds) * 1000;
-  const lastReloaded = Number(
-    sessionStorage && sessionStorage.getItem("lastReloaded")
-  );
-  const currentTime = new Date().getTime();
-  if (!lastReloaded) {
-    sessionStorage.setItem("lastReloaded", new Date().getTime());
-    router.reload(window.location.pathname);
-  }
-  if (currentTime - lastReloaded > seconds) {
-    sessionStorage.setItem("lastReloaded", new Date().getTime());
-    router.reload(window.location.pathname);
-  }
-}
 
 
 
@@ -96,7 +59,8 @@ export default function Dashboard({ dataFromServer }) {
   }
 
   return (
-    <DashboardContainer>
+    <DashboardLayout>
+    <div className={styles.dashboard_container}>
       <div className="cards-container">
         <DashboardCard
           title="Prayer Requests"
@@ -127,7 +91,8 @@ export default function Dashboard({ dataFromServer }) {
           textColor={"white"}
         />
       </div>
-    </DashboardContainer>
+    </div>
+    </DashboardLayout>
   );
 }
 

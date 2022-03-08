@@ -12,17 +12,20 @@ const DLContainer = styled.div`
     height: 100%;
     border: 2px solid red;
 
+
     @media (max-width: ${({ theme }) => theme.mobile}) {
       display: none;
     }
   }
   .main-right {
+    padding-top: ${({ theme }) => theme.navHeight};;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     flex: 1;
     overflow-x: scroll;
+
   }
 `;
 

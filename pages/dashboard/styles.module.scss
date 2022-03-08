@@ -1,0 +1,24 @@
+
+
+.dashboard_container{
+width: 100%;
+min-height: 100vh;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+align-items: flex-start;
+color: white;
+
+.cards-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  color: white;
+
+  @media screen and (min-width: 600px) {
+    padding-left: 200px;
+  }
+}
+}

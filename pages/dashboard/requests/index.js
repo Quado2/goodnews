@@ -13,7 +13,7 @@ import Spinner from "../../../components/Spinner/Spinner";
 import { Context } from "../../../context/Context";
 import BriefNotification from "../../../components/Notification/BriefNotification";
 import DashboardLayout from "../../../HOC/DashboardLayout";
-
+import { set } from "mongoose";
 
 const RequestContainer = styled.div`
   .add_button {
@@ -71,7 +71,6 @@ const RequestContainer = styled.div`
   }
 `;
 
-
 const NEWREQUEST_MUTATION = gql`
   mutation ($prayer: PrayerInput!) {
     prayerSubmit(prayer: $prayer) {
@@ -89,20 +88,20 @@ const NEWREQUEST_MUTATION = gql`
 `;
 
 const DELETE_MUTATION = gql`
-mutation($prayerId: ID!){
-  prayerDelete(prayerId: $prayerId) {
-    prayers {
-      date
+  mutation ($prayerId: ID!) {
+    prayerDelete(prayerId: $prayerId) {
+      prayers {
+        date
         details
         title
         _id
-    }
-    userErrors {
-      message
+      }
+      userErrors {
+        message
+      }
     }
   }
-}
-`
+`;
 
 const Requests = ({ dataFromServer }) => {
   const [showForm, setShowForm] = useState(false);
@@ -111,6 +110,8 @@ const Requests = ({ dataFromServer }) => {
   const [showBriefNotification, setShowBriefNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState("");
+  const [editForm, setEditForm] = useState(false);
+  const [editFormInput, setEditFormInput] = useState([])
 
   const { loggedInUser, setLoggedInUser, setShowDashboard } =
     useContext(Context);
@@ -124,7 +125,7 @@ const Requests = ({ dataFromServer }) => {
     },
   });
 
-  const [deletePrayer,] = useMutation(DELETE_MUTATION, {
+  const [deletePrayer] = useMutation(DELETE_MUTATION, {
     variables: {
       prayerId: "",
     },
@@ -202,31 +203,59 @@ const Requests = ({ dataFromServer }) => {
       });
   }
 
+
+
+
   function editRequest(id) {
-    console.log(id);
+    let prayer = tableData.find((prayer) => prayer._id === id);
+    const { title, details } = prayer;
+    setEditFormInput(
+      [
+        {
+          inputType: "text",
+          prompt: "Edit title of your prayer request",
+          name: "title",
+          initialValue: title,
+        },
+        {
+          inputType: "textarea",
+          prompt: "Edit details of what you want God to do for you",
+          name: "details",
+          initialValue: details
+        },
+      ]
+    );
+
+    setShowForm(true);
+    setEditForm(true);
   }
+
+
+
 
   function deleteRequest(id) {
-    deletePrayer({variables:{
-      prayerId: id
-    }}).then(resp => {
-     const {prayers, userErrors} = resp.data.prayerDelete;
-     if(userErrors.length > 1){
-       displayNotification(userErrors[0].message, "failure");
-     } else{
-       setTableData(prayers)
-       displayNotification("You have succesfully deleted the prayer request", "success")
-     }
-      
+    deletePrayer({
+      variables: {
+        prayerId: id,
+      },
     })
-    .catch(err=> {
-      displayNotification("An error Occured. Please try agian","failure")
-      console.log(err)
-    })
+      .then((resp) => {
+        const { prayers, userErrors } = resp.data.prayerDelete;
+        if (userErrors.length > 1) {
+          displayNotification(userErrors[0].message, "failure");
+        } else {
+          setTableData(prayers);
+          displayNotification(
+            "You have succesfully deleted the prayer request",
+            "success"
+          );
+        }
+      })
+      .catch((err) => {
+        displayNotification("An error Occured. Please try agian", "failure");
+        console.log(err);
+      });
   }
-
-
-
 
   const tableHeaders = ["Title", "Details", "Date", "Edit", "Delete"];
   const actionsData = [
@@ -242,16 +271,27 @@ const Requests = ({ dataFromServer }) => {
             <div onClick={() => setShowForm(false)} className="close">
               <GiTireIronCross />
             </div>
-
-            <GitForm
-              loadingState={loading}
-              formInputs={prayerRequestInputs}
-              welcomeMessage="Prayer requests will be entered here"
-              actionMessage="Fill out the form below"
-              processInputs={sendNewRequest}
-              submitLabel="Submit"
-              spinnerComponent={requestSpinner}
-            />
+            {editForm ? (
+              <GitForm
+                loadingState={loading}
+                formInputs={editFormInput}
+                welcomeMessage="Your Prayer Request will be edited here"
+                actionMessage="Edit the values and click enter"
+                processInputs={editRequest}
+                submitLabel="Submit"
+                spinnerComponent={requestSpinner}
+              />
+            ) : (
+              <GitForm
+                loadingState={loading}
+                formInputs={prayerRequestInputs}
+                welcomeMessage="Prayer requests will be entered here"
+                actionMessage="Fill out the form below"
+                processInputs={sendNewRequest}
+                submitLabel="Submit"
+                spinnerComponent={requestSpinner}
+              />
+            )}
           </div>
         )}
 

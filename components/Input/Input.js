@@ -218,7 +218,7 @@ function Input(props) {
               onBlur={handleBlur}
               name={name}
               autoFocus={true}
-              value={value}
+              value={currentValue}
             ></textarea>
           ) : (
             <input
