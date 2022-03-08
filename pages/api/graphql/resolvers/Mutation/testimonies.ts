@@ -2,8 +2,8 @@
 import {
   PrayerInput,
   Context,
-  PrayerPayload,
-  PrayerEditInput
+  TestimonyPayload,
+  TestimonyEditInput
 } from "../../../interfaces/interfaces";
 import dbConnect from "../../../mongoose/connection";
 import { Testimony } from "../../../mongoose/models";
@@ -11,9 +11,9 @@ import { Testimony } from "../../../mongoose/models";
 export const testimoniesResolvers = {
   testimonySubmit: async (
     _: any,
-    { prayer }: { prayer: PrayerInput },
+    { testimony }: { testimony: PrayerInput },
     { userInfo }: Context
-  ): Promise<PrayerPayload> => {
+  ): Promise<TestimonyPayload> => {
     if (!userInfo) {
       return {
         userErrors: [
@@ -21,7 +21,7 @@ export const testimoniesResolvers = {
             message: "Could not identify user!",
           },
         ],
-        prayers: null,
+        testimonies: [],
       };
     }
     try {
@@ -33,11 +33,11 @@ export const testimoniesResolvers = {
             message: "Could not connect to database",
           },
         ],
-        prayers: null,
+        testimonies: [],
       };
     }
 
-    const { title, details } = prayer;
+    const { title, details } = testimony;
 
     if (title.length < 1) {
       return {
@@ -46,7 +46,7 @@ export const testimoniesResolvers = {
             message: "Title should be atleast a character",
           },
         ],
-        prayers: null,
+        testimonies: [],
       };
     }
 
@@ -57,31 +57,31 @@ export const testimoniesResolvers = {
             message: "Details should not be less than 5 character",
           },
         ],
-        prayers: null,
+        testimonies: [],
       };
     }
 
-    const newPrayer = new Prayer({
+    const newTestimony = new Testimony({
       title,
       details,
       date: new Date().getTime(),
       memberId: userInfo.userId,
     });
 
-    const savedPrayer = await newPrayer.save();
+    const savedPrayer = await newTestimony.save();
 
-    const prayers = await Prayer.find({ memberId: userInfo.userId });
+    const testimonies = await Testimony.find({ memberId: userInfo.userId });
 
     return {
       userErrors: [],
-      prayers,
+      testimonies,
     };
   },
   testimonyDelete: async (
     _: any,
-    { prayerId }: { prayerId: String },
+    { testimonyId }: { testimonyId: String },
     { userInfo }: Context
-  ) => {
+  ): Promise<TestimonyPayload> => {
 
     try {
       await dbConnect();
@@ -92,35 +92,36 @@ export const testimoniesResolvers = {
             message: "Could not connect to database",
           },
         ],
-        prayers: null,
+        testimonies: [],
       };
     }
 
     //We check if the user owns the prayer
-    const prayer = await Prayer.findOne({ _id: prayerId });
-    if (prayer) {
-      if (!(prayer.memberId.toString() === userInfo?.userId)) {
+    const testimony = await Testimony.findOne({ _id: testimonyId });
+    if (testimony) {
+      if (!(testimony.memberId.toString() === userInfo?.userId)) {
         return {
           userErrors: [
-            {message: "You don't have permision to delete the message."}
-          ]
+            {message: "You don't have permision to delete the testimony."}
+          ],
+          testimonies: [],
         }
       }
     } 
 
     //We go ahead to delete
-    const remove = await Prayer.deleteOne({ _id: prayerId });
+    const remove = await Testimony.deleteOne({ _id: testimonyId });
 
     if (remove.deletedCount === 1) {
-      const prayers = await Prayer.find({ memberId: userInfo?.userId });
+      const testimonies = await Testimony.find({ memberId: userInfo?.userId });
       return {
         userErrors: [],
-        prayers,
+        testimonies,
       };
     } else {
       return {
         userErrors: [{ message: "We could not delete the prayer." }],
-        prayers: [],
+        testimonies: [],
       };
     }
   },
