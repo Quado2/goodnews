@@ -129,9 +129,11 @@ export const prayersResolvers = {
 
   prayerEdit: async (
     _: any,
-    { prayerId, title, details }: PrayerEditInput,
+    {editPrayer}: {editPrayer:PrayerEditInput},
     { userInfo }: Context
   ) => {
+
+   const {prayerId, title, details} = editPrayer
 
     try {
       await dbConnect();
@@ -160,20 +162,21 @@ export const prayersResolvers = {
     } 
 
     //We go ahead to edit
-    const edited = await Prayer.updateOne({title, details},{ _id: prayerId });
+    const edited = await Prayer.updateOne({ _id: prayerId }, {title, details});
 
-    console.log(edited);
-    // if (edited) {
-    //   const prayers = await Prayer.find({ memberId: userInfo?.userId });
-    //   return {
-    //     userErrors: [],
-    //     prayers,
-    //   };
-    // } else {
-    //   return {
-    //     userErrors: [{ message: "We could not delete the prayer." }],
-    //     prayers: [],
-    //   };
-    // }
+    console.log(edited)
+    
+    if (edited.acknowledged && edited.modifiedCount>0) {
+      const prayers = await Prayer.find({ memberId: userInfo?.userId });
+      return {
+        userErrors: [],
+        prayers,
+      };
+    } else {
+      return {
+        userErrors: [{ message: "We could not edit the prayer." }],
+        prayers: [],
+      };
+    }
   },
 };
