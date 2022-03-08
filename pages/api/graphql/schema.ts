@@ -15,6 +15,9 @@ export const typeDefs = gql`
     prayerSubmit(prayer: PrayerInput!): PrayerPayload!
     prayerDelete(prayerId: ID!): PrayerPayload!
     prayerEdit(editPrayer: PrayerEditInput!): PrayerPayload!
+    testimonySubmit(testimony: PrayerInput!): PrayerPayload!
+    testimonyDelete(testimonyId: ID!): PrayerPayload!
+    testimonyEdit(editTestimony: PrayerEditInput!): PrayerPayload!
     testIt: String
   }
   type PrayersMe{
@@ -26,6 +29,7 @@ export const typeDefs = gql`
   type MemberPayload{
     userErrors: [UserError!]!
     member: Member!
+
   }
 
   type Member {
@@ -33,6 +37,7 @@ export const typeDefs = gql`
     email: String
     prayers: [Prayer]
     profile: Profile
+    testimonies: [Testimony]
   }
 
   type User {
@@ -75,6 +80,13 @@ export const typeDefs = gql`
   }
   
   type Prayer{
+    title: String!
+    details: String!
+    date: Float!
+    _id: ID!
+  }
+
+  type Testimony{
     title: String!
     details: String!
     date: Float!
