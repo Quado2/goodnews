@@ -14,6 +14,7 @@ export const typeDefs = gql`
     signIn(credentials: CredentialsInput!): AuthPayload!
     prayerSubmit(prayer: PrayerInput!): PrayerPayload!
     prayerDelete(prayerId: ID!): PrayerPayload!
+    prayerEdit(editPrayer: PrayerEditInput!): PrayerPayload!
     testIt: String
   }
   type PrayersMe{
@@ -101,5 +102,11 @@ export const typeDefs = gql`
   input CredentialsInput{
     email: String!
     password: String
+  }
+
+  input PrayerEditInput{
+    prayerId: ID!
+    title: String!
+    details: String!
   }
 `;

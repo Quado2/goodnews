@@ -50,6 +50,12 @@ export interface PrayerInput{
 }
 
 export interface UserParent{
-  _id: string;
+  _id: string
+}
+
+export interface PrayerEditInput{
+  prayerId: string;
+  title: string;
+  details: string;
 }
 

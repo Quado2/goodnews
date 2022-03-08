@@ -230,6 +230,11 @@ const Requests = ({ dataFromServer }) => {
     setEditForm(true);
   }
 
+  function sendEditedRequest(formValues){
+    const { title, details } = formValues;
+    setLoading(true);
+  }
+
 
 
 
@@ -277,7 +282,7 @@ const Requests = ({ dataFromServer }) => {
                 formInputs={editFormInput}
                 welcomeMessage="Your Prayer Request will be edited here"
                 actionMessage="Edit the values and click enter"
-                processInputs={editRequest}
+                processInputs={sendEditedRequest}
                 submitLabel="Submit"
                 spinnerComponent={requestSpinner}
               />

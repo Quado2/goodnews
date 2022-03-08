@@ -79,7 +79,6 @@ function GitForm({
         {showName &&
           visibleFormInputs &&
           visibleFormInputs.map((formInput) => {
-            console.log("The input", formInput.initialValue)
             return  <Input
               key={formInput.name}
               inputType={formInput.inputType}

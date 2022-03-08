@@ -3,6 +3,7 @@ import {
   PrayerInput,
   Context,
   PrayerPayload,
+  PrayerEditInput
 } from "../../../interfaces/interfaces";
 import dbConnect from "../../../mongoose/connection";
 import { Prayer } from "../../../mongoose/models";
@@ -82,6 +83,19 @@ export const prayersResolvers = {
     { userInfo }: Context
   ) => {
 
+    try {
+      await dbConnect();
+    } catch (err) {
+      return {
+        userErrors: [
+          {
+            message: "Could not connect to database",
+          },
+        ],
+        prayers: null,
+      };
+    }
+
     //We check if the user owns the prayer
     const prayer = await Prayer.findOne({ _id: prayerId });
     if (prayer) {
@@ -109,5 +123,57 @@ export const prayersResolvers = {
         prayers: [],
       };
     }
+  },
+
+
+
+  prayerEdit: async (
+    _: any,
+    { prayerId, title, details }: PrayerEditInput,
+    { userInfo }: Context
+  ) => {
+
+    try {
+      await dbConnect();
+    } catch (err) {
+      return {
+        userErrors: [
+          {
+            message: "Could not connect to database",
+          },
+        ],
+        prayers: [],
+      };
+    }
+
+    //We check if the user owns the prayer
+    const prayer = await Prayer.findOne({ _id: prayerId });
+    if (prayer) {
+      if (!(prayer.memberId.toString() === userInfo?.userId)) {
+        return {
+          userErrors: [
+            {message: "You don't have permision to edit the prayer."}
+          ],
+          prayers: []
+        }
+      }
+    } 
+
+    //We go ahead to edit
+    const edited = await Prayer.updateOne({title, details},{ _id: prayerId });
+
+    console.log(edited);
+    // if (edited) {
+    //   const prayers = await Prayer.find({ memberId: userInfo?.userId });
+    //   return {
+    //     userErrors: [],
+    //     prayers,
+    //   };
+    // } else {
+    //   return {
+    //     userErrors: [{ message: "We could not delete the prayer." }],
+    //     prayers: [],
+    //   };
+    // }
   },
 };
