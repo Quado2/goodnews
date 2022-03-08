@@ -421,7 +421,7 @@ export async function getServerSideProps(context:any) {
               sureName
               gender
             }
-            prayers {
+            testimonies {
               _id
               date
               title
