@@ -103,6 +103,19 @@ const DELETE_MUTATION = gql`
   }
 `;
 
+const EDIT_MUTATION = gql`
+  mutation ($editPrayer: PrayerEditInput!) {
+    prayerEdit(editPrayer: $editPrayer) {
+      prayers {
+        title
+        _id
+        details
+        date
+      }
+    }
+  }
+`;
+
 const Requests = ({ dataFromServer }) => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -111,12 +124,13 @@ const Requests = ({ dataFromServer }) => {
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState("");
   const [editForm, setEditForm] = useState(false);
-  const [editFormInput, setEditFormInput] = useState([])
+  const [editFormInput, setEditFormInput] = useState([]);
+  const [editId, setEditId] = useState("");
 
   const { loggedInUser, setLoggedInUser, setShowDashboard } =
     useContext(Context);
 
-  const [submitRequest, { data }] = useMutation(NEWREQUEST_MUTATION, {
+  const [submitRequest] = useMutation(NEWREQUEST_MUTATION, {
     variables: {
       prayer: {
         title: "",
@@ -128,6 +142,16 @@ const Requests = ({ dataFromServer }) => {
   const [deletePrayer] = useMutation(DELETE_MUTATION, {
     variables: {
       prayerId: "",
+    },
+  });
+
+  const [editPrayer] = useMutation(EDIT_MUTATION, {
+    variables: {
+      editPrayer: {
+        prayerID: "",
+        title: "",
+        details: "",
+      },
     },
   });
 
@@ -203,40 +227,69 @@ const Requests = ({ dataFromServer }) => {
       });
   }
 
-
-
-
   function editRequest(id) {
     let prayer = tableData.find((prayer) => prayer._id === id);
     const { title, details } = prayer;
-    setEditFormInput(
-      [
-        {
-          inputType: "text",
-          prompt: "Edit title of your prayer request",
-          name: "title",
-          initialValue: title,
-        },
-        {
-          inputType: "textarea",
-          prompt: "Edit details of what you want God to do for you",
-          name: "details",
-          initialValue: details
-        },
-      ]
-    );
+    setEditId(id);
+    setEditFormInput([
+      {
+        inputType: "text",
+        prompt: "Edit title of your prayer request",
+        name: "title",
+        initialValue: title,
+      },
+      {
+        inputType: "textarea",
+        prompt: "Edit details of what you want God to do for you",
+        name: "details",
+        initialValue: details,
+      },
+    ]);
 
     setShowForm(true);
     setEditForm(true);
   }
 
-  function sendEditedRequest(formValues){
+  function sendEditedRequest(formValues) {
     const { title, details } = formValues;
     setLoading(true);
+
+    editPrayer({
+      variables: {
+        editPrayer: {
+          prayerId: editId,
+          title,
+          details,
+        },
+      },
+    })
+      .then((response) => {
+        if (response.data.prayerEdit) {
+          const { userErrors, prayers } = response.data.prayerEdit;
+          if (userErrors.length >= 1) {
+            displayNotification(userErrors[0].message, "failure");
+            setLoading(false);
+          } else {
+            setTableData(prayers);
+            displayNotification(
+              "Sucessfully edited your prayer request",
+              "success"
+            );
+            setLoading(false);
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        displayNotification(
+          "Something went wrong, we could not edit the message. Check your network and try again.",
+          "failure"
+        );
+        setLoading(false);
+        setShowForm(false);
+        setEditForm(false);
+      });
   }
-
-
-
 
   function deleteRequest(id) {
     deletePrayer({
