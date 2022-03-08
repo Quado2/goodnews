@@ -130,11 +130,11 @@ export const testimoniesResolvers = {
 
   testimonyEdit: async (
     _: any,
-    {editPrayer}: {editPrayer:PrayerEditInput},
+    {editTestimony}: {editTestimony:TestimonyEditInput},
     { userInfo }: Context
-  ) => {
+  ): Promise<TestimonyPayload> => {
 
-   const {prayerId, title, details} = editPrayer
+   const {prayerId, title, details} = editTestimony
 
     try {
       await dbConnect();
@@ -145,12 +145,12 @@ export const testimoniesResolvers = {
             message: "Could not connect to database",
           },
         ],
-        prayers: [],
+        testimonies: [],
       };
     }
 
     //We check if the user owns the prayer
-    const prayer = await Prayer.findOne({ _id: prayerId });
+    const testimony = await Testimony.findOne({ _id: prayerId });
     if (prayer) {
       if (!(prayer.memberId.toString() === userInfo?.userId)) {
         return {
