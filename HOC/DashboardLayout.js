@@ -12,6 +12,7 @@ const DLContainer = styled.div`
     height: 100%;
     border: 2px solid red;
 
+
     @media (max-width: ${({ theme }) => theme.mobile}) {
       display: none;
     }
@@ -23,6 +24,7 @@ const DLContainer = styled.div`
     justify-content: flex-start;
     flex: 1;
     overflow-x: scroll;
+
   }
 `;
 

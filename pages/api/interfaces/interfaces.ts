@@ -19,7 +19,13 @@ export interface Prayer{
   title: string,
   details: string,
   date: number
-  
+}
+
+export interface Testimony{
+  _id: String,
+  title: string,
+  details: string,
+  date: number
 }
 
 export interface PrayerPayload{
@@ -27,6 +33,13 @@ export interface PrayerPayload{
     message: string,
   }[],
   prayers: Prayer[] | null
+}
+
+export interface TestimonyPayload{
+  userErrors:{
+    message: string,
+  }[],
+  testimonies: Testimony[] | null
 }
 
 export interface Context {
@@ -50,6 +63,18 @@ export interface PrayerInput{
 }
 
 export interface UserParent{
-  _id: string;
+  _id: string
+}
+
+export interface PrayerEditInput{
+  prayerId: string;
+  title: string;
+  details: string;
+}
+
+export interface TestimonyEditInput{
+  prayerId: string;
+  title: string;
+  details: string;
 }
 

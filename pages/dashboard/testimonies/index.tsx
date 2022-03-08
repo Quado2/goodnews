@@ -16,7 +16,7 @@ import DashboardLayout from "../../../HOC/DashboardLayout";
 import { set } from "mongoose";
 
 const RequestContainer = styled.div`
-width: 100%;
+  width: 100%;
   .add_button {
     display: flex;
     flex-direction: column;
@@ -117,15 +117,39 @@ const EDIT_MUTATION = gql`
   }
 `;
 
-const Requests = ({ dataFromServer }) => {
+interface DataFromServer {
+  me: {
+    member: {
+      prayers: [];
+      profile: [];
+      testimonies: [];
+    };
+  };
+}
+
+interface TableData {
+  _id: string;
+  title: string;
+  details: string;
+  date: number;
+}
+
+interface FORMINPUTS {
+  inputType: string;
+  prompt: string;
+  name: string;
+  initialValue: string;
+}
+
+const Requests = ({ dataFromServer }: { dataFromServer: DataFromServer }): JSX.Element => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState<TableData[] | []>([]);
   const [showBriefNotification, setShowBriefNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState("");
   const [editForm, setEditForm] = useState(false);
-  const [editFormInput, setEditFormInput] = useState([]);
+  const [editFormInput, setEditFormInput] = useState<FORMINPUTS[]>([]);
   const [editId, setEditId] = useState("");
 
   const { loggedInUser, setLoggedInUser, setShowDashboard } =
@@ -149,14 +173,14 @@ const Requests = ({ dataFromServer }) => {
   const [editPrayer] = useMutation(EDIT_MUTATION, {
     variables: {
       editPrayer: {
-        prayerID: "",
+        prayerId: "",
         title: "",
         details: "",
       },
     },
   });
 
-  function displayNotification(message, stats) {
+  function displayNotification(message: string, stats: string) {
     setNotificationMessage(message);
     setNotificationStatus(stats);
     setShowBriefNotification(true);
@@ -189,7 +213,7 @@ const Requests = ({ dataFromServer }) => {
     />
   );
 
-  function sendNewRequest(formValues) {
+  function sendNewRequest(formValues: { title: string; details: string }) {
     const { title, details } = formValues;
     setLoading(true);
     submitRequest({
@@ -228,8 +252,11 @@ const Requests = ({ dataFromServer }) => {
       });
   }
 
-  function editRequest(id) {
-    let prayer = tableData.find((prayer) => prayer._id === id);
+  function editRequest(id: string) {
+    let prayer: TableData = tableData.find(
+      (prayer: TableData) => prayer._id === id
+    )!;
+
     const { title, details } = prayer;
     setEditId(id);
     setEditFormInput([
@@ -251,7 +278,7 @@ const Requests = ({ dataFromServer }) => {
     setEditForm(true);
   }
 
-  function sendEditedRequest(formValues) {
+  function sendEditedRequest(formValues: {title: string, details: string}) {
     const { title, details } = formValues;
     setLoading(true);
 
@@ -297,7 +324,7 @@ const Requests = ({ dataFromServer }) => {
       });
   }
 
-  function deleteRequest(id) {
+  function deleteRequest(id:string) {
     deletePrayer({
       variables: {
         prayerId: id,
@@ -366,7 +393,7 @@ const Requests = ({ dataFromServer }) => {
           />
         )}
         <div className="add_button ">
-          <button onClick={() => setShowForm(true)}>New Prayer Request</button>
+          <button onClick={() => setShowForm(true)}>New Testimony</button>
         </div>
         <Table
           tableData={tableData}
@@ -380,7 +407,7 @@ const Requests = ({ dataFromServer }) => {
 
 export default Requests;
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context:any) {
   const cookies = context.req.headers.cookie;
   const token = getCookie("nekot", cookies);
 
@@ -394,7 +421,7 @@ export async function getServerSideProps(context) {
               sureName
               gender
             }
-            prayers {
+            testimonies {
               _id
               date
               title
