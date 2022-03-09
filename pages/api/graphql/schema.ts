@@ -13,12 +13,22 @@ export const typeDefs = gql`
   type Mutation {
     signup(user: MemberInput!): AuthPayload!
     signIn(credentials: CredentialsInput!): AuthPayload!
+
     prayerSubmit(prayer: PrayerInput!): PrayerPayload!
     prayerDelete(prayerId: ID!): PrayerPayload!
-    prayerEdit(editPrayer: PrayerEditInput!): PrayerPayload!
-    testimonySubmit(testimony: PrayerInput!): PrayerPayload!
-    testimonyDelete(testimonyId: ID!): PrayerPayload!
-    testimonyEdit(editTestimony: PrayerEditInput!): PrayerPayload!
+    prayerEdit(editPrayer: PrayerEditInput!):PrayerPayload!
+
+    testimonySubmit(testimony: PrayerInput!): TestimonyPayload!
+    testimonyDelete(testimonyId: ID!): TestimonyPayload!
+    testimonyEdit(editTestimony: TestimonyEditInput!): TestimonyPayload!
+
+
+    titheSubmit(tithe: TitheInput!): TithePayload!
+    titheEdit(editTithe: EditTitheInput!): TithePayload!
+    titheDelete(titheId: ID!): TithePayload!
+    # titheComfirm(titheId: ID!): TithePayload!
+    
+    
     testIt: String
   }
   type PrayersMe{
@@ -65,26 +75,43 @@ export const typeDefs = gql`
   }
 
   type Tithe {
-    month: String
-    year: String
-    amount: Int
+    date: Float!
+    amount: Float!
+    _id: ID!
+    isConfirmed: Boolean
+  }
+
+  type TithePayload {
+    userErrors: [UserError!]!
+    tithes: [Tithe!]!
+  }
+  input TitheInput{
+    date: Float
+    amount: Float
+    isConfirmed: Boolean
+  }
+  input EditTitheInput {
+    date: Float
+    amount: Float
+    isConfirmed: Boolean
+    titheId:  String
   }
 
   type AuthPayload {
     userErrors: [UserError!]!
     token: String
   }
-  
-  type PrayerPayload{
-    userErrors: [UserError!]!
-    prayers: [Prayer]
-  }
-  
+
   type Prayer{
     title: String!
     details: String!
     date: Float!
     _id: ID!
+  }
+  
+  type PrayerPayload{
+    userErrors: [UserError!]!
+    prayers: [Prayer]
   }
 
   type Testimony{
@@ -92,6 +119,11 @@ export const typeDefs = gql`
     details: String!
     date: Float!
     _id: ID!
+  }
+
+  type TestimonyPayload{
+    userErrors: [UserError!]!
+    testimonies: [Testimony]
   }
 
   type UserError {
@@ -119,6 +151,12 @@ export const typeDefs = gql`
 
   input PrayerEditInput{
     prayerId: ID!
+    title: String!
+    details: String!
+  }
+
+  input TestimonyEditInput{
+    testimonyId: ID!
     title: String!
     details: String!
   }

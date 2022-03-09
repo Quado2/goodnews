@@ -1,14 +1,13 @@
-
 import {
   PrayerInput,
   Context,
   TestimonyPayload,
-  TestimonyEditInput
+  TestimonyEditInput,
 } from "../../../interfaces/interfaces";
 import dbConnect from "../../../mongoose/connection";
 import { Testimony } from "../../../mongoose/models";
 
-export const testimoniesResolvers = {
+export const testimonyResolvers = {
   testimonySubmit: async (
     _: any,
     { testimony }: { testimony: PrayerInput },
@@ -82,7 +81,6 @@ export const testimoniesResolvers = {
     { testimonyId }: { testimonyId: String },
     { userInfo }: Context
   ): Promise<TestimonyPayload> => {
-
     try {
       await dbConnect();
     } catch (err) {
@@ -102,12 +100,12 @@ export const testimoniesResolvers = {
       if (!(testimony.memberId.toString() === userInfo?.userId)) {
         return {
           userErrors: [
-            {message: "You don't have permision to delete the testimony."}
+            { message: "You don't have permision to delete the testimony." },
           ],
           testimonies: [],
-        }
+        };
       }
-    } 
+    }
 
     //We go ahead to delete
     const remove = await Testimony.deleteOne({ _id: testimonyId });
@@ -126,16 +124,13 @@ export const testimoniesResolvers = {
     }
   },
 
-
-
   testimonyEdit: async (
     _: any,
-    {editTestimony}: {editTestimony:TestimonyEditInput},
+    { editTestimony }: { editTestimony: TestimonyEditInput },
     { userInfo }: Context
   ): Promise<TestimonyPayload> => {
-
-   const {prayerId, title, details} = editTestimony
-
+    const { testimonyId, title, details } = editTestimony;
+    console.log({editTestimony})
     try {
       await dbConnect();
     } catch (err) {
@@ -150,24 +145,30 @@ export const testimoniesResolvers = {
     }
 
     //We check if the user owns the prayer
-    const testimony = await Testimony.findOne({ _id: prayerId });
+    const testimony = await Testimony.findOne({ _id: testimonyId });
     if (testimony) {
       if (!(testimony.memberId.toString() === userInfo?.userId)) {
         return {
           userErrors: [
-            {message: "You don't have permision to edit the testimony"}
+            { message: "You don't have permision to edit the testimony" },
           ],
-          testimonies: []
-        }
+          testimonies: [],
+        };
       }
-    } 
+    } else {
+      return {
+        userErrors: [{ message: "The testimony does not exist." }],
+        testimonies: [],
+      };
+    }
 
     //We go ahead to edit
-    const edited = await Testimony.updateOne({ _id: prayerId }, {title, details});
+    const edited = await Testimony.updateOne(
+      { _id: testimonyId },
+      { title, details }
+    );
 
-  
-    
-    if (edited.acknowledged && edited.modifiedCount>0) {
+    if (edited.acknowledged && edited.modifiedCount > 0) {
       const testimonies = await Testimony.find({ memberId: userInfo?.userId });
       return {
         userErrors: [],
@@ -175,7 +176,9 @@ export const testimoniesResolvers = {
       };
     } else {
       return {
-        userErrors: [{ message: "We could not edit the testimony." }],
+        userErrors: [
+          { message: "Something went wrong, we could not edit the testimony." },
+        ],
         testimonies: [],
       };
     }

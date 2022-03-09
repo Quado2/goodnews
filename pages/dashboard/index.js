@@ -22,14 +22,6 @@ const GET_PROFILE = gql`
 `;
 
 
-
-
-
-
-
-
-
-
 export default function Dashboard({ dataFromServer }) {
   const [showPage, setShowPage] = useState(false);
   //const { data, loading, error } = useQuery(GET_PROFILE);
