@@ -73,7 +73,7 @@ export interface PrayerEditInput{
 }
 
 export interface TestimonyEditInput{
-  prayerId: string;
+  testimonyId: string;
   title: string;
   details: string;
 }

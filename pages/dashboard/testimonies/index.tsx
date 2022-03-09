@@ -74,14 +74,13 @@ const RequestContainer = styled.div`
 
 const NEWREQUEST_MUTATION = gql`
   mutation ($prayer: PrayerInput!) {
-    prayerSubmit(prayer: $prayer) {
+    testimonySubmit(testimony: $testimony) {
       userErrors {
         message
       }
-      prayers {
-        date
-        details
+      testimonies {
         title
+        details
         _id
       }
     }
@@ -90,15 +89,15 @@ const NEWREQUEST_MUTATION = gql`
 
 const DELETE_MUTATION = gql`
   mutation ($prayerId: ID!) {
-    prayerDelete(prayerId: $prayerId) {
-      prayers {
-        date
-        details
-        title
-        _id
-      }
+    testimonyDelete(testimonyId: $testimonyId) {
       userErrors {
         message
+      }
+      testimonies {
+        title
+        details
+        date
+        _id
       }
     }
   }
@@ -106,12 +105,14 @@ const DELETE_MUTATION = gql`
 
 const EDIT_MUTATION = gql`
   mutation ($editPrayer: PrayerEditInput!) {
-    prayerEdit(editPrayer: $editPrayer) {
-      prayers {
-        title
+    testimonyEdit(editTestimony: $editTestimony) {
+      userErrors {
+        message
+      }
+      testimonies {
         _id
+        title
         details
-        date
       }
     }
   }
@@ -141,7 +142,11 @@ interface FORMINPUTS {
   initialValue: string;
 }
 
-const Requests = ({ dataFromServer }: { dataFromServer: DataFromServer }): JSX.Element => {
+const Requests = ({
+  dataFromServer,
+}: {
+  dataFromServer: DataFromServer;
+}): JSX.Element => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [tableData, setTableData] = useState<TableData[] | []>([]);
@@ -278,7 +283,7 @@ const Requests = ({ dataFromServer }: { dataFromServer: DataFromServer }): JSX.E
     setEditForm(true);
   }
 
-  function sendEditedRequest(formValues: {title: string, details: string}) {
+  function sendEditedRequest(formValues: { title: string; details: string }) {
     const { title, details } = formValues;
     setLoading(true);
 
@@ -324,7 +329,7 @@ const Requests = ({ dataFromServer }: { dataFromServer: DataFromServer }): JSX.E
       });
   }
 
-  function deleteRequest(id:string) {
+  function deleteRequest(id: string) {
     deletePrayer({
       variables: {
         prayerId: id,
@@ -407,7 +412,7 @@ const Requests = ({ dataFromServer }: { dataFromServer: DataFromServer }): JSX.E
 
 export default Requests;
 
-export async function getServerSideProps(context:any) {
+export async function getServerSideProps(context: any) {
   const cookies = context.req.headers.cookie;
   const token = getCookie("nekot", cookies);
 

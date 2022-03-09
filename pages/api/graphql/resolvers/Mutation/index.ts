@@ -7,4 +7,5 @@ export const Mutation = {
   ...authResolvers,
   ...testResolver,
   ...prayersResolvers,
+  ...testimoniesResolvers,
 }
