@@ -31,6 +31,15 @@ export const typeDefs = gql`
     
     testIt: String
   }
+
+  type Member {
+    _id: ID!
+    email: String
+    prayers: [Prayer]
+    profile: Profile
+    testimonies: [Testimony]
+    tithes: [Tithe]
+  }
   type PrayersMe{
     userErrors: [UserError]
     me: Profile!
@@ -43,13 +52,7 @@ export const typeDefs = gql`
 
   }
 
-  type Member {
-    _id: ID!
-    email: String
-    prayers: [Prayer]
-    profile: Profile
-    testimonies: [Testimony]
-  }
+ 
 
   type User {
     _id: ID!
