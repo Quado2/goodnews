@@ -21,6 +21,12 @@ export const typeDefs = gql`
     testimonySubmit(testimony: PrayerInput!): TestimonyPayload!
     testimonyDelete(testimonyId: ID!): TestimonyPayload!
     testimonyEdit(editTestimony: TestimonyEditInput!): TestimonyPayload!
+
+
+    titheSubmit(tithe: TitheInput!): TithePayload!
+    titheEdit(editTithe: EditTitheInput!): TithePayload!
+    titheDelete(titheId: ID!): TithePayload!
+    titheComfirm(titheId: ID!): TithePayload!
     
     
     testIt: String
@@ -69,9 +75,20 @@ export const typeDefs = gql`
   }
 
   type Tithe {
-    month: String
-    year: String
-    amount: Int
+    date: Float!
+    amount: Float!
+    _id: ID!
+    isConfirmed: Boolean
+  }
+
+  type TithePayload {
+    userErrors: [UserError!]!
+    tithes: [Tithe!]!
+  }
+  type TitheInput{
+    date: Float
+    amount: Float
+    isConfirmed: Boolean
   }
 
   type AuthPayload {
@@ -90,9 +107,6 @@ export const typeDefs = gql`
     userErrors: [UserError!]!
     prayers: [Prayer]
   }
-
-  
-
 
   type Testimony{
     title: String!

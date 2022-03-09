@@ -7,7 +7,7 @@ import {
 import dbConnect from "../../../mongoose/connection";
 import { Testimony } from "../../../mongoose/models";
 
-export const testimoniesResolvers = {
+export const testimonyResolvers = {
   testimonySubmit: async (
     _: any,
     { testimony }: { testimony: PrayerInput },
