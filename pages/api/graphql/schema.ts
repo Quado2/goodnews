@@ -25,8 +25,8 @@ export const typeDefs = gql`
 
     titheSubmit(tithe: TitheInput!): TithePayload!
     titheEdit(editTithe: EditTitheInput!): TithePayload!
-    titheDelete(titheId: ID!): TithePayload!
-    titheComfirm(titheId: ID!): TithePayload!
+    # titheDelete(titheId: ID!): TithePayload!
+    # titheComfirm(titheId: ID!): TithePayload!
     
     
     testIt: String
@@ -85,10 +85,16 @@ export const typeDefs = gql`
     userErrors: [UserError!]!
     tithes: [Tithe!]!
   }
-  type TitheInput{
+  input TitheInput{
     date: Float
     amount: Float
     isConfirmed: Boolean
+  }
+  input EditTitheInput {
+    date: Float
+    amount: Float
+    isConfirmed: Boolean
+    titheId: Boolean
   }
 
   type AuthPayload {
