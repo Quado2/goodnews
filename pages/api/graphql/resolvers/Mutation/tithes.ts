@@ -99,9 +99,52 @@ export const titheResolvers = {
       };
     }
   },
-  titheDelete: (
+  titheDelete: async (
     _: any,
     { titheId }: { titheId: string },
     { userInfo }: Context
-  ): Promise<TithePayload> => {},
+  ): Promise<TithePayload> => {
+
+    try {
+      await dbConnect();
+    } catch (err) {
+      return {
+        userErrors: [
+          {
+            message: "Could not connect to database",
+          },
+        ],
+        tithes: [],
+      };
+    }
+
+    //We check if the user owns the prayer
+    const testimony = await Tithe.findOne({ _id: titheId });
+    if (testimony) {
+      if (!(testimony.memberId.toString() === userInfo?.userId)) {
+        return {
+          userErrors: [
+            { message: "You don't have permision to delete the tithe." },
+          ],
+          tithes: [],
+        };
+      }
+    }
+
+    //We go ahead to delete
+    const remove = await Tithe.deleteOne({ _id: titheId });
+
+    if (remove.deletedCount === 1) {
+      const testimonies = await Tithe.find({ memberId: userInfo?.userId });
+      return {
+        userErrors: [],
+        tithes,
+      };
+    } else {
+      return {
+        userErrors: [{ message: "We could not delete the prayer." }],
+        testimonies: [],
+      };
+    }
+  },
 };
