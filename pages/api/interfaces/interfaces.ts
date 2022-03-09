@@ -77,9 +77,32 @@ export interface TestimonyEditInput {
   title: string;
   details: string;
 }
+export interface UserError{
+  message: string
+}
+
+export interface Tithe{
+  date: number;
+  amount: number;
+  isConfirmed: number;
+  memberId: string;
+  _id: string
+}
 
 export interface TitheInput {
   date: number;
   amount: number;
   isConfirmed: Boolean;
+}
+
+export interface EditTitheInput{
+  date: number;
+  amount: number;
+  isConfirmed: Boolean;
+  titheId: String
+}
+
+export interface TithePayload{
+  userErrors: UserError[]
+  tithes: Tithe[]
 }
