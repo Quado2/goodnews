@@ -7,7 +7,7 @@ import { GiTireIronCross } from "react-icons/gi";
 import { useMutation } from "@apollo/client";
 
 import Table from "../../../components/Table";
-import { prayerRequestInputs } from "../../../components/data";
+import {testimonyRequestInputs } from "../../../components/data";
 import GitForm from "../../../components/GitForm/GitForm";
 import Spinner from "../../../components/Spinner/Spinner";
 import { Context } from "../../../context/Context";
@@ -73,7 +73,7 @@ const RequestContainer = styled.div`
 `;
 
 const NEWREQUEST_MUTATION = gql`
-  mutation ($prayer: PrayerInput!) {
+  mutation ($testimony: PrayerInput!) {
     testimonySubmit(testimony: $testimony) {
       userErrors {
         message
@@ -82,13 +82,14 @@ const NEWREQUEST_MUTATION = gql`
         title
         details
         _id
+        date
       }
     }
   }
 `;
 
 const DELETE_MUTATION = gql`
-  mutation ($prayerId: ID!) {
+  mutation ($testimonyId: ID!) {
     testimonyDelete(testimonyId: $testimonyId) {
       userErrors {
         message
@@ -104,7 +105,7 @@ const DELETE_MUTATION = gql`
 `;
 
 const EDIT_MUTATION = gql`
-  mutation ($editPrayer: PrayerEditInput!) {
+  mutation ($editTestimony: TestimonyEditInput!) {
     testimonyEdit(editTestimony: $editTestimony) {
       userErrors {
         message
@@ -113,6 +114,7 @@ const EDIT_MUTATION = gql`
         _id
         title
         details
+        date
       }
     }
   }
@@ -157,28 +159,27 @@ const Requests = ({
   const [editFormInput, setEditFormInput] = useState<FORMINPUTS[]>([]);
   const [editId, setEditId] = useState("");
 
-  const { loggedInUser, setLoggedInUser, setShowDashboard } =
-    useContext(Context);
+  const { setLoggedInUser, setShowDashboard } = useContext(Context);
 
-  const [submitRequest] = useMutation(NEWREQUEST_MUTATION, {
+  const [submitTestimony] = useMutation(NEWREQUEST_MUTATION, {
     variables: {
-      prayer: {
+      testimony: {
         title: "",
         details: "",
       },
     },
   });
 
-  const [deletePrayer] = useMutation(DELETE_MUTATION, {
+  const [deleteTestimony] = useMutation(DELETE_MUTATION, {
     variables: {
-      prayerId: "",
+      testimonyId: "",
     },
   });
 
-  const [editPrayer] = useMutation(EDIT_MUTATION, {
+  const [editTestimony1] = useMutation(EDIT_MUTATION, {
     variables: {
-      editPrayer: {
-        prayerId: "",
+      editTestimony: {
+        testimonyId: "",
         title: "",
         details: "",
       },
@@ -199,7 +200,7 @@ const Requests = ({
     let isMounted = true;
     const { member } = dataFromServer.me;
     if (isMounted) {
-      setTableData(member.prayers);
+      setTableData(member.testimonies);
       setLoggedInUser(member.profile);
       setShowDashboard(true);
     }
@@ -221,35 +222,41 @@ const Requests = ({
   function sendNewRequest(formValues: { title: string; details: string }) {
     const { title, details } = formValues;
     setLoading(true);
-    submitRequest({
+    submitTestimony({
       variables: {
-        prayer: {
+        testimony: {
           title,
           details,
         },
       },
     })
       .then((resp) => {
-        if (resp.data.prayerSubmit) {
-          const { prayers, userErrors } = resp.data.prayerSubmit;
+        if (resp.data.testimonySubmit) {
+          const { testimonies, userErrors } = resp.data.testimonySubmit;
           if (userErrors.length > 1) {
             displayNotification(userErrors[0].message, "failure");
             setLoading(false);
           } else {
-            setTableData(prayers);
+            setTableData(testimonies);
             displayNotification(
-              "Great! Your prayer request has been received.",
+              "Great! Your testimony has been received.",
               "success"
             );
-            setShowBriefNotification(true);
             setLoading(false);
             setShowForm(false);
           }
+        }else{
+          displayNotification(
+            "Sorry, we did not get the testimonies",
+            "failure"
+          );
+          setLoading(false);
+          setShowForm(false);
         }
       })
       .catch((err) => {
         displayNotification(
-          "Sorry, We couldn't save your prayer request. Try again.",
+          "Sorry, We couldn't save your testimony. Try again.",
           "failure"
         );
         setLoading(false);
@@ -267,7 +274,7 @@ const Requests = ({
     setEditFormInput([
       {
         inputType: "text",
-        prompt: "Edit title of your prayer request",
+        prompt: "Edit title of your testimony",
         name: "title",
         initialValue: title,
       },
@@ -287,28 +294,28 @@ const Requests = ({
     const { title, details } = formValues;
     setLoading(true);
 
-    editPrayer({
+    editTestimony1({
       variables: {
-        editPrayer: {
-          prayerId: editId,
+        editTestimony: {
+          testimonyId: editId,
           title,
           details,
         },
       },
     })
       .then((response) => {
-        if (response.data.prayerEdit) {
-          const { userErrors, prayers } = response.data.prayerEdit;
-          console.log({ userErrors, prayers });
+        if (response.data.testimonyEdit) {
+          const { userErrors, testimonies } = response.data.testimonyEdit;
+
           if (userErrors !== undefined && userErrors.length >= 1) {
             displayNotification(userErrors[0].message, "failure");
             setLoading(false);
             setShowForm(false);
             setEditForm(false);
           } else {
-            setTableData(prayers);
+            setTableData(testimonies);
             displayNotification(
-              "Sucessfully edited your prayer request",
+              "Sucessfully edited your testimony",
               "success"
             );
             setLoading(false);
@@ -330,19 +337,19 @@ const Requests = ({
   }
 
   function deleteRequest(id: string) {
-    deletePrayer({
+    deleteTestimony({
       variables: {
-        prayerId: id,
+        testimonyId: id,
       },
     })
       .then((resp) => {
-        const { prayers, userErrors } = resp.data.prayerDelete;
+        const { testimonies, userErrors } = resp.data.testimonyDelete;
         if (userErrors.length > 1) {
           displayNotification(userErrors[0].message, "failure");
         } else {
-          setTableData(prayers);
+          setTableData(testimonies);
           displayNotification(
-            "You have succesfully deleted the prayer request",
+            "You have succesfully deleted the testimony",
             "success"
           );
         }
@@ -371,7 +378,7 @@ const Requests = ({
               <GitForm
                 loadingState={loading}
                 formInputs={editFormInput}
-                welcomeMessage="Your Prayer Request will be edited here"
+                welcomeMessage="Your testimony will be edited here"
                 actionMessage="Edit the values and click enter"
                 processInputs={sendEditedRequest}
                 submitLabel="Submit"
@@ -380,8 +387,8 @@ const Requests = ({
             ) : (
               <GitForm
                 loadingState={loading}
-                formInputs={prayerRequestInputs}
-                welcomeMessage="Prayer requests will be entered here"
+                formInputs={testimonyRequestInputs}
+                welcomeMessage="testimonies will be entered here"
                 actionMessage="Fill out the form below"
                 processInputs={sendNewRequest}
                 submitLabel="Submit"

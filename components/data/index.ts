@@ -3,7 +3,7 @@ export const registerInputs = [
     inputType: "text",
     prompt: "Enter your first name",
     name: "firstName",
-    initialValue:"boy",
+    initialValue: "boy",
     rules: {
       maxLength: {
         expectedValue: 20,
@@ -117,6 +117,19 @@ export const prayerRequestInputs = [
   {
     inputType: "textarea",
     prompt: "Give details of what you want God to do for you",
+    name: "details",
+  },
+];
+
+export const testimonyRequestInputs = [
+  {
+    inputType: "text",
+    prompt: "Title of your testimony",
+    name: "title",
+  },
+  {
+    inputType: "textarea",
+    prompt: "Give details of what God did for you",
     name: "details",
   },
 ];

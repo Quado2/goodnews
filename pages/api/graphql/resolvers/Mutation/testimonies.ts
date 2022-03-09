@@ -130,7 +130,7 @@ export const testimoniesResolvers = {
     { userInfo }: Context
   ): Promise<TestimonyPayload> => {
     const { testimonyId, title, details } = editTestimony;
-
+    console.log({editTestimony})
     try {
       await dbConnect();
     } catch (err) {
