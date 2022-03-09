@@ -135,15 +135,15 @@ export const titheResolvers = {
     const remove = await Tithe.deleteOne({ _id: titheId });
 
     if (remove.deletedCount === 1) {
-      const testimonies = await Tithe.find({ memberId: userInfo?.userId });
+      const tithes = await Tithe.find({ memberId: userInfo?.userId });
       return {
         userErrors: [],
         tithes,
       };
     } else {
       return {
-        userErrors: [{ message: "We could not delete the prayer." }],
-        testimonies: [],
+        userErrors: [{ message: "We could not delete the tithe." }],
+        tithes: [],
       };
     }
   },
