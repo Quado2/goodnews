@@ -37,7 +37,7 @@ export const titheResolvers = {
 
   },
 
-  titheEdit: async (_:any, {editTitheInput}:{editTitheInput:EditTitheInput},{userInfo}:Context):Promise<TithePayload> => {
+  titheEdit: async (_:any, {editTithe}:{editTithe:EditTitheInput},{userInfo}:Context):Promise<TithePayload> => {
     try{
       await dbConnect();
     }catch(err){
@@ -49,7 +49,7 @@ export const titheResolvers = {
     }
 
   
-  const {amount, date, isConfirmed, titheId} = editTitheInput;
+  const {amount, date, isConfirmed, titheId} = editTithe;
 
   //We check if the user owns the prayer
   const tithe = await Tithe.findOne({ _id: titheId });
@@ -89,5 +89,8 @@ export const titheResolvers = {
       tithes: [],
     };
   }
+  }, 
+  titheDelete: ()=> {
+    
   }
 }
