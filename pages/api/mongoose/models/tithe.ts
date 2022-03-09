@@ -10,7 +10,17 @@ const TitheSchema = new Schema({
   date: {
     required:true,
     type: Number,
-
   },
-  
+  isConfirmed: {
+    type: Boolean,
+    required: true,
+  },
+  memberId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Member"
+  }
+
 })
+
+export const Tithe = mongoose.models.Tithe || mongoose.model("Tithe",TitheSchema);
