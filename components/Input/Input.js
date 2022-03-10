@@ -220,7 +220,7 @@ function Input(props) {
               autoFocus={true}
               value={currentValue}
             ></textarea>
-          ) : (
+          ) :(
             <input
               ref={inputRef}
               onChange={handleChange}

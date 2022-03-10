@@ -13,6 +13,7 @@ export const titheResolvers = {
     { tithe }: { tithe: TitheInput },
     { userInfo }: Context
   ): Promise<TithePayload> => {
+    console.log("worked here")
     try {
       await dbConnect();
     } catch (err) {
@@ -32,8 +33,7 @@ export const titheResolvers = {
       memberId: userInfo?.userId,
     });
 
-    const savedTithe = await newTithe.save();
-    console.log(savedTithe);
+    await newTithe.save();
 
     const tithes = await Tithe.find({ memberId: userInfo?.userId });
 

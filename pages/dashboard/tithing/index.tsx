@@ -7,7 +7,7 @@ import { GiTireIronCross } from "react-icons/gi";
 import { useMutation } from "@apollo/client";
 
 import Table from "../../../components/Table";
-import { testimonyRequestInputs } from "../../../components/data";
+import { titheRequestInputs } from "../../../components/data";
 import GitForm from "../../../components/GitForm/GitForm";
 import Spinner from "../../../components/Spinner/Spinner";
 import { Context } from "../../../context/Context";
@@ -88,6 +88,8 @@ const NEWREQUEST_MUTATION = gql`
   }
 `;
 
+
+
 const DELETE_MUTATION = gql`
   mutation ($titheId: ID!) {
     titheDelete(titheId: $titheId) {
@@ -140,7 +142,7 @@ interface FORMINPUTS {
   inputType: string;
   prompt: string;
   name: string;
-  initialValue: number;
+  initialValue: string | number;
 }
 
 function processTableData(tableData: any): any {
@@ -177,10 +179,11 @@ const Tithing = ({
       tithe: {
         date: 0,
         amount: 0,
-        isConfirmed: false
+        isConfirmed: false,
       },
     },
   });
+
 
   const [deleteTithe] = useMutation(DELETE_MUTATION, {
     variables: {
@@ -194,7 +197,7 @@ const Tithing = ({
         date: 0,
         amount: 0,
         isConfirmed: false,
-        titheId: ""
+        titheId: "",
       },
     },
   });
@@ -232,26 +235,30 @@ const Tithing = ({
     />
   );
 
-  function sendNewRequest(formValues: { date: number; amount: number }) {
-    const { date, amount } = formValues;
+  function sendNewRequest(formValues: { date: number; amount: string }) {
+    let { date, amount } = formValues;
+    const intAmount =  parseInt(amount)
+    date = new Date(date).getTime();
+
     setLoading(true);
     submitTithe({
       variables: {
         tithe: {
+          amount: intAmount,
           date,
-          amount,
           isConfirmed: false
         },
       },
     })
       .then((resp) => {
+        console.log(resp);
         if (resp.data.titheSubmit) {
           const { tithes, userErrors } = resp.data.titheSubmit;
           if (userErrors.length > 1) {
             displayNotification(userErrors[0].message, "failure");
             setLoading(false);
           } else {
-            setTableData(tithes);
+            setTableData(processTableData(tithes));
             displayNotification(
               "Great! Your tithe submision has been received.",
               "success"
@@ -260,10 +267,7 @@ const Tithing = ({
             setShowForm(false);
           }
         } else {
-          displayNotification(
-            "Sorry, we did not get the tithes",
-            "failure"
-          );
+          displayNotification("Sorry, we did not get the tithes", "failure");
           setLoading(false);
           setShowForm(false);
         }
@@ -280,23 +284,27 @@ const Tithing = ({
 
   function editRequest(id: string) {
     let tithe: Tithe = tableData.find((tithe: Tithe) => tithe._id === id)!;
-
+    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
     const { date, amount } = tithe;
+    const dateElements = date.toString().split(" ");
+    const monthNumber = months.indexOf(dateElements[1]);
+    const dateFormat = `${dateElements[2]}-${monthNumber}-${dateElements[0]}`
     setEditId(id);
-    setEditFormInput([
-      {
-        inputType: "text",
-        prompt: "Edit title of your testimony",
-        name: "title",
-        initialValue: amount,
-      },
-      {
-        inputType: "textarea",
-        prompt: "Edit details of what you want God to do for you",
-        name: "details",
-        initialValue: date,
-      },
-    ]);
+    setEditFormInput(
+        [
+          {
+            inputType: "number",
+            prompt: "Enter tithe amount",
+            name: "amount",
+            initialValue:amount
+          },
+          {
+            inputType: "date",
+            prompt: "select the date of the tithe",
+            name: "date",
+            initialValue: dateFormat
+          },
+        ]);
 
     setShowForm(true);
     setEditForm(true);
@@ -312,7 +320,7 @@ const Tithing = ({
           titheId: editId,
           amount,
           date,
-          isConfirmed: false
+          isConfirmed: false,
         },
       },
     })
@@ -326,8 +334,11 @@ const Tithing = ({
             setShowForm(false);
             setEditForm(false);
           } else {
-            setTableData(tithes);
-            displayNotification("Sucessfully edited your tithe details", "success");
+            setTableData(processTableData(tithes));
+            displayNotification(
+              "Sucessfully edited your tithe details",
+              "success"
+            );
             setLoading(false);
             setShowForm(false);
             setEditForm(false);
@@ -357,7 +368,7 @@ const Tithing = ({
         if (userErrors.length > 1) {
           displayNotification(userErrors[0].message, "failure");
         } else {
-          setTableData(tithes);
+          setTableData(processTableData(tithes));
           displayNotification(
             "You have succesfully deleted the tithe details",
             "success"
@@ -398,7 +409,7 @@ const Tithing = ({
             ) : (
               <GitForm
                 loadingState={loading}
-                formInputs={testimonyRequestInputs}
+                formInputs={titheRequestInputs}
                 welcomeMessage="testimonies will be entered here"
                 actionMessage="Fill out the form below"
                 processInputs={sendNewRequest}
@@ -416,7 +427,7 @@ const Tithing = ({
           />
         )}
         <div className="add_button ">
-          <button onClick={() => setShowForm(true)}>New Testimony</button>
+          <button onClick={() => setShowForm(true)}>New Tithe</button>
         </div>
         <Table
           tableData={tableData}
