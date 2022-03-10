@@ -73,16 +73,16 @@ const RequestContainer = styled.div`
 `;
 
 const NEWREQUEST_MUTATION = gql`
-  mutation ($testimony: PrayerInput!) {
-    testimonySubmit(testimony: $testimony) {
+  mutation ($tithe: TitheInput!) {
+    titheSubmit(tithe: $tithe) {
       userErrors {
         message
       }
-      testimonies {
-        title
-        details
-        _id
+      tithes {
         date
+        amount
+        isConfirmed
+        _id
       }
     }
   }
@@ -105,15 +105,15 @@ const DELETE_MUTATION = gql`
 `;
 
 const EDIT_MUTATION = gql`
-  mutation ($editTestimony: TestimonyEditInput!) {
-    testimonyEdit(editTestimony: $editTestimony) {
+  mutation ($editTithe: EditTitheInput!) {
+    titheEdit(editTithe: $editTithe) {
       userErrors {
         message
       }
-      testimonies {
+      tithes {
         _id
-        title
-        details
+        amount
+        isConfirmed
         date
       }
     }
@@ -172,27 +172,29 @@ const Tithing = ({
 
   const { setLoggedInUser, setShowDashboard } = useContext(Context);
 
-  const [submitTestimony] = useMutation(NEWREQUEST_MUTATION, {
+  const [submitTithe] = useMutation(NEWREQUEST_MUTATION, {
     variables: {
-      testimony: {
-        title: "",
-        details: "",
+      tithe: {
+        date: 0,
+        amount: 0,
+        isConfirmed: false
       },
     },
   });
 
-  const [deleteTestimony] = useMutation(DELETE_MUTATION, {
+  const [deleteTithe] = useMutation(DELETE_MUTATION, {
     variables: {
-      testimonyId: "",
+      titheId: "",
     },
   });
 
-  const [editTestimony1] = useMutation(EDIT_MUTATION, {
+  const [editTithe] = useMutation(EDIT_MUTATION, {
     variables: {
-      editTestimony: {
-        testimonyId: "",
-        title: "",
-        details: "",
+      editTithe: {
+        date: 0,
+        amount: 0,
+        isConfirmed: false,
+        titheId: ""
       },
     },
   });
@@ -230,27 +232,28 @@ const Tithing = ({
     />
   );
 
-  function sendNewRequest(formValues: { title: string; details: string }) {
-    const { title, details } = formValues;
+  function sendNewRequest(formValues: { date: number; amount: number }) {
+    const { date, amount } = formValues;
     setLoading(true);
-    submitTestimony({
+    submitTithe({
       variables: {
-        testimony: {
-          title,
-          details,
+        tithe: {
+          date,
+          amount,
+          isConfirmed: false
         },
       },
     })
       .then((resp) => {
-        if (resp.data.testimonySubmit) {
-          const { testimonies, userErrors } = resp.data.testimonySubmit;
+        if (resp.data.titheSubmit) {
+          const { tithes, userErrors } = resp.data.titheSubmit;
           if (userErrors.length > 1) {
             displayNotification(userErrors[0].message, "failure");
             setLoading(false);
           } else {
-            setTableData(testimonies);
+            setTableData(tithes);
             displayNotification(
-              "Great! Your testimony has been received.",
+              "Great! Your tithe submision has been received.",
               "success"
             );
             setLoading(false);
@@ -258,7 +261,7 @@ const Tithing = ({
           }
         } else {
           displayNotification(
-            "Sorry, we did not get the testimonies",
+            "Sorry, we did not get the tithes",
             "failure"
           );
           setLoading(false);
@@ -267,7 +270,7 @@ const Tithing = ({
       })
       .catch((err) => {
         displayNotification(
-          "Sorry, We couldn't save your testimony. Try again.",
+          "Sorry, We couldn't save your tithes. Try again.",
           "failure"
         );
         setLoading(false);
@@ -299,22 +302,23 @@ const Tithing = ({
     setEditForm(true);
   }
 
-  function sendEditedRequest(formValues: { title: string; details: string }) {
-    const { title, details } = formValues;
+  function sendEditedRequest(formValues: { amount: number; date: number }) {
+    const { amount, date } = formValues;
     setLoading(true);
 
-    editTestimony1({
+    editTithe({
       variables: {
-        editTestimony: {
-          testimonyId: editId,
-          title,
-          details,
+        editTithe: {
+          titheId: editId,
+          amount,
+          date,
+          isConfirmed: false
         },
       },
     })
       .then((response) => {
-        if (response.data.testimonyEdit) {
-          const { userErrors, testimonies } = response.data.testimonyEdit;
+        if (response.data.titheEdit) {
+          const { userErrors, tithes } = response.data.titheEdit;
 
           if (userErrors !== undefined && userErrors.length >= 1) {
             displayNotification(userErrors[0].message, "failure");
@@ -322,8 +326,8 @@ const Tithing = ({
             setShowForm(false);
             setEditForm(false);
           } else {
-            setTableData(testimonies);
-            displayNotification("Sucessfully edited your testimony", "success");
+            setTableData(tithes);
+            displayNotification("Sucessfully edited your tithe details", "success");
             setLoading(false);
             setShowForm(false);
             setEditForm(false);
@@ -343,19 +347,19 @@ const Tithing = ({
   }
 
   function deleteRequest(id: string) {
-    deleteTestimony({
+    deleteTithe({
       variables: {
-        testimonyId: id,
+        titheId: id,
       },
     })
       .then((resp) => {
-        const { testimonies, userErrors } = resp.data.testimonyDelete;
+        const { tithes, userErrors } = resp.data.titheDelete;
         if (userErrors.length > 1) {
           displayNotification(userErrors[0].message, "failure");
         } else {
-          setTableData(testimonies);
+          setTableData(tithes);
           displayNotification(
-            "You have succesfully deleted the testimony",
+            "You have succesfully deleted the tithe details",
             "success"
           );
         }
