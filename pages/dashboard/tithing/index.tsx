@@ -7,7 +7,7 @@ import { GiTireIronCross } from "react-icons/gi";
 import { useMutation } from "@apollo/client";
 
 import Table from "../../../components/Table";
-import { prayerRequestInputs } from "../../../components/data";
+import { testimonyRequestInputs } from "../../../components/data";
 import GitForm from "../../../components/GitForm/GitForm";
 import Spinner from "../../../components/Spinner/Spinner";
 import { Context } from "../../../context/Context";
@@ -16,7 +16,7 @@ import DashboardLayout from "../../../HOC/DashboardLayout";
 import { getDate } from "../../../utils";
 
 const RequestContainer = styled.div`
-width: 100%;
+  width: 100%;
   .add_button {
     display: flex;
     flex-direction: column;
@@ -73,43 +73,46 @@ width: 100%;
 `;
 
 const NEWREQUEST_MUTATION = gql`
-  mutation ($prayer: PrayerInput!) {
-    prayerSubmit(prayer: $prayer) {
+  mutation ($testimony: PrayerInput!) {
+    testimonySubmit(testimony: $testimony) {
       userErrors {
         message
       }
-      prayers {
-        date
-        details
+      testimonies {
         title
+        details
         _id
+        date
       }
     }
   }
 `;
 
 const DELETE_MUTATION = gql`
-  mutation ($prayerId: ID!) {
-    prayerDelete(prayerId: $prayerId) {
-      prayers {
-        date
-        details
-        title
-        _id
-      }
+  mutation ($titheId: ID!) {
+    titheDelete(titheId: $titheId) {
       userErrors {
         message
+      }
+      tithes {
+        _id
+        amount
+        date
+        isConfirmed
       }
     }
   }
 `;
 
 const EDIT_MUTATION = gql`
-  mutation ($editPrayer: PrayerEditInput!) {
-    prayerEdit(editPrayer: $editPrayer) {
-      prayers {
-        title
+  mutation ($editTestimony: TestimonyEditInput!) {
+    testimonyEdit(editTestimony: $editTestimony) {
+      userErrors {
+        message
+      }
+      testimonies {
         _id
+        title
         details
         date
       }
@@ -117,59 +120,84 @@ const EDIT_MUTATION = gql`
   }
 `;
 
-function processTableData(tableData) {
-  const newData = tableData.map((data ) => {
+interface Tithe {
+  date: number;
+  amount: number;
+  _id: string;
+  isConfirmed: Boolean;
+}
+
+interface DataFromServer {
+  me: {
+    member: {
+      tithes: Tithe[];
+      profile: [];
+    };
+  };
+}
+
+interface FORMINPUTS {
+  inputType: string;
+  prompt: string;
+  name: string;
+  initialValue: number;
+}
+
+function processTableData(tableData: any): any {
+  const newData = tableData.map((data: any) => {
     return {
       ...data,
       date: getDate(data.date),
+      isConfirmed: data.isConfirmed ? "Confirmed" : "Awaiting review",
     };
   });
 
   return newData;
 }
 
-
-
-const Requests = ({ dataFromServer }) => {
+const Tithing = ({
+  dataFromServer,
+}: {
+  dataFromServer: DataFromServer;
+}): JSX.Element => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState<Tithe[] | []>([]);
   const [showBriefNotification, setShowBriefNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState("");
   const [editForm, setEditForm] = useState(false);
-  const [editFormInput, setEditFormInput] = useState([]);
+  const [editFormInput, setEditFormInput] = useState<FORMINPUTS[]>([]);
   const [editId, setEditId] = useState("");
 
-  const { loggedInUser, setLoggedInUser, setShowDashboard } =
-    useContext(Context);
+  const { setLoggedInUser, setShowDashboard } = useContext(Context);
 
-  const [submitRequest] = useMutation(NEWREQUEST_MUTATION, {
+  const [submitTestimony] = useMutation(NEWREQUEST_MUTATION, {
     variables: {
-      prayer: {
+      testimony: {
         title: "",
         details: "",
       },
     },
   });
 
-  const [deletePrayer] = useMutation(DELETE_MUTATION, {
+  const [deleteTestimony] = useMutation(DELETE_MUTATION, {
     variables: {
-      prayerId: "",
+      testimonyId: "",
     },
   });
 
-  const [editPrayer] = useMutation(EDIT_MUTATION, {
+  const [editTestimony1] = useMutation(EDIT_MUTATION, {
     variables: {
-      editPrayer: {
-        prayerID: "",
+      editTestimony: {
+        testimonyId: "",
         title: "",
         details: "",
       },
     },
   });
 
-  function displayNotification(message, stats) {
+  function displayNotification(message: string, stats: string) {
     setNotificationMessage(message);
     setNotificationStatus(stats);
     setShowBriefNotification(true);
@@ -183,7 +211,7 @@ const Requests = ({ dataFromServer }) => {
     let isMounted = true;
     const { member } = dataFromServer.me;
     if (isMounted) {
-      setTableData(processTableData(member.prayers));
+      setTableData(processTableData(member.tithes));
       setLoggedInUser(member.profile);
       setShowDashboard(true);
     }
@@ -202,38 +230,44 @@ const Requests = ({ dataFromServer }) => {
     />
   );
 
-  function sendNewRequest(formValues) {
+  function sendNewRequest(formValues: { title: string; details: string }) {
     const { title, details } = formValues;
     setLoading(true);
-    submitRequest({
+    submitTestimony({
       variables: {
-        prayer: {
+        testimony: {
           title,
           details,
         },
       },
     })
       .then((resp) => {
-        if (resp.data.prayerSubmit) {
-          const { prayers, userErrors } = resp.data.prayerSubmit;
+        if (resp.data.testimonySubmit) {
+          const { testimonies, userErrors } = resp.data.testimonySubmit;
           if (userErrors.length > 1) {
             displayNotification(userErrors[0].message, "failure");
             setLoading(false);
           } else {
-            setTableData(prayers);
+            setTableData(testimonies);
             displayNotification(
-              "Great! Your prayer request has been received.",
+              "Great! Your testimony has been received.",
               "success"
             );
-            setShowBriefNotification(true);
             setLoading(false);
             setShowForm(false);
           }
+        } else {
+          displayNotification(
+            "Sorry, we did not get the testimonies",
+            "failure"
+          );
+          setLoading(false);
+          setShowForm(false);
         }
       })
       .catch((err) => {
         displayNotification(
-          "Sorry, We couldn't save your prayer request. Try again.",
+          "Sorry, We couldn't save your testimony. Try again.",
           "failure"
         );
         setLoading(false);
@@ -241,22 +275,23 @@ const Requests = ({ dataFromServer }) => {
       });
   }
 
-  function editRequest(id) {
-    let prayer = tableData.find((prayer) => prayer._id === id);
-    const { title, details } = prayer;
+  function editRequest(id: string) {
+    let tithe: Tithe = tableData.find((tithe: Tithe) => tithe._id === id)!;
+
+    const { date, amount } = tithe;
     setEditId(id);
     setEditFormInput([
       {
         inputType: "text",
-        prompt: "Edit title of your prayer request",
+        prompt: "Edit title of your testimony",
         name: "title",
-        initialValue: title,
+        initialValue: amount,
       },
       {
         inputType: "textarea",
         prompt: "Edit details of what you want God to do for you",
         name: "details",
-        initialValue: details,
+        initialValue: date,
       },
     ]);
 
@@ -264,34 +299,31 @@ const Requests = ({ dataFromServer }) => {
     setEditForm(true);
   }
 
-  function sendEditedRequest(formValues) {
+  function sendEditedRequest(formValues: { title: string; details: string }) {
     const { title, details } = formValues;
     setLoading(true);
 
-    editPrayer({
+    editTestimony1({
       variables: {
-        editPrayer: {
-          prayerId: editId,
+        editTestimony: {
+          testimonyId: editId,
           title,
           details,
         },
       },
     })
       .then((response) => {
-        if (response.data.prayerEdit) {
-          const { userErrors, prayers } = response.data.prayerEdit;
-          console.log({ userErrors, prayers });
+        if (response.data.testimonyEdit) {
+          const { userErrors, testimonies } = response.data.testimonyEdit;
+
           if (userErrors !== undefined && userErrors.length >= 1) {
             displayNotification(userErrors[0].message, "failure");
             setLoading(false);
             setShowForm(false);
             setEditForm(false);
           } else {
-            setTableData(prayers);
-            displayNotification(
-              "Sucessfully edited your prayer request",
-              "success"
-            );
+            setTableData(testimonies);
+            displayNotification("Sucessfully edited your testimony", "success");
             setLoading(false);
             setShowForm(false);
             setEditForm(false);
@@ -310,20 +342,20 @@ const Requests = ({ dataFromServer }) => {
       });
   }
 
-  function deleteRequest(id) {
-    deletePrayer({
+  function deleteRequest(id: string) {
+    deleteTestimony({
       variables: {
-        prayerId: id,
+        testimonyId: id,
       },
     })
       .then((resp) => {
-        const { prayers, userErrors } = resp.data.prayerDelete;
+        const { testimonies, userErrors } = resp.data.testimonyDelete;
         if (userErrors.length > 1) {
           displayNotification(userErrors[0].message, "failure");
         } else {
-          setTableData(prayers);
+          setTableData(testimonies);
           displayNotification(
-            "You have succesfully deleted the prayer request",
+            "You have succesfully deleted the testimony",
             "success"
           );
         }
@@ -334,8 +366,8 @@ const Requests = ({ dataFromServer }) => {
       });
   }
 
-  const tableHeaders = ["Title", "Details", "Date", "Edit", "Delete"];
- const tableKeys = ["title", "details", "date"];
+  const tableHeaders = ["Date", "Amount", "Status", "Edit", "Delete"];
+  const tableKeys = ["date", "amount", "isConfirmed"];
   const actionsData = [
     { title: "Edit", action: editRequest },
     { title: "Delete", action: deleteRequest },
@@ -353,7 +385,7 @@ const Requests = ({ dataFromServer }) => {
               <GitForm
                 loadingState={loading}
                 formInputs={editFormInput}
-                welcomeMessage="Your Prayer Request will be edited here"
+                welcomeMessage="Your testimony will be edited here"
                 actionMessage="Edit the values and click enter"
                 processInputs={sendEditedRequest}
                 submitLabel="Submit"
@@ -362,8 +394,8 @@ const Requests = ({ dataFromServer }) => {
             ) : (
               <GitForm
                 loadingState={loading}
-                formInputs={prayerRequestInputs}
-                welcomeMessage="Prayer requests will be entered here"
+                formInputs={testimonyRequestInputs}
+                welcomeMessage="testimonies will be entered here"
                 actionMessage="Fill out the form below"
                 processInputs={sendNewRequest}
                 submitLabel="Submit"
@@ -380,22 +412,22 @@ const Requests = ({ dataFromServer }) => {
           />
         )}
         <div className="add_button ">
-          <button onClick={() => setShowForm(true)}>New Prayer Request</button>
+          <button onClick={() => setShowForm(true)}>New Testimony</button>
         </div>
         <Table
           tableData={tableData}
           tableHeaders={tableHeaders}
-          actionsData={actionsData}
           tableKeys={tableKeys}
+          actionsData={actionsData}
         />
       </RequestContainer>
     </DashboardLayout>
   );
 };
 
-export default Requests;
+export default Tithing;
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
   const cookies = context.req.headers.cookie;
   const token = getCookie("nekot", cookies);
 
@@ -409,15 +441,12 @@ export async function getServerSideProps(context) {
               sureName
               gender
             }
-            prayers {
+            tithes {
               _id
+              amount
               date
-              title
-              details
+              isConfirmed
             }
-          }
-          userErrors {
-            message
           }
         }
       }

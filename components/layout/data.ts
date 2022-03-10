@@ -11,7 +11,7 @@ export const dashboardItems = [
   {title: "Dashboard", link: "/dashboard"},
   {title: "Prayer Request", link: '/dashboard/requests'},
   {title: "Testimonies", link: '/dashboard/testimonies'},
-  {title: "Tithe", link: '/dashboard/tithe'},
+  {title: "Tithe", link: '/dashboard/tithing'},
   {title: "Patnership", link: '/dashboard/patnership'},
   {title: "Logout", link: '/dashboard/logout'},
 
