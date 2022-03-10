@@ -106,3 +106,29 @@ export interface TithePayload{
   userErrors: UserError[]
   tithes: Tithe[]
 }
+
+export interface PartnerCreateInput{
+  startDate: string
+  plan: string
+}
+
+export interface Partner{
+  _id: string;
+  memberId: string;
+  startDate: string;
+  plan: string
+}
+
+export interface PartnerPayment{
+  _id: string;
+  memberId: string;
+  date: string;
+  plan: string;
+  status: string;
+}
+
+export interface PartnershipPayload{
+  partnerDetails: Partner | null;
+  partnerPayments: PartnerPayment[]
+  userErrors: UserError[]
+}

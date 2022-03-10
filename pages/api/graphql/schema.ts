@@ -56,6 +56,7 @@ export const typeDefs = gql`
   type PartnershipPayload {
     partnerDetails: Partner
     partnerPayments: [PartnerPayment!]!
+    userErrors: [UserError]
   }
 
   type Member {
