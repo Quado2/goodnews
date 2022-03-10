@@ -19,7 +19,6 @@ const RequestContainer = styled.div`
   width: 100%;
   .add_button {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 
@@ -27,10 +26,14 @@ const RequestContainer = styled.div`
       background-color: transparent;
       outline: none;
       border: 1px solid ${({ theme }) => theme.colorTextPrimary};
-      margin: 2rem;
+      margin: 2rem 1rem;
       padding: 1rem;
       color: ${({ theme }) => theme.colorTextPrimary};
       border-radius: 0.2rem;
+    }
+    button:last-child{
+      color: #08dd08;
+      border: 1px solid #08dd08;
     }
   }
 
@@ -287,8 +290,11 @@ const Tithing = ({
     const months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
     const { date, amount } = tithe;
     const dateElements = date.toString().split(" ");
-    const monthNumber = months.indexOf(dateElements[1]);
-    const dateFormat = `${dateElements[2]}-${monthNumber}-${dateElements[0]}`
+    let monthNumber: string | number = months.indexOf(dateElements[1]) as number +1;
+     monthNumber = monthNumber > 9 ? monthNumber: "0"+monthNumber;
+    let dayNumber:string | number = parseInt(dateElements[0]);
+    dayNumber = dayNumber > 9 ? dayNumber : "0"+dayNumber
+    const dateFormat = `${dateElements[2]}-${monthNumber}-${dayNumber}`
     setEditId(id);
     setEditFormInput(
         [
@@ -310,15 +316,17 @@ const Tithing = ({
     setEditForm(true);
   }
 
-  function sendEditedRequest(formValues: { amount: number; date: number }) {
-    const { amount, date } = formValues;
+  function sendEditedRequest(formValues: { amount: string; date: number }) {
+    let { amount, date } = formValues;
+    const intAmount =  parseInt(amount)
+    date = new Date(date).getTime();
     setLoading(true);
 
     editTithe({
       variables: {
         editTithe: {
           titheId: editId,
-          amount,
+          amount: intAmount,
           date,
           isConfirmed: false,
         },
@@ -427,7 +435,8 @@ const Tithing = ({
           />
         )}
         <div className="add_button ">
-          <button onClick={() => setShowForm(true)}>New Tithe</button>
+          <button onClick={() => setShowForm(true)}>Record a Paid Tithe</button>
+          <button onClick={() => setShowForm(true)}>Pay with Card</button>
         </div>
         <Table
           tableData={tableData}
