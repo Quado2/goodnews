@@ -7,7 +7,7 @@ import { GiTireIronCross } from "react-icons/gi";
 import { useMutation } from "@apollo/client";
 
 import Table from "../../../components/Table";
-import { prayerRequestInputs } from "../../../components/data";
+import { titheRequestInputs } from "../../../components/data";
 import GitForm from "../../../components/GitForm/GitForm";
 import Spinner from "../../../components/Spinner/Spinner";
 import { Context } from "../../../context/Context";
@@ -16,10 +16,9 @@ import DashboardLayout from "../../../HOC/DashboardLayout";
 import { getDate } from "../../../utils";
 
 const RequestContainer = styled.div`
-width: 100%;
+  width: 100%;
   .add_button {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 
@@ -27,10 +26,14 @@ width: 100%;
       background-color: transparent;
       outline: none;
       border: 1px solid ${({ theme }) => theme.colorTextPrimary};
-      margin: 2rem;
+      margin: 2rem 1rem;
       padding: 1rem;
       color: ${({ theme }) => theme.colorTextPrimary};
       border-radius: 0.2rem;
+    }
+    button:last-child{
+      color: #08dd08;
+      border: 1px solid #08dd08;
     }
   }
 
@@ -73,103 +76,136 @@ width: 100%;
 `;
 
 const NEWREQUEST_MUTATION = gql`
-  mutation ($prayer: PrayerInput!) {
-    prayerSubmit(prayer: $prayer) {
+  mutation ($tithe: TitheInput!) {
+    titheSubmit(tithe: $tithe) {
       userErrors {
         message
       }
-      prayers {
+      tithes {
         date
-        details
-        title
+        amount
+        isConfirmed
         _id
       }
     }
   }
 `;
 
+
+
 const DELETE_MUTATION = gql`
-  mutation ($prayerId: ID!) {
-    prayerDelete(prayerId: $prayerId) {
-      prayers {
-        date
-        details
-        title
-        _id
-      }
+  mutation ($titheId: ID!) {
+    titheDelete(titheId: $titheId) {
       userErrors {
         message
+      }
+      tithes {
+        _id
+        amount
+        date
+        isConfirmed
       }
     }
   }
 `;
 
 const EDIT_MUTATION = gql`
-  mutation ($editPrayer: PrayerEditInput!) {
-    prayerEdit(editPrayer: $editPrayer) {
-      prayers {
-        title
+  mutation ($editTithe: EditTitheInput!) {
+    titheEdit(editTithe: $editTithe) {
+      userErrors {
+        message
+      }
+      tithes {
         _id
-        details
+        amount
+        isConfirmed
         date
       }
     }
   }
 `;
 
-function processTableData(tableData) {
-  const newData = tableData.map((data ) => {
+interface Tithe {
+  date: number;
+  amount: number;
+  _id: string;
+  isConfirmed: Boolean;
+}
+
+interface DataFromServer {
+  me: {
+    member: {
+      tithes: Tithe[];
+      profile: [];
+    };
+  };
+}
+
+interface FORMINPUTS {
+  inputType: string;
+  prompt: string;
+  name: string;
+  initialValue: string | number;
+}
+
+function processTableData(tableData: any): any {
+  const newData = tableData.map((data: any) => {
     return {
       ...data,
       date: getDate(data.date),
+      isConfirmed: data.isConfirmed ? "Confirmed" : "Awaiting review",
     };
   });
 
   return newData;
 }
 
-
-
-const Requests = ({ dataFromServer }) => {
+const Tithing = ({
+  dataFromServer,
+}: {
+  dataFromServer: DataFromServer;
+}): JSX.Element => {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState<Tithe[] | []>([]);
   const [showBriefNotification, setShowBriefNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState("");
   const [editForm, setEditForm] = useState(false);
-  const [editFormInput, setEditFormInput] = useState([]);
+  const [editFormInput, setEditFormInput] = useState<FORMINPUTS[]>([]);
   const [editId, setEditId] = useState("");
 
-  const { loggedInUser, setLoggedInUser, setShowDashboard } =
-    useContext(Context);
+  const { setLoggedInUser, setShowDashboard } = useContext(Context);
 
-  const [submitRequest] = useMutation(NEWREQUEST_MUTATION, {
+  const [submitTithe] = useMutation(NEWREQUEST_MUTATION, {
     variables: {
-      prayer: {
-        title: "",
-        details: "",
+      tithe: {
+        date: 0,
+        amount: 0,
+        isConfirmed: false,
       },
     },
   });
 
-  const [deletePrayer] = useMutation(DELETE_MUTATION, {
+
+  const [deleteTithe] = useMutation(DELETE_MUTATION, {
     variables: {
-      prayerId: "",
+      titheId: "",
     },
   });
 
-  const [editPrayer] = useMutation(EDIT_MUTATION, {
+  const [editTithe] = useMutation(EDIT_MUTATION, {
     variables: {
-      editPrayer: {
-        prayerID: "",
-        title: "",
-        details: "",
+      editTithe: {
+        date: 0,
+        amount: 0,
+        isConfirmed: false,
+        titheId: "",
       },
     },
   });
 
-  function displayNotification(message, stats) {
+  function displayNotification(message: string, stats: string) {
     setNotificationMessage(message);
     setNotificationStatus(stats);
     setShowBriefNotification(true);
@@ -183,7 +219,7 @@ const Requests = ({ dataFromServer }) => {
     let isMounted = true;
     const { member } = dataFromServer.me;
     if (isMounted) {
-      setTableData(processTableData(member.prayers));
+      setTableData(processTableData(member.tithes));
       setLoggedInUser(member.profile);
       setShowDashboard(true);
     }
@@ -202,38 +238,46 @@ const Requests = ({ dataFromServer }) => {
     />
   );
 
-  function sendNewRequest(formValues) {
-    const { title, details } = formValues;
+  function sendNewRequest(formValues: { date: number; amount: string }) {
+    let { date, amount } = formValues;
+    const intAmount =  parseInt(amount)
+    date = new Date(date).getTime();
+
     setLoading(true);
-    submitRequest({
+    submitTithe({
       variables: {
-        prayer: {
-          title,
-          details,
+        tithe: {
+          amount: intAmount,
+          date,
+          isConfirmed: false
         },
       },
     })
       .then((resp) => {
-        if (resp.data.prayerSubmit) {
-          const { prayers, userErrors } = resp.data.prayerSubmit;
+        console.log(resp);
+        if (resp.data.titheSubmit) {
+          const { tithes, userErrors } = resp.data.titheSubmit;
           if (userErrors.length > 1) {
             displayNotification(userErrors[0].message, "failure");
             setLoading(false);
           } else {
-            setTableData(prayers);
+            setTableData(processTableData(tithes));
             displayNotification(
-              "Great! Your prayer request has been received.",
+              "Great! Your tithe submision has been received.",
               "success"
             );
-            setShowBriefNotification(true);
             setLoading(false);
             setShowForm(false);
           }
+        } else {
+          displayNotification("Sorry, we did not get the tithes", "failure");
+          setLoading(false);
+          setShowForm(false);
         }
       })
       .catch((err) => {
         displayNotification(
-          "Sorry, We couldn't save your prayer request. Try again.",
+          "Sorry, We couldn't save your tithes. Try again.",
           "failure"
         );
         setLoading(false);
@@ -241,55 +285,66 @@ const Requests = ({ dataFromServer }) => {
       });
   }
 
-  function editRequest(id) {
-    let prayer = tableData.find((prayer) => prayer._id === id);
-    const { title, details } = prayer;
+  function editRequest(id: string) {
+    let tithe: Tithe = tableData.find((tithe: Tithe) => tithe._id === id)!;
+    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+    const { date, amount } = tithe;
+    const dateElements = date.toString().split(" ");
+    let monthNumber: string | number = months.indexOf(dateElements[1]) as number +1;
+     monthNumber = monthNumber > 9 ? monthNumber: "0"+monthNumber;
+    let dayNumber:string | number = parseInt(dateElements[0]);
+    dayNumber = dayNumber > 9 ? dayNumber : "0"+dayNumber
+    const dateFormat = `${dateElements[2]}-${monthNumber}-${dayNumber}`
     setEditId(id);
-    setEditFormInput([
-      {
-        inputType: "text",
-        prompt: "Edit title of your prayer request",
-        name: "title",
-        initialValue: title,
-      },
-      {
-        inputType: "textarea",
-        prompt: "Edit details of what you want God to do for you",
-        name: "details",
-        initialValue: details,
-      },
-    ]);
+    setEditFormInput(
+        [
+          {
+            inputType: "number",
+            prompt: "Enter tithe amount",
+            name: "amount",
+            initialValue:amount
+          },
+          {
+            inputType: "date",
+            prompt: "select the date of the tithe",
+            name: "date",
+            initialValue: dateFormat
+          },
+        ]);
 
     setShowForm(true);
     setEditForm(true);
   }
 
-  function sendEditedRequest(formValues) {
-    const { title, details } = formValues;
+  function sendEditedRequest(formValues: { amount: string; date: number }) {
+    let { amount, date } = formValues;
+    const intAmount =  parseInt(amount)
+    date = new Date(date).getTime();
     setLoading(true);
 
-    editPrayer({
+    editTithe({
       variables: {
-        editPrayer: {
-          prayerId: editId,
-          title,
-          details,
+        editTithe: {
+          titheId: editId,
+          amount: intAmount,
+          date,
+          isConfirmed: false,
         },
       },
     })
       .then((response) => {
-        if (response.data.prayerEdit) {
-          const { userErrors, prayers } = response.data.prayerEdit;
-          console.log({ userErrors, prayers });
+        if (response.data.titheEdit) {
+          const { userErrors, tithes } = response.data.titheEdit;
+
           if (userErrors !== undefined && userErrors.length >= 1) {
             displayNotification(userErrors[0].message, "failure");
             setLoading(false);
             setShowForm(false);
             setEditForm(false);
           } else {
-            setTableData(prayers);
+            setTableData(processTableData(tithes));
             displayNotification(
-              "Sucessfully edited your prayer request",
+              "Sucessfully edited your tithe details",
               "success"
             );
             setLoading(false);
@@ -310,20 +365,20 @@ const Requests = ({ dataFromServer }) => {
       });
   }
 
-  function deleteRequest(id) {
-    deletePrayer({
+  function deleteRequest(id: string) {
+    deleteTithe({
       variables: {
-        prayerId: id,
+        titheId: id,
       },
     })
       .then((resp) => {
-        const { prayers, userErrors } = resp.data.prayerDelete;
+        const { tithes, userErrors } = resp.data.titheDelete;
         if (userErrors.length > 1) {
           displayNotification(userErrors[0].message, "failure");
         } else {
-          setTableData(prayers);
+          setTableData(processTableData(tithes));
           displayNotification(
-            "You have succesfully deleted the prayer request",
+            "You have succesfully deleted the tithe details",
             "success"
           );
         }
@@ -334,8 +389,8 @@ const Requests = ({ dataFromServer }) => {
       });
   }
 
-  const tableHeaders = ["Title", "Details", "Date", "Edit", "Delete"];
- const tableKeys = ["title", "details", "date"];
+  const tableHeaders = ["Date", "Amount", "Status", "Edit", "Delete"];
+  const tableKeys = ["date", "amount", "isConfirmed"];
   const actionsData = [
     { title: "Edit", action: editRequest },
     { title: "Delete", action: deleteRequest },
@@ -353,7 +408,7 @@ const Requests = ({ dataFromServer }) => {
               <GitForm
                 loadingState={loading}
                 formInputs={editFormInput}
-                welcomeMessage="Your Prayer Request will be edited here"
+                welcomeMessage="Your testimony will be edited here"
                 actionMessage="Edit the values and click enter"
                 processInputs={sendEditedRequest}
                 submitLabel="Submit"
@@ -362,8 +417,8 @@ const Requests = ({ dataFromServer }) => {
             ) : (
               <GitForm
                 loadingState={loading}
-                formInputs={prayerRequestInputs}
-                welcomeMessage="Prayer requests will be entered here"
+                formInputs={titheRequestInputs}
+                welcomeMessage="testimonies will be entered here"
                 actionMessage="Fill out the form below"
                 processInputs={sendNewRequest}
                 submitLabel="Submit"
@@ -380,22 +435,23 @@ const Requests = ({ dataFromServer }) => {
           />
         )}
         <div className="add_button ">
-          <button onClick={() => setShowForm(true)}>New Prayer Request</button>
+          <button onClick={() => setShowForm(true)}>Record a Paid Tithe</button>
+          <button onClick={() => setShowForm(true)}>Pay with Card</button>
         </div>
         <Table
           tableData={tableData}
           tableHeaders={tableHeaders}
-          actionsData={actionsData}
           tableKeys={tableKeys}
+          actionsData={actionsData}
         />
       </RequestContainer>
     </DashboardLayout>
   );
 };
 
-export default Requests;
+export default Tithing;
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: any) {
   const cookies = context.req.headers.cookie;
   const token = getCookie("nekot", cookies);
 
@@ -409,15 +465,12 @@ export async function getServerSideProps(context) {
               sureName
               gender
             }
-            prayers {
+            tithes {
               _id
+              amount
               date
-              title
-              details
+              isConfirmed
             }
-          }
-          userErrors {
-            message
           }
         }
       }

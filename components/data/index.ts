@@ -133,3 +133,16 @@ export const testimonyRequestInputs = [
     name: "details",
   },
 ];
+
+export const titheRequestInputs = [
+  {
+    inputType: "number",
+    prompt: "Enter tithe amount",
+    name: "amount",
+  },
+  {
+    inputType: "date",
+    prompt: "select the date of the tithe",
+    name: "date",
+  },
+];

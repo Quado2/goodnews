@@ -5,7 +5,7 @@ export const InputWrapper = styled.div`
   text-align: left;
   width: 100%;
   opacity: 0;
-  animation: inputFadeIn .5s ease-in forwards;
+  animation: inputFadeIn 0.5s ease-in forwards;
 
   label {
     font-size: 16px;
@@ -72,6 +72,7 @@ export const InputWrapper = styled.div`
         padding: 5px;
         border-bottom: 1px solid #899ec244;
         width: 90%;
+        color-scheme: dark;
       }
 
       textarea {
@@ -86,7 +87,7 @@ export const InputWrapper = styled.div`
         width: 90%;
         height: 10rem;
         resize: none;
-        border-radius: .2rem;
+        border-radius: 0.2rem;
       }
 
       select {
@@ -165,7 +166,7 @@ export const InputWrapper = styled.div`
   }
 
   @keyframes inputFadeIn {
-    to{
+    to {
       opacity: 1;
     }
   }

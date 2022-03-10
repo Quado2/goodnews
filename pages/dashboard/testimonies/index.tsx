@@ -7,13 +7,13 @@ import { GiTireIronCross } from "react-icons/gi";
 import { useMutation } from "@apollo/client";
 
 import Table from "../../../components/Table";
-import {testimonyRequestInputs } from "../../../components/data";
+import { testimonyRequestInputs } from "../../../components/data";
 import GitForm from "../../../components/GitForm/GitForm";
 import Spinner from "../../../components/Spinner/Spinner";
 import { Context } from "../../../context/Context";
 import BriefNotification from "../../../components/Notification/BriefNotification";
 import DashboardLayout from "../../../HOC/DashboardLayout";
-import { set } from "mongoose";
+import { getDate } from "../../../utils";
 
 const RequestContainer = styled.div`
   width: 100%;
@@ -144,7 +144,18 @@ interface FORMINPUTS {
   initialValue: string;
 }
 
-const Requests = ({
+function processTableData(tableData: any): any {
+  const newData = tableData.map((data: any) => {
+    return {
+      ...data,
+      date: getDate(data.date),
+    };
+  });
+
+  return newData;
+}
+
+const Testimony = ({
   dataFromServer,
 }: {
   dataFromServer: DataFromServer;
@@ -200,7 +211,7 @@ const Requests = ({
     let isMounted = true;
     const { member } = dataFromServer.me;
     if (isMounted) {
-      setTableData(member.testimonies);
+      setTableData(processTableData(member.testimonies));
       setLoggedInUser(member.profile);
       setShowDashboard(true);
     }
@@ -245,7 +256,7 @@ const Requests = ({
             setLoading(false);
             setShowForm(false);
           }
-        }else{
+        } else {
           displayNotification(
             "Sorry, we did not get the testimonies",
             "failure"
@@ -314,10 +325,7 @@ const Requests = ({
             setEditForm(false);
           } else {
             setTableData(testimonies);
-            displayNotification(
-              "Sucessfully edited your testimony",
-              "success"
-            );
+            displayNotification("Sucessfully edited your testimony", "success");
             setLoading(false);
             setShowForm(false);
             setEditForm(false);
@@ -361,6 +369,7 @@ const Requests = ({
   }
 
   const tableHeaders = ["Title", "Details", "Date", "Edit", "Delete"];
+  const tableKeys = ["title", "details", "date"];
   const actionsData = [
     { title: "Edit", action: editRequest },
     { title: "Delete", action: deleteRequest },
@@ -411,13 +420,14 @@ const Requests = ({
           tableData={tableData}
           tableHeaders={tableHeaders}
           actionsData={actionsData}
+          tableKeys={tableKeys}
         />
       </RequestContainer>
     </DashboardLayout>
   );
 };
 
-export default Requests;
+export default Testimony;
 
 export async function getServerSideProps(context: any) {
   const cookies = context.req.headers.cookie;

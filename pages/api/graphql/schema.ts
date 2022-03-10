@@ -27,9 +27,45 @@ export const typeDefs = gql`
     titheEdit(editTithe: EditTitheInput!): TithePayload!
     titheDelete(titheId: ID!): TithePayload!
     # titheComfirm(titheId: ID!): TithePayload!
+
+    partnersCreate(partnerInput: PartnerCreateInput): PartnershipPayload!
     
     
     testIt: String
+  }
+
+  input PartnerCreateInput{
+    plan: String!
+    startDate: String!
+  }
+
+  type Partner{
+    _id: ID!
+    memberId: ID!
+    startDate: String!
+    plan: String!
+  }
+
+  type PartnerPayment{
+    _id: ID!
+    memberId: ID!
+    plan: String!
+    date: String!
+  }
+
+  type PartnershipPayload {
+    partnerDetails: Partner
+    partnerPayments: [PartnerPayment!]!
+    userErrors: [UserError]
+  }
+
+  type Member {
+    _id: ID!
+    email: String
+    prayers: [Prayer]
+    profile: Profile
+    testimonies: [Testimony]
+    tithes: [Tithe]
   }
   type PrayersMe{
     userErrors: [UserError]
@@ -43,13 +79,7 @@ export const typeDefs = gql`
 
   }
 
-  type Member {
-    _id: ID!
-    email: String
-    prayers: [Prayer]
-    profile: Profile
-    testimonies: [Testimony]
-  }
+ 
 
   type User {
     _id: ID!

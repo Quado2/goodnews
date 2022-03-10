@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { tableData1 } from "./data";
 import styled from "styled-components";
+import {getDate} from '../../utils'
 
 const TableContainer = styled.div`
   width: 100%;
@@ -70,22 +71,11 @@ const TableContainer = styled.div`
   }
 `;
 
-const Table = ({tableHeaders, tableData, actionsData}) => {
-  const [showForm, setShowForm] = useState(false);
 
-  const headers = tableData1[0];
-  const tableBody = tableData1.slice(1, tableData1.length);
-  const actions = ["Edit", "Delete"];
-  const monthList = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const Table = ({tableHeaders, tableData, actionsData, tableKeys}) => {
 
-  function getDate(dateInt){
-    const date = new Date(dateInt);
-    const year = date.getFullYear();
-    const month = monthList[date.getUTCMonth()]
-    const day = date.getUTCDate();
 
-    return `${day} ${month} ${year}`
-  }
+
   return (
     <TableContainer>
      
@@ -100,13 +90,11 @@ const Table = ({tableHeaders, tableData, actionsData}) => {
           </tr>
           </thead>
          <tbody>
-           {tableData && tableData.map(data1 => {
-            return <tr key={data1._id}>
-              <td>{data1.title}</td>
-              <td>{data1.details}</td>
-              <td>{getDate(data1.date)}</td>
+           {tableData && tableData.map(data => {
+            return <tr key={data._id}>
+              {tableKeys.map(theKey => <td key={theKey}>{data[theKey]}</td>)}
               {actionsData && actionsData.map((acData,i) => 
-                <td key={data1._id+i} ><button  onClick={() => acData.action(data1._id)}>{acData.title}</button></td>
+                <td key={data._id+i} ><button  onClick={() => acData.action(data._id)}>{acData.title}</button></td>
               )}
             </tr>
              })}

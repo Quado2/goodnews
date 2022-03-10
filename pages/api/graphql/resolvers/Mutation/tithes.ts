@@ -13,6 +13,7 @@ export const titheResolvers = {
     { tithe }: { tithe: TitheInput },
     { userInfo }: Context
   ): Promise<TithePayload> => {
+    console.log("worked here")
     try {
       await dbConnect();
     } catch (err) {
@@ -32,8 +33,7 @@ export const titheResolvers = {
       memberId: userInfo?.userId,
     });
 
-    const savedTithe = await newTithe.save();
-    console.log(savedTithe);
+    await newTithe.save();
 
     const tithes = await Tithe.find({ memberId: userInfo?.userId });
 
@@ -135,15 +135,15 @@ export const titheResolvers = {
     const remove = await Tithe.deleteOne({ _id: titheId });
 
     if (remove.deletedCount === 1) {
-      const testimonies = await Tithe.find({ memberId: userInfo?.userId });
+      const tithes = await Tithe.find({ memberId: userInfo?.userId });
       return {
         userErrors: [],
         tithes,
       };
     } else {
       return {
-        userErrors: [{ message: "We could not delete the prayer." }],
-        testimonies: [],
+        userErrors: [{ message: "We could not delete the tithe." }],
+        tithes: [],
       };
     }
   },
