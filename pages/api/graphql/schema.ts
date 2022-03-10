@@ -28,10 +28,15 @@ export const typeDefs = gql`
     titheDelete(titheId: ID!): TithePayload!
     # titheComfirm(titheId: ID!): TithePayload!
 
-    partnershipCreate(): PartnershipPayload!
+    partnersCreate(partnerInput: PartnerCreateInput): PartnershipPayload!
     
     
     testIt: String
+  }
+
+  input PartnerCreateInput{
+    plan: String!
+    startDate: String!
   }
 
   type Partner{

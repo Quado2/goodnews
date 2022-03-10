@@ -10,12 +10,13 @@ const PartnerSchema = new Schema({
   },
   plan: {
     required: true,
-    type: String, 
+    type: String,
   },
   startDate: {
-    required: true, 
-    type: String
-  }
+    required: true,
+    type: String,
+  },
 });
 
-export const Partner = mongoose.models.Partner || mongoose.model("Partner",PartnerSchema);
+export const Partner =
+  mongoose.models.Partner || mongoose.model("Partner", PartnerSchema);
