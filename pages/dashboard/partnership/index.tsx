@@ -81,7 +81,7 @@ const RequestContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    margin-top: 5rem;
+    margin-top: 3rem;
 
     h3 {
       border: 1px solid ${({ theme }) => theme.colorTextPrimary};
@@ -112,6 +112,7 @@ const RequestContainer = styled.div`
         background-color: transparent;
         color: ${({ theme }) => theme.colorTextPrimary};
         margin: 0.3rem;
+        text-align: center;
       }
 
       button {
@@ -540,12 +541,12 @@ const Partnership = ({
         ) : (
           <div className="sign_up">
             <h3>
-              You have not signed up to Partner with Prophetic Voice. Select a
+              You have not signed up to Partner with Prophetic Voice. Choose a
               plan and click the Register button bellow to get started
             </h3>
             <div className="controls">
               <select onChange={(e)=>setChosenPlan(e.target.value)}>
-                <option value="">Select Plan</option>
+                <option value="">Choose a Plan</option>
                 <option value="senior">Senior Partner - 5000</option>
                 <option value="junior">Junior Partner - 5000</option>
               </select>

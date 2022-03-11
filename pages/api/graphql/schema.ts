@@ -33,7 +33,6 @@ export const typeDefs = gql`
 
   input PartnerCreateInput {
     plan: String!
-    startDate: String!
   }
 
   type Partner {

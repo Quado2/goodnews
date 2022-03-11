@@ -1,6 +1,9 @@
 import dbConnect from "../../../mongoose/connection"
 import {Context, PartnerCreateInput, PartnershipPayload} from '../../../interfaces/interfaces'
 import { Partner } from "../../../mongoose/models";
+import { monthList } from "../../../../../utils";
+
+
 export const partnerResolvers ={
   partnerCreate: async (_:any, {partnerInput}:{partnerInput: PartnerCreateInput}, {userInfo}:Context):Promise<PartnershipPayload>=> {
 
@@ -17,7 +20,12 @@ export const partnerResolvers ={
       }
     }
 
-    const {startDate, plan} = partnerInput;
+    const {plan} = partnerInput;
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = monthList[today.getMonth()];
+    const startDate = month + " " + year
+    
     const newPartner = new Partner({
       memberId: userInfo?.userId,
       plan,

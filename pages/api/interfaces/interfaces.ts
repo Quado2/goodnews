@@ -108,7 +108,6 @@ export interface TithePayload{
 }
 
 export interface PartnerCreateInput{
-  startDate: string
   plan: string
 }
 

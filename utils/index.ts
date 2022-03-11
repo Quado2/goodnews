@@ -38,7 +38,7 @@ export const getCookie =(cname:string,cookies:string) => {
   return "";
 }
 
-const monthList = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+export const monthList = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
 export function getDate(dateInt:number){
   const date = new Date(dateInt);
