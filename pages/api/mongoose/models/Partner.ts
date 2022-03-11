@@ -7,6 +7,7 @@ const PartnerSchema = new Schema({
     required: true,
     type: mongoose.Schema.Types.ObjectId,
     ref: "Member",
+    unique: true,
   },
   plan: {
     required: true,
