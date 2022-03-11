@@ -380,7 +380,9 @@ function editRequest(){
 
 }
 
-functon
+function deleteRequest(){
+
+}
 
 
   const tableHeaders = ["Date", "Amount", "Status", "Edit", "Delete"];
