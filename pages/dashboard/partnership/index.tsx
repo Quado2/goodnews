@@ -104,29 +104,31 @@ const RequestContainer = styled.div`
       justify-content: center;
       align-items: center;
 
-
       select {
-        width: 10rem;
-        padding: .5rem;
+        width: 13rem;
+        padding: 0.5rem;
         font-size: 1.1rem;
         border: 1px solid ${({ theme }) => theme.colorTextPrimary};
         background-color: transparent;
         color: ${({ theme }) => theme.colorTextPrimary};
-        margin: .3rem;
-
-       
+        margin: 0.3rem;
       }
 
-      button{
-        width: 10rem;
+      button {
+        width: 13rem;
         margin: 1rem;
-        padding: 1rem .5rem;
-        border-radius: .2rem;
+        padding: 1rem 0.5rem;
+        border-radius: 0.2rem;
         color: green;
         border: 1px solid green;
         background-color: transparent;
+        font-size: 1.1rem;
       }
 
+      button:disabled {
+        color: #627597;
+        border: 1px solid #627597;
+      }
     }
   }
 `;
@@ -242,8 +244,10 @@ const Partnership = ({
   const [editId, setEditId] = useState("");
   const [partnerDetails, setPartnerDetails] = useState<PartnerDetails>();
   const [chosenPlan, setChosenPlan] = useState("");
-  const disable = chosenPlan === ("junior" || "senior") ? false: true
+  
+  const disable = (chosenPlan==="junior") || (chosenPlan==="senior") ? false: true;
 
+  
   const { setLoggedInUser, setShowDashboard } = useContext(Context);
 
   const [submitTithe] = useMutation(NEWREQUEST_MUTATION, {
@@ -540,12 +544,12 @@ const Partnership = ({
               plan and click the Register button bellow to get started
             </h3>
             <div className="controls">
-              <select>
-                <option>Select Plan</option>
-                <option>Senior Partner - 5000</option>
-                <option>Junio Partner - 5000</option>
+              <select onChange={(e)=>setChosenPlan(e.target.value)}>
+                <option value="">Select Plan</option>
+                <option value="senior">Senior Partner - 5000</option>
+                <option value="junior">Junior Partner - 5000</option>
               </select>
-              <button>Register Now</button>
+              <button disabled={disable}>Register Now</button>
             </div>
           </div>
         )}
