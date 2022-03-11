@@ -134,21 +134,7 @@ const RequestContainer = styled.div`
   }
 `;
 
-const NEWREQUEST_MUTATION = gql`
-  mutation ($tithe: TitheInput!) {
-    titheSubmit(tithe: $tithe) {
-      userErrors {
-        message
-      }
-      tithes {
-        date
-        amount
-        isConfirmed
-        _id
-      }
-    }
-  }
-`;
+
 
 const CREATE_MUTATION = gql`
   mutation ($partnerInput: PartnerCreateInput!) {
@@ -167,37 +153,7 @@ const CREATE_MUTATION = gql`
   }
 `;
 
-const DELETE_MUTATION = gql`
-  mutation ($titheId: ID!) {
-    titheDelete(titheId: $titheId) {
-      userErrors {
-        message
-      }
-      tithes {
-        _id
-        amount
-        date
-        isConfirmed
-      }
-    }
-  }
-`;
 
-const EDIT_MUTATION = gql`
-  mutation ($editTithe: EditTitheInput!) {
-    titheEdit(editTithe: $editTithe) {
-      userErrors {
-        message
-      }
-      tithes {
-        _id
-        amount
-        isConfirmed
-        date
-      }
-    }
-  }
-`;
 
 interface Tithe {
   date: number;
@@ -276,32 +232,8 @@ const Partnership = ({
     },
   });
 
-  const [submitTithe] = useMutation(NEWREQUEST_MUTATION, {
-    variables: {
-      tithe: {
-        date: 0,
-        amount: 0,
-        isConfirmed: false,
-      },
-    },
-  });
 
-  const [deleteTithe] = useMutation(DELETE_MUTATION, {
-    variables: {
-      titheId: "",
-    },
-  });
 
-  const [editTithe] = useMutation(EDIT_MUTATION, {
-    variables: {
-      editTithe: {
-        date: 0,
-        amount: 0,
-        isConfirmed: false,
-        titheId: "",
-      },
-    },
-  });
 
   function displayNotification(message: string, stats: string) {
     setNotificationMessage(message);
@@ -404,12 +336,16 @@ function deleteRequest(){
         )}
         {partnerDetails && partnerDetails._id ? (
           <div className="details wrapper">
+            <div>
+            <h3>Pending Payments: <span>500</span> </h3>
             <div className="add_button ">
               <button onClick={() => setShowForm(true)}>
-                Record a Paid Tithe
+                Pay All - 500
               </button>
-              <button onClick={() => setShowForm(true)}>Pay with Card</button>
+              <button onClick={() => setShowForm(true)}>Pay Some</button>
             </div>
+            </div>
+           
             <Table
               tableData={tableData}
               tableHeaders={tableHeaders}
