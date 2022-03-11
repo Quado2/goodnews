@@ -385,11 +385,10 @@ function deleteRequest(){
 }
 
 
-  const tableHeaders = ["Date", "Amount", "Status", "Edit", "Delete"];
+  const tableHeaders = ["Date", "Plan", "Amount Paid", "Status", "Action"];
   const tableKeys = ["date", "amount", "isConfirmed"];
   const actionsData = [
-    { title: "Edit", action: editRequest },
-    { title: "Delete", action: deleteRequest },
+    { title: "I have paid", action: editRequest },
   ];
 
   return (
