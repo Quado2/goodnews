@@ -150,6 +150,23 @@ const NEWREQUEST_MUTATION = gql`
   }
 `;
 
+const CREATE_MUTATION = gql`
+  mutation ($partnerInput: PartnerCreateInput!) {
+    partnerCreate(partnerInput: $partnerInput) {
+      partnerPayments {
+        date
+        plan
+      }
+      partnerDetails {
+        memberId
+        startDate
+        _id
+        plan
+      }
+    }
+  }
+`;
+
 const DELETE_MUTATION = gql`
   mutation ($titheId: ID!) {
     titheDelete(titheId: $titheId) {
@@ -245,11 +262,19 @@ const Partnership = ({
   const [editId, setEditId] = useState("");
   const [partnerDetails, setPartnerDetails] = useState<PartnerDetails>();
   const [chosenPlan, setChosenPlan] = useState("");
-  
-  const disable = (chosenPlan==="junior") || (chosenPlan==="senior") ? false: true;
 
-  
+  const disable =
+    chosenPlan === "junior" || chosenPlan === "senior" ? false : true;
+
   const { setLoggedInUser, setShowDashboard } = useContext(Context);
+
+  const [createPartner] = useMutation(CREATE_MUTATION, {
+    variables: {
+      partnerInput: {
+        plan: "",
+      },
+    },
+  });
 
   const [submitTithe] = useMutation(NEWREQUEST_MUTATION, {
     variables: {
@@ -305,178 +330,58 @@ const Partnership = ({
     };
   }, []);
 
+
+  function registerPartnership() {
+    setLoading(true);
+    createPartner({
+      variables: {
+        partnerInput: {
+          plan: chosenPlan,
+        },
+      },
+    })
+      .then((response) => {
+        if (response.data) {
+          setPartnerDetails(response.data.partnerCreate.partnerDetails);
+          displayNotification(
+            "You have rigistered succesfully to partner with prophetic voice",
+            "success"
+          );
+          setLoading(false);
+        } else {
+          displayNotification(
+            "Could not register you, please try again",
+            "failure"
+          );
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        displayNotification(
+          "Something went wrong, please try again",
+          "failure"
+        );
+      });
+  }
+
+
+
   const requestSpinner = (
     <Spinner
       textSize="1rem"
       spinnerSize="2rem"
       color="green"
-      message="Submiting Request ..."
+      message="Registering ..."
     />
   );
 
-  function sendNewRequest(formValues: { date: number; amount: string }) {
-    let { date, amount } = formValues;
-    const intAmount = parseInt(amount);
-    date = new Date(date).getTime();
+function editRequest(){
 
-    setLoading(true);
-    submitTithe({
-      variables: {
-        tithe: {
-          amount: intAmount,
-          date,
-          isConfirmed: false,
-        },
-      },
-    })
-      .then((resp) => {
-        console.log(resp);
-        if (resp.data.titheSubmit) {
-          const { tithes, userErrors } = resp.data.titheSubmit;
-          if (userErrors.length > 1) {
-            displayNotification(userErrors[0].message, "failure");
-            setLoading(false);
-          } else {
-            setTableData(processTableData(tithes));
-            displayNotification(
-              "Great! Your tithe submision has been received.",
-              "success"
-            );
-            setLoading(false);
-            setShowForm(false);
-          }
-        } else {
-          displayNotification("Sorry, we did not get the tithes", "failure");
-          setLoading(false);
-          setShowForm(false);
-        }
-      })
-      .catch((err) => {
-        displayNotification(
-          "Sorry, We couldn't save your tithes. Try again.",
-          "failure"
-        );
-        setLoading(false);
-        console.log({ err });
-      });
-  }
+}
 
-  function editRequest(id: string) {
-    let tithe: Tithe = tableData.find((tithe: Tithe) => tithe._id === id)!;
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    const { date, amount } = tithe;
-    const dateElements = date.toString().split(" ");
-    let monthNumber: string | number =
-      (months.indexOf(dateElements[1]) as number) + 1;
-    monthNumber = monthNumber > 9 ? monthNumber : "0" + monthNumber;
-    let dayNumber: string | number = parseInt(dateElements[0]);
-    dayNumber = dayNumber > 9 ? dayNumber : "0" + dayNumber;
-    const dateFormat = `${dateElements[2]}-${monthNumber}-${dayNumber}`;
-    setEditId(id);
-    setEditFormInput([
-      {
-        inputType: "number",
-        prompt: "Enter tithe amount",
-        name: "amount",
-        initialValue: amount,
-      },
-      {
-        inputType: "date",
-        prompt: "select the date of the tithe",
-        name: "date",
-        initialValue: dateFormat,
-      },
-    ]);
+functon
 
-    setShowForm(true);
-    setEditForm(true);
-  }
-
-  function sendEditedRequest(formValues: { amount: string; date: number }) {
-    let { amount, date } = formValues;
-    const intAmount = parseInt(amount);
-    date = new Date(date).getTime();
-    setLoading(true);
-
-    editTithe({
-      variables: {
-        editTithe: {
-          titheId: editId,
-          amount: intAmount,
-          date,
-          isConfirmed: false,
-        },
-      },
-    })
-      .then((response) => {
-        if (response.data.titheEdit) {
-          const { userErrors, tithes } = response.data.titheEdit;
-
-          if (userErrors !== undefined && userErrors.length >= 1) {
-            displayNotification(userErrors[0].message, "failure");
-            setLoading(false);
-            setShowForm(false);
-            setEditForm(false);
-          } else {
-            setTableData(processTableData(tithes));
-            displayNotification(
-              "Sucessfully edited your tithe details",
-              "success"
-            );
-            setLoading(false);
-            setShowForm(false);
-            setEditForm(false);
-          }
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        displayNotification(
-          "Something went wrong, we could not edit the message. Check your network and try again.",
-          "failure"
-        );
-        setLoading(false);
-        setShowForm(false);
-        setEditForm(false);
-      });
-  }
-
-  function deleteRequest(id: string) {
-    deleteTithe({
-      variables: {
-        titheId: id,
-      },
-    })
-      .then((resp) => {
-        const { tithes, userErrors } = resp.data.titheDelete;
-        if (userErrors.length > 1) {
-          displayNotification(userErrors[0].message, "failure");
-        } else {
-          setTableData(processTableData(tithes));
-          displayNotification(
-            "You have succesfully deleted the tithe details",
-            "success"
-          );
-        }
-      })
-      .catch((err) => {
-        displayNotification("An error Occured. Please try agian", "failure");
-        console.log(err);
-      });
-  }
 
   const tableHeaders = ["Date", "Amount", "Status", "Edit", "Delete"];
   const tableKeys = ["date", "amount", "isConfirmed"];
@@ -488,34 +393,7 @@ const Partnership = ({
   return (
     <DashboardLayout>
       <RequestContainer>
-        {showForm && (
-          <div className="new-request">
-            <div onClick={() => setShowForm(false)} className="close">
-              <GiTireIronCross />
-            </div>
-            {editForm ? (
-              <GitForm
-                loadingState={loading}
-                formInputs={editFormInput}
-                welcomeMessage="Your testimony will be edited here"
-                actionMessage="Edit the values and click enter"
-                processInputs={sendEditedRequest}
-                submitLabel="Submit"
-                spinnerComponent={requestSpinner}
-              />
-            ) : (
-              <GitForm
-                loadingState={loading}
-                formInputs={titheRequestInputs}
-                welcomeMessage="testimonies will be entered here"
-                actionMessage="Fill out the form below"
-                processInputs={sendNewRequest}
-                submitLabel="Submit"
-                spinnerComponent={requestSpinner}
-              />
-            )}
-          </div>
-        )}
+       
 
         {showBriefNotification && (
           <BriefNotification
@@ -545,12 +423,18 @@ const Partnership = ({
               plan and click the Register button bellow to get started
             </h3>
             <div className="controls">
-              <select onChange={(e)=>setChosenPlan(e.target.value)}>
+              <select onChange={(e) => setChosenPlan(e.target.value)}>
                 <option value="">Choose a Plan</option>
                 <option value="senior">Senior Partner - 5000</option>
                 <option value="junior">Junior Partner - 5000</option>
               </select>
-              <button disabled={disable}>Register Now</button>
+              {loading ? (
+                requestSpinner
+              ) : (
+                <button onClick={registerPartnership} disabled={disable}>
+                  Register Now
+                </button>
+              )}
             </div>
           </div>
         )}
