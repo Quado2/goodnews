@@ -4,7 +4,7 @@ import dbConnect from "../../mongoose/connection";
 
 export const Query = {
   me: async (_: any, __: any, { userInfo }: Context) => {
-    console.log("just entered")
+    
     if (!userInfo) {
       return {
         userErrors: [
@@ -30,7 +30,7 @@ export const Query = {
       };
     }
    
-    console.log("about to search for a member")
+  
     const member = await Member.findOne({ _id: userInfo.userId });
     return {member: member, userErrors: []}
   },
