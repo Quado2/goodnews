@@ -3,9 +3,10 @@ import { getCookie } from "../../../utils";
 import { client2, client } from "../../_app";
 import { gql } from "apollo-server-micro";
 import styled from "styled-components";
-import { GiTireIronCross } from "react-icons/gi";
 import { useMutation } from "@apollo/client";
 import Router from "next/router";
+import { useTheme } from "styled-components";
+
 
 import Table from "../../../components/Table";
 import { titheRequestInputs } from "../../../components/data";
@@ -15,123 +16,10 @@ import { Context } from "../../../context/Context";
 import BriefNotification from "../../../components/Notification/BriefNotification";
 import DashboardLayout from "../../../HOC/DashboardLayout";
 import { getDate } from "../../../utils";
+import styles from './style.module.scss'
 
 const RequestContainer = styled.div`
-  width: 100%;
-  .add_button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-    button {
-      background-color: transparent;
-      outline: none;
-      border: 1px solid ${({ theme }) => theme.colorTextPrimary};
-      margin: 2rem 1rem;
-      padding: 1rem;
-      color: ${({ theme }) => theme.colorTextPrimary};
-      border-radius: 0.2rem;
-    }
-    button:last-child {
-      color: #08dd08;
-      border: 1px solid #08dd08;
-    }
-  }
-
-  .new-request {
-    width: 97%;
-    height: 70vh;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.85);
-    background-color: black;
-    overflow-y: scroll;
-    border-radius: 0.2rem;
-    animation: comeIn 0.3s ease-in forwards;
-    opacity: 0;
-
-    @keyframes comeIn {
-      to {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
-      }
-    }
-
-    .close {
-      background-color: black;
-      width: 2.5rem;
-      height: 2.5rem;
-      color: red;
-      font-size: 1.5rem;
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 0.1rem;
-      cursor: pointer;
-    }
-  }
-
-  .sign_up {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    margin-top: 3rem;
-
-    h3 {
-      border: 1px solid ${({ theme }) => theme.colorTextPrimary};
-      margin: 2rem;
-      padding: 1rem;
-      border-radius: 0.2rem;
-      font-size: 1.1rem;
-      line-height: 1.8rem;
-      word-spacing: 0.1rem;
-      text-align: center;
-      max-width: 30rem;
-      color: ${({ theme }) => theme.colorTextPrimary};
-      font-weight: 300;
-      background-color: rgba(55, 116, 230, 0.249);
-    }
-    .controls {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      justify-content: center;
-      align-items: center;
-
-      select {
-        width: 13rem;
-        padding: 0.5rem;
-        font-size: 1.1rem;
-        border: 1px solid ${({ theme }) => theme.colorTextPrimary};
-        background-color: transparent;
-        color: ${({ theme }) => theme.colorTextPrimary};
-        margin: 0.3rem;
-        text-align: center;
-      }
-
-      button {
-        width: 13rem;
-        margin: 1rem;
-        padding: 1rem 0.5rem;
-        border-radius: 0.2rem;
-        color: green;
-        border: 1px solid green;
-        background-color: transparent;
-        font-size: 1.1rem;
-      }
-
-      button:disabled {
-        color: #627597;
-        border: 1px solid #627597;
-      }
-    }
-  }
 `;
 
 
@@ -202,6 +90,10 @@ function processTableData(tableData: any): any {
   return newData;
 }
 
+interface themeTypes {
+  colorTextPrimary: string,
+}
+
 const Partnership = ({
   dataFromServer,
 }: {
@@ -213,12 +105,9 @@ const Partnership = ({
   const [showBriefNotification, setShowBriefNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState("");
-  const [editForm, setEditForm] = useState(false);
-  const [editFormInput, setEditFormInput] = useState<FORMINPUTS[]>([]);
-  const [editId, setEditId] = useState("");
   const [partnerDetails, setPartnerDetails] = useState<PartnerDetails>();
   const [chosenPlan, setChosenPlan] = useState("");
-
+  const theme: themeTypes | null = useTheme();
   const disable =
     chosenPlan === "junior" || chosenPlan === "senior" ? false : true;
 
@@ -323,11 +212,16 @@ function deleteRequest(){
     { title: "I have paid", action: editRequest },
   ];
 
+
+  const buttonStyle = { 
+    border: `1px solid ${theme.colorTextPrimary}`
+  }
+
+
+
   return (
     <DashboardLayout>
-      <RequestContainer>
-       
-
+      <div className="partner_wrapper">
         {showBriefNotification && (
           <BriefNotification
             status={notificationStatus}
@@ -354,12 +248,12 @@ function deleteRequest(){
             />
           </div>
         ) : (
-          <div className="sign_up">
+          <div className={styles.sign_up}>
             <h3>
               You have not signed up to Partner with Prophetic Voice. Choose a
               plan and click the Register button bellow to get started
             </h3>
-            <div className="controls">
+            <div className={styles.control}>
               <select onChange={(e) => setChosenPlan(e.target.value)}>
                 <option value="">Choose a Plan</option>
                 <option value="senior">Senior Partner - 5000</option>
@@ -375,7 +269,7 @@ function deleteRequest(){
             </div>
           </div>
         )}
-      </RequestContainer>
+      </div>
     </DashboardLayout>
   );
 };
