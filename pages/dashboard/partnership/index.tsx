@@ -340,9 +340,9 @@ function deleteRequest(){
             <h3>Pending Payments: <span>500</span> </h3>
             <div className="add_button ">
               <button onClick={() => setShowForm(true)}>
-                Pay All - 500
+                Pay Some
               </button>
-              <button onClick={() => setShowForm(true)}>Pay Some</button>
+              <button onClick={() => setShowForm(true)}>Pay All - 500</button>
             </div>
             </div>
            
@@ -363,7 +363,7 @@ function deleteRequest(){
               <select onChange={(e) => setChosenPlan(e.target.value)}>
                 <option value="">Choose a Plan</option>
                 <option value="senior">Senior Partner - 5000</option>
-                <option value="junior">Junior Partner - 5000</option>
+                <option value="junior">Junior Partner - 2000</option>
               </select>
               {loading ? (
                 requestSpinner
