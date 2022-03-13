@@ -75,6 +75,13 @@ interface themeTypes {
   colorBorderSecondary: string;
 }
 
+interface PartnerDetails{
+  plan: string;
+  _id: string;
+  startDate: string;
+  memberId: string
+}
+
 function getNumberOfMonths(month:string, year:number): number{
  
   const months = ((new Date().getMonth() - monthList.indexOf(month)) + 1);
@@ -84,16 +91,25 @@ function getNumberOfMonths(month:string, year:number): number{
   
 }
 
-function processTableData(partnerPayments: any, partnerDetails: any): any {
+const plans = {
+  Senior: 5000,
+  Junior: 2000,
+  senior: 5000,
+  junior: 2000,
+}
+
+function processTableData(partnerPayments: any, partnerDetails: PartnerDetails): any {
 
   
   let tableData = []
+  let month: string;
+  let year: number | string
   
   if(partnerDetails){
-   let [month, year]  = partnerDetails.startDate.split(" ");
+    [month, year]  = partnerDetails.startDate.split(" ");
     year = parseInt(year)
-    month = "November";
-    year = 2020;
+   
+    
     const totalMonths = getNumberOfMonths(month, year);
     let startMonthIndex = monthList.indexOf(month)
     
@@ -105,7 +121,7 @@ function processTableData(partnerPayments: any, partnerDetails: any): any {
       const paymentArray = {
         date: `${monthList[startMonthIndex]} ${year}`,
         plan: partnerDetails.plan,
-        amountPaid: 0,
+        amount: plans[partnerDetails.plan],
         status: "Not paid"
       }
       tableData.push(paymentArray);
@@ -232,8 +248,8 @@ const Partnership = ({
 
   function deleteRequest() {}
 
-  const tableHeaders = ["Date", "Plan", "Amount Paid", "Status", "Action"];
-  const tableKeys = ["date", "plan", "amountPaid", "status"];
+  const tableHeaders = ["Date", "Plan", "Amount", "Status", "Action"];
+  const tableKeys = ["date", "plan", "amount", "status"];
   const actionsData = [{ title: "I have paid", action: editRequest }];
 
   const themeStyle = {
@@ -251,7 +267,7 @@ const Partnership = ({
 
   const disable =
   chosenPlan === "Junior" || chosenPlan === "Senior" ? false : true;
-  
+
   return (
     <DashboardLayout>
       <div className={styles.partner_wrapper}>
