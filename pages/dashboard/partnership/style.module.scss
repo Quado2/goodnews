@@ -1,15 +1,27 @@
 .partner_wrapper {
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
   .partner_details {
-     div h3{
-       
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .prev_details {
+      min-width: 24rem;
+      margin: 2rem;
+      border-radius: .2rem;
+      h3 {
         text-align: center;
         margin-top: 2rem;
         font-weight: 400;
-      
-        
-     }
+      }
+    }
 
     .add_button {
       display: flex;

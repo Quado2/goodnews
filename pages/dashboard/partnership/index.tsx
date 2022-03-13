@@ -75,20 +75,18 @@ interface themeTypes {
   colorBorderSecondary: string;
 }
 
-interface PartnerDetails{
+interface PartnerDetails {
   plan: string;
   _id: string;
   startDate: string;
-  memberId: string
+  memberId: string;
 }
 
-function getNumberOfMonths(month:string, year:number): number{
- 
-  const months = ((new Date().getMonth() - monthList.indexOf(month)) + 1);
-  const years = (new Date().getFullYear()- year );
-  const monthsInYears = (years*12);
+function getNumberOfMonths(month: string, year: number): number {
+  const months = new Date().getMonth() - monthList.indexOf(month) + 1;
+  const years = new Date().getFullYear() - year;
+  const monthsInYears = years * 12;
   return months + monthsInYears;
-  
 }
 
 const plans = {
@@ -96,42 +94,39 @@ const plans = {
   Junior: 2000,
   senior: 5000,
   junior: 2000,
-}
+};
 
-function processTableData(partnerPayments: any, partnerDetails: PartnerDetails): any {
-
-  
-  let tableData = []
+function processTableData(
+  partnerPayments: any,
+  partnerDetails: PartnerDetails
+): any {
+  let tableData = [];
   let month: string;
-  let year: number | string
-  
-  if(partnerDetails){
-    [month, year]  = partnerDetails.startDate.split(" ");
-    year = parseInt(year)
-   
-    
+  let year: number | string;
+
+  if (partnerDetails) {
+    [month, year] = partnerDetails.startDate.split(" ");
+    year = parseInt(year);
+
     const totalMonths = getNumberOfMonths(month, year);
-    let startMonthIndex = monthList.indexOf(month)
-    
-    for(let i=0;i<totalMonths; i++){
-      if(startMonthIndex > 11){
+    let startMonthIndex = monthList.indexOf(month);
+
+    for (let i = 0; i < totalMonths; i++) {
+      if (startMonthIndex > 11) {
         startMonthIndex = 0;
-        year++
+        year++;
       }
       const paymentArray = {
         date: `${monthList[startMonthIndex]} ${year}`,
         plan: partnerDetails.plan,
         amount: plans[partnerDetails.plan as keyof typeof plans],
-        status: "Not paid"
-      }
+        status: "Not paid",
+      };
       tableData.push(paymentArray);
-      startMonthIndex++
-
+      startMonthIndex++;
     }
   }
 
-  
- 
   // const newData =
   //   tableData &&
   //   tableData.map((data: any) => {
@@ -161,8 +156,6 @@ const Partnership = ({
 
   //@ts-ignore
   const theme: themeTypes = useTheme();
-
-
 
   const { setLoggedInUser, setShowDashboard } = useContext(Context);
 
@@ -244,13 +237,20 @@ const Partnership = ({
     />
   );
 
-  function editRequest() {}
+  function havePaid() {
+    if (partnerDetails) {
+      console.log(plans[partnerDetails.plan as keyof typeof plans]);
+    }
+  }
 
   function deleteRequest() {}
 
   const tableHeaders = ["Date", "Plan", "Amount", "Status", "Pay Now", "Paid"];
   const tableKeys = ["date", "plan", "amount", "status"];
-  const actionsData = [{title: "Pay Now", actioin: deleteRequest},{ title: "I have paid", action: editRequest, color: "green" }];
+  const actionsData = [
+    { title: "Pay Now", actioin: deleteRequest },
+    { title: "I have paid", action: havePaid, color: "#08dd08" },
+  ];
 
   const themeStyle = {
     border: `1px solid ${theme.colorTextPrimary}`,
@@ -259,14 +259,10 @@ const Partnership = ({
 
   const wrapperStyle = {
     border: `1px solid ${theme.colorBorderSecondary}`,
-    margin: "1rem",
-    borderRadius: ".2rem",
-    maxWidth: "30rem",
-    maxHeight: "20rem"
   };
 
   const disable =
-  chosenPlan === "Junior" || chosenPlan === "Senior" ? false : true;
+    chosenPlan === "Junior" || chosenPlan === "Senior" ? false : true;
 
   return (
     <DashboardLayout>
@@ -279,7 +275,7 @@ const Partnership = ({
         )}
         {partnerDetails && partnerDetails._id ? (
           <div className={styles.partner_details}>
-            <div style={wrapperStyle}>
+            <div className={styles.prev_details} style={wrapperStyle}>
               <h3 style={{ color: theme.colorSecondaryMuted }}>
                 Total pending payments:{" "}
                 <span style={{ color: theme.colorTextSecondary }}>500</span>{" "}

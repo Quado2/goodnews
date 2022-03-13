@@ -46,7 +46,6 @@ const TableContainer = styled.div`
     font-weight: 300;
     background-color: ${({ theme }) => theme.colorBorderSecondary};
     padding: 0.5rem;
-    text-align: left;
   }
 
   td {
