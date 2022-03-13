@@ -107,7 +107,10 @@ const Partnership = ({
   const [notificationStatus, setNotificationStatus] = useState("");
   const [partnerDetails, setPartnerDetails] = useState<PartnerDetails>();
   const [chosenPlan, setChosenPlan] = useState("");
-  const theme: themeTypes | null = useTheme();
+  
+  //@ts-ignore
+  const theme: themeTypes = useTheme();
+
   const disable =
     chosenPlan === "junior" || chosenPlan === "senior" ? false : true;
 
@@ -120,8 +123,6 @@ const Partnership = ({
       },
     },
   });
-
-
 
 
   function displayNotification(message: string, stats: string) {
@@ -213,15 +214,16 @@ function deleteRequest(){
   ];
 
 
-  const buttonStyle = { 
-    border: `1px solid ${theme.colorTextPrimary}`
+  const themeStyle = { 
+    border: `1px solid ${theme.colorTextPrimary}`,
+    color: `${theme.colorTextPrimary}`,
   }
 
 
 
   return (
     <DashboardLayout>
-      <div className="partner_wrapper">
+      <div className={styles.partner_wrapper}>
         {showBriefNotification && (
           <BriefNotification
             status={notificationStatus}
@@ -229,11 +231,11 @@ function deleteRequest(){
           />
         )}
         {partnerDetails && partnerDetails._id ? (
-          <div className="details wrapper">
+          <div className={"details wrapper"}>
             <div>
             <h3>Pending Payments: <span>500</span> </h3>
-            <div className="add_button ">
-              <button onClick={() => setShowForm(true)}>
+            <div className={styles.add_button}>
+              <button style={themeStyle} onClick={() => setShowForm(true)}>
                 Pay Some
               </button>
               <button onClick={() => setShowForm(true)}>Pay All - 500</button>
@@ -249,12 +251,12 @@ function deleteRequest(){
           </div>
         ) : (
           <div className={styles.sign_up}>
-            <h3>
+            <h3 style={themeStyle} >
               You have not signed up to Partner with Prophetic Voice. Choose a
               plan and click the Register button bellow to get started
             </h3>
             <div className={styles.control}>
-              <select onChange={(e) => setChosenPlan(e.target.value)}>
+              <select style={themeStyle} onChange={(e) => setChosenPlan(e.target.value)}>
                 <option value="">Choose a Plan</option>
                 <option value="senior">Senior Partner - 5000</option>
                 <option value="junior">Junior Partner - 2000</option>
