@@ -248,9 +248,9 @@ const Partnership = ({
 
   function deleteRequest() {}
 
-  const tableHeaders = ["Date", "Plan", "Amount", "Status", "Action"];
+  const tableHeaders = ["Date", "Plan", "Amount", "Status", "Pay Now", "Paid"];
   const tableKeys = ["date", "plan", "amount", "status"];
-  const actionsData = [{ title: "I have paid", action: editRequest }];
+  const actionsData = [{title: "Pay Now", actioin: deleteRequest},{ title: "I have paid", action: editRequest }];
 
   const themeStyle = {
     border: `1px solid ${theme.colorTextPrimary}`,
