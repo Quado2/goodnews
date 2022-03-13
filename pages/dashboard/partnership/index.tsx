@@ -121,7 +121,7 @@ function processTableData(partnerPayments: any, partnerDetails: PartnerDetails):
       const paymentArray = {
         date: `${monthList[startMonthIndex]} ${year}`,
         plan: partnerDetails.plan,
-        amount: plans[partnerDetails.plan],
+        amount: plans[partnerDetails.plan as keyof typeof plans],
         status: "Not paid"
       }
       tableData.push(paymentArray);
