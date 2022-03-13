@@ -8,13 +8,11 @@ import Router from "next/router";
 import { useTheme } from "styled-components";
 
 import Table from "../../../components/Table";
-import { titheRequestInputs } from "../../../components/data";
-import GitForm from "../../../components/GitForm/GitForm";
 import Spinner from "../../../components/Spinner/Spinner";
 import { Context } from "../../../context/Context";
 import BriefNotification from "../../../components/Notification/BriefNotification";
 import DashboardLayout from "../../../HOC/DashboardLayout";
-import { getDate } from "../../../utils";
+import { getDate, monthList } from "../../../utils";
 import styles from "./style.module.scss";
 
 const RequestContainer = styled.div``;
@@ -76,7 +74,25 @@ interface themeTypes {
   colorBorderSecondary: string;
 }
 
-function processTableData(tableData: any): any {
+function getNumberOfMonths(startDate:string){
+  const [month, year] = startDate.split(" ");
+  const months = (monthList.indexOf(month) - new Date().getMonth() + 1);
+  const years = (parseInt(year) - new Date().getFullYear());
+  const monthsInYears = (years*12);
+  const totalMonths = months + monthsInYears;
+  console.log({totalMonths})
+}
+
+function processTableData(tableData: any, partnerDetails: any): any {
+
+  let startDate;
+  if(partnerDetails){
+    startDate = partnerDetails.startDate;
+    getNumberOfMonths("march 2021")
+  }
+
+  
+ 
   const newData =
     tableData &&
     tableData.map((data: any) => {
@@ -136,7 +152,7 @@ const Partnership = ({
     const { member } = dataFromServer.me;
     const { partnerDetails, partnerPayments } = member.partnership;
     if (isMounted) {
-      setTableData(processTableData(partnerPayments));
+      setTableData(processTableData(partnerPayments, partnerDetails));
       setPartnerDetails(partnerDetails);
       setLoggedInUser(member.profile);
       setShowDashboard(true);
@@ -224,7 +240,7 @@ const Partnership = ({
           <div className={styles.partner_details}>
             <div style={wrapperStyle}>
               <h3 style={{ color: theme.colorSecondaryMuted }}>
-                TotalPending Payments:{" "}
+                Total pending payments:{" "}
                 <span style={{ color: theme.colorTextSecondary }}>500</span>{" "}
               </h3>
               <div className={styles.add_button}>
