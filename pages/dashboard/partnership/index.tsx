@@ -146,8 +146,7 @@ const Partnership = ({
   //@ts-ignore
   const theme: themeTypes = useTheme();
 
-  const disable =
-    chosenPlan === "junior" || chosenPlan === "senior" ? false : true;
+
 
   const { setLoggedInUser, setShowDashboard } = useContext(Context);
 
@@ -250,6 +249,9 @@ const Partnership = ({
     maxHeight: "20rem"
   };
 
+  const disable =
+  chosenPlan === "Junior" || chosenPlan === "Senior" ? false : true;
+  
   return (
     <DashboardLayout>
       <div className={styles.partner_wrapper}>
@@ -293,8 +295,8 @@ const Partnership = ({
                 onChange={(e) => setChosenPlan(e.target.value)}
               >
                 <option value="">Choose a Plan</option>
-                <option value="senior">Senior Partner - 5000</option>
-                <option value="junior">Junior Partner - 2000</option>
+                <option value="Senior">Senior Partner - 5000</option>
+                <option value="Junior">Junior Partner - 2000</option>
               </select>
               {loading ? (
                 requestSpinner
