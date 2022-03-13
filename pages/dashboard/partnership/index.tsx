@@ -250,7 +250,7 @@ const Partnership = ({
 
   const tableHeaders = ["Date", "Plan", "Amount", "Status", "Pay Now", "Paid"];
   const tableKeys = ["date", "plan", "amount", "status"];
-  const actionsData = [{title: "Pay Now", actioin: deleteRequest},{ title: "I have paid", action: editRequest }];
+  const actionsData = [{title: "Pay Now", actioin: deleteRequest},{ title: "I have paid", action: editRequest, color: "green" }];
 
   const themeStyle = {
     border: `1px solid ${theme.colorTextPrimary}`,

@@ -58,8 +58,8 @@ const TableContainer = styled.div`
 
 
     button {
-      width: 4.5rem;
-      padding: 0.25rem;
+      width: 6rem;
+      padding: .5rem 0.25rem ;
       cursor: pointer;
     }
 
@@ -67,7 +67,6 @@ const TableContainer = styled.div`
 
   td:last-child button{
     color: white;
-    background-color: red;
     border: 1px solid red;;
   }
 `;
@@ -93,9 +92,10 @@ const Table = ({tableHeaders, tableData, actionsData, tableKeys}) => {
          <tbody>
            {tableData && tableData.map(data => {
             return <tr key={data._id}>
-              {tableKeys.map(theKey => <td key={theKey}>{data[theKey]}</td>)}
+              {tableKeys.map((theKey) => <td key={theKey}>{data[theKey]}</td>)}
               {actionsData && actionsData.map((acData,i) => 
-                <td key={data._id+i} ><button  onClick={() => acData.action(data._id)}>{acData.title}</button></td>
+                <td key={data._id+i} ><button style={{color: acData.color? acData.color: "", 
+              border: acData.color? `1px solid ${acData.color}`: ""}} onClick={() => acData.action(data._id)}>{acData.title}</button></td>
               )}
             </tr>
              })}
