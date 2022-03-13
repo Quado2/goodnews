@@ -7,7 +7,6 @@ import { useMutation } from "@apollo/client";
 import Router from "next/router";
 import { useTheme } from "styled-components";
 
-
 import Table from "../../../components/Table";
 import { titheRequestInputs } from "../../../components/data";
 import GitForm from "../../../components/GitForm/GitForm";
@@ -16,13 +15,9 @@ import { Context } from "../../../context/Context";
 import BriefNotification from "../../../components/Notification/BriefNotification";
 import DashboardLayout from "../../../HOC/DashboardLayout";
 import { getDate } from "../../../utils";
-import styles from './style.module.scss'
+import styles from "./style.module.scss";
 
-const RequestContainer = styled.div`
-
-`;
-
-
+const RequestContainer = styled.div``;
 
 const CREATE_MUTATION = gql`
   mutation ($partnerInput: PartnerCreateInput!) {
@@ -40,8 +35,6 @@ const CREATE_MUTATION = gql`
     }
   }
 `;
-
-
 
 interface Tithe {
   date: number;
@@ -76,6 +69,13 @@ interface FORMINPUTS {
   initialValue: string | number;
 }
 
+interface themeTypes {
+  colorTextPrimary: string;
+  colorTextSecondary: string;
+  colorSecondaryMuted: string;
+  colorBorderSecondary: string;
+}
+
 function processTableData(tableData: any): any {
   const newData =
     tableData &&
@@ -88,10 +88,6 @@ function processTableData(tableData: any): any {
     });
 
   return newData;
-}
-
-interface themeTypes {
-  colorTextPrimary: string,
 }
 
 const Partnership = ({
@@ -107,7 +103,7 @@ const Partnership = ({
   const [notificationStatus, setNotificationStatus] = useState("");
   const [partnerDetails, setPartnerDetails] = useState<PartnerDetails>();
   const [chosenPlan, setChosenPlan] = useState("");
-  
+
   //@ts-ignore
   const theme: themeTypes = useTheme();
 
@@ -123,7 +119,6 @@ const Partnership = ({
       },
     },
   });
-
 
   function displayNotification(message: string, stats: string) {
     setNotificationMessage(message);
@@ -151,7 +146,6 @@ const Partnership = ({
       isMounted = false;
     };
   }, []);
-
 
   function registerPartnership() {
     setLoading(true);
@@ -187,8 +181,6 @@ const Partnership = ({
       });
   }
 
-
-
   const requestSpinner = (
     <Spinner
       textSize="1rem"
@@ -198,28 +190,26 @@ const Partnership = ({
     />
   );
 
-function editRequest(){
+  function editRequest() {}
 
-}
-
-function deleteRequest(){
-
-}
-
+  function deleteRequest() {}
 
   const tableHeaders = ["Date", "Plan", "Amount Paid", "Status", "Action"];
   const tableKeys = ["date", "amount", "isConfirmed"];
-  const actionsData = [
-    { title: "I have paid", action: editRequest },
-  ];
+  const actionsData = [{ title: "I have paid", action: editRequest }];
 
-
-  const themeStyle = { 
+  const themeStyle = {
     border: `1px solid ${theme.colorTextPrimary}`,
     color: `${theme.colorTextPrimary}`,
-  }
+  };
 
-
+  const wrapperStyle = {
+    border: `1px solid ${theme.colorBorderSecondary}`,
+    margin: "1rem",
+    borderRadius: ".2rem",
+    maxWidth: "30rem",
+    maxHeight: "20rem"
+  };
 
   return (
     <DashboardLayout>
@@ -231,17 +221,20 @@ function deleteRequest(){
           />
         )}
         {partnerDetails && partnerDetails._id ? (
-          <div className={"details wrapper"}>
-            <div>
-            <h3>Pending Payments: <span>500</span> </h3>
-            <div className={styles.add_button}>
-              <button style={themeStyle} onClick={() => setShowForm(true)}>
-                Pay Some
-              </button>
-              <button onClick={() => setShowForm(true)}>Pay All - 500</button>
+          <div className={styles.partner_details}>
+            <div style={wrapperStyle}>
+              <h3 style={{ color: theme.colorSecondaryMuted }}>
+                TotalPending Payments:{" "}
+                <span style={{ color: theme.colorTextSecondary }}>500</span>{" "}
+              </h3>
+              <div className={styles.add_button}>
+                <button style={themeStyle} onClick={() => setShowForm(true)}>
+                  Pay Some
+                </button>
+                <button onClick={() => setShowForm(true)}>Pay All - 500</button>
+              </div>
             </div>
-            </div>
-           
+
             <Table
               tableData={tableData}
               tableHeaders={tableHeaders}
@@ -251,12 +244,15 @@ function deleteRequest(){
           </div>
         ) : (
           <div className={styles.sign_up}>
-            <h3 style={themeStyle} >
+            <h3 style={themeStyle}>
               You have not signed up to Partner with Prophetic Voice. Choose a
               plan and click the Register button bellow to get started
             </h3>
             <div className={styles.control}>
-              <select style={themeStyle} onChange={(e) => setChosenPlan(e.target.value)}>
+              <select
+                style={themeStyle}
+                onChange={(e) => setChosenPlan(e.target.value)}
+              >
                 <option value="">Choose a Plan</option>
                 <option value="senior">Senior Partner - 5000</option>
                 <option value="junior">Junior Partner - 2000</option>

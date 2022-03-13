@@ -1,22 +1,32 @@
-.partner_wrapper{
+.partner_wrapper {
   width: 100%;
 
+  .partner_details {
+     div h3{
+       
+        text-align: center;
+        margin-top: 2rem;
+        font-weight: 400;
+      
+        
+     }
 
-  .add_button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    .add_button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-    button {
-      background-color: transparent;
-      outline: none;
-      margin: 2rem 1rem;
-      padding: 1rem;
-      border-radius: 0.2rem;
-    }
-    button:last-child {
-      color: #08dd08;
-      border: 1px solid #08dd08;
+      button {
+        background-color: transparent;
+        outline: none;
+        margin: 2rem 1rem;
+        padding: 1rem;
+        border-radius: 0.2rem;
+      }
+      button:last-child {
+        color: #08dd08;
+        border: 1px solid #08dd08;
+      }
     }
   }
 
