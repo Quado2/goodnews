@@ -14,6 +14,7 @@ import BriefNotification from "../../../components/Notification/BriefNotificatio
 import DashboardLayout from "../../../HOC/DashboardLayout";
 import { getDate, monthList } from "../../../utils";
 import styles from "./style.module.scss";
+import { start } from "repl";
 
 const RequestContainer = styled.div``;
 
@@ -74,36 +75,58 @@ interface themeTypes {
   colorBorderSecondary: string;
 }
 
-function getNumberOfMonths(startDate:string){
-  const [month, year] = startDate.split(" ");
-  const months = (monthList.indexOf(month) - new Date().getMonth() + 1);
-  const years = (parseInt(year) - new Date().getFullYear());
+function getNumberOfMonths(month:string, year:number): number{
+ 
+  const months = ((new Date().getMonth() - monthList.indexOf(month)) + 1);
+  const years = (new Date().getFullYear()- year );
   const monthsInYears = (years*12);
-  const totalMonths = months + monthsInYears;
-  console.log({totalMonths})
+  return months + monthsInYears;
+  
 }
 
-function processTableData(tableData: any, partnerDetails: any): any {
+function processTableData(partnerPayments: any, partnerDetails: any): any {
 
-  let startDate;
+  
+  let tableData = []
+  
   if(partnerDetails){
-    startDate = partnerDetails.startDate;
-    getNumberOfMonths("march 2021")
+   let [month, year]  = partnerDetails.startDate.split(" ");
+    year = parseInt(year)
+    month = "November";
+    year = 2020;
+    const totalMonths = getNumberOfMonths(month, year);
+    let startMonthIndex = monthList.indexOf(month)
+    
+    for(let i=0;i<totalMonths; i++){
+      if(startMonthIndex > 11){
+        startMonthIndex = 0;
+        year++
+      }
+      const paymentArray = {
+        date: `${monthList[startMonthIndex]} ${year}`,
+        plan: partnerDetails.plan,
+        amountPaid: 0,
+        status: "Not paid"
+      }
+      tableData.push(paymentArray);
+      startMonthIndex++
+
+    }
   }
 
   
  
-  const newData =
-    tableData &&
-    tableData.map((data: any) => {
-      return {
-        ...data,
-        date: getDate(data.date),
-        isConfirmed: data.isConfirmed ? "Confirmed" : "Awaiting review",
-      };
-    });
+  // const newData =
+  //   tableData &&
+  //   tableData.map((data: any) => {
+  //     return {
+  //       ...data,
+  //       date: getDate(data.date),
+  //       isConfirmed: data.isConfirmed ? "Confirmed" : "Awaiting review",
+  //     };
+  //   });
 
-  return newData;
+  return tableData;
 }
 
 const Partnership = ({
@@ -211,7 +234,7 @@ const Partnership = ({
   function deleteRequest() {}
 
   const tableHeaders = ["Date", "Plan", "Amount Paid", "Status", "Action"];
-  const tableKeys = ["date", "amount", "isConfirmed"];
+  const tableKeys = ["date", "plan", "amountPaid", "status"];
   const actionsData = [{ title: "I have paid", action: editRequest }];
 
   const themeStyle = {
