@@ -429,7 +429,6 @@ export default Partnership;
 export async function getServerSideProps(context: any) {
   const cookies = context.req.headers.cookie;
   const token = getCookie("nekot", cookies);
-  console.log({ token });
   const { data } = await client2.query({
     query: gql`
       query {
