@@ -6,11 +6,10 @@ import {
   MemberInput,
   UserPayload,
   CredentialsInput,
-  Context
+  Context,
 } from "../../../interfaces/interfaces";
 import dbConnect from "../../../mongoose/connection";
 import { Member, Profile } from "../../../mongoose/models";
-
 
 export const authResolvers = {
   signup: async (
@@ -18,10 +17,10 @@ export const authResolvers = {
     { user }: { user: MemberInput },
     __: any
   ): Promise<UserPayload> => {
-    try {
-      await dbConnect();
-    } catch (err) {
-      console.log(err);
+    
+    console.log("we got to this point",{user})
+      await dbConnect().catch(err => {
+       console.log(err);
       return {
         userErrors: [
           {
@@ -29,8 +28,10 @@ export const authResolvers = {
           },
         ],
         token: null,
-      };
-    }
+      }; 
+      })
+      
+   
 
     const { firstName, sureName, email, password, phone, gender } = user;
 
@@ -152,7 +153,6 @@ export const authResolvers = {
 
     //SAVE NOW
     try {
-      
       const newProfile = await profile.save();
 
       const token = await JWT.sign(
@@ -185,8 +185,9 @@ export const authResolvers = {
     { credentials }: { credentials: CredentialsInput },
     __: any
   ): Promise<UserPayload> => {
-
+    console.log("we are in sign in");
     try {
+      console.log("about to try to connect")
       await dbConnect();
     } catch (err) {
       console.log(err);
@@ -199,8 +200,6 @@ export const authResolvers = {
         token: null,
       };
     }
-
-
 
     const { email, password } = credentials;
     const memberDetails = await Member.findOne({
@@ -233,15 +232,18 @@ export const authResolvers = {
       { expiresIn: 3600000 }
     );
 
-
     return {
       userErrors: [],
       token,
     };
   },
 
-  signOut: (_:any, {token}:{token:string}, {userInfo}:Context):Boolean=> {
+  signOut: (
+    _: any,
+    { token }: { token: string },
+    { userInfo }: Context
+  ): Boolean => {
     console.log(token);
     return true;
-  }
+  },
 };
