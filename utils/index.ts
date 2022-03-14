@@ -27,6 +27,10 @@ export function deleteCookie(name: string) {
   }
 }
 
+export function eraseCookie(name:string) {   
+  document.cookie = name+'=; Max-Age=-99999999;';  
+}
+
 export const getCookie = (cname: string, cookies: string) => {
   let name = cname + "=";
   let decodedCookie = decodeURIComponent(cookies);

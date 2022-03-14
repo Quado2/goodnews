@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import styles from "./styles.module.scss";
 
 const DLContainer = styled.div`
   width: 100%;
@@ -12,7 +13,6 @@ const DLContainer = styled.div`
     height: 100%;
     border: 2px solid red;
 
-
     @media (max-width: ${({ theme }) => theme.mobile}) {
       display: none;
     }
@@ -25,16 +25,15 @@ const DLContainer = styled.div`
     flex: 1;
     overflow-x: scroll;
     margin-bottom: 3rem;
-
   }
 `;
 
 const DashboardLayout = ({ children }) => {
   return (
-    <DLContainer>
-      <div className="empty-left"></div>
-      <div className="main-right">{children}</div>
-    </DLContainer>
+    <div className={styles.DL_wrapper}>
+      <div className={styles.empty_left}></div>
+      <div className={styles.main_right}>{children}</div>
+    </div>
   );
 };
 

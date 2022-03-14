@@ -416,7 +416,7 @@ export default Partnership;
 export async function getServerSideProps(context: any) {
   const cookies = context.req.headers.cookie;
   const token = getCookie("nekot", cookies);
-
+  console.log({token})
   const { data } = await client2.query({
     query: gql`
       query {
@@ -458,8 +458,14 @@ export async function getServerSideProps(context: any) {
     fetchPolicy: "no-cache",
   });
 
-  if (data.me === null) {
-    Router.push("/membership");
+  if (data.me.member.profile === null) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/dashboard/logout",
+      },
+      props:{},
+    };
   }
 
   return {
