@@ -48,6 +48,9 @@ export const typeDefs = gql`
     memberId: ID!
     plan: String!
     date: String!
+    paidDate: Float!
+    amount: Float!
+    status: String!
   }
 
   type PaymentPayload {

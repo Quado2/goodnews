@@ -35,6 +35,25 @@ const CREATE_MUTATION = gql`
   }
 `;
 
+const PAY_MUTATION = gql`
+  mutation ($amount: Float!, $status: String!) {
+    partnerPay(amount: $amount, status: $status) {
+      userErrors {
+        message
+      }
+      partnerPayments {
+        _id
+        date
+        plan
+        date
+        paidDate
+        amount
+        status
+      }
+    }
+  }
+`;
+
 interface Tithe {
   date: number;
   amount: number;
