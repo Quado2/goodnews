@@ -12,7 +12,7 @@ export const typeDefs = gql`
   type Mutation {
     signup(user: MemberInput!): AuthPayload!
     signIn(credentials: CredentialsInput!): AuthPayload!
-    signOut(token: String): Boolean
+    signOut(token: String): SignoutPayload!
 
     prayerSubmit(prayer: PrayerInput!): PrayerPayload!
     prayerDelete(prayerId: ID!): PrayerPayload!
@@ -34,6 +34,8 @@ export const typeDefs = gql`
 
     testIt: String
   }
+
+
 
   input PartnerCreateInput {
     plan: String!
@@ -134,6 +136,10 @@ export const typeDefs = gql`
   type AuthPayload {
     userErrors: [UserError!]!
     token: String
+  }
+
+  type SignoutPayload{
+    status: Boolean
   }
 
   type Prayer {
