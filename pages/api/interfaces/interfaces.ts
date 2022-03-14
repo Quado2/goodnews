@@ -131,3 +131,8 @@ export interface PartnershipPayload{
   partnerPayments: PartnerPayment[]
   userErrors: UserError[]
 }
+
+export interface PaymentPayload{
+  partnerPayments: PartnerPayment[]
+  userErrors: UserError[]
+}

@@ -27,6 +27,7 @@ export const typeDefs = gql`
     # titheComfirm(titheId: ID!): TithePayload!
 
     partnerCreate(partnerInput: PartnerCreateInput): PartnershipPayload!
+    partnerPay(amount: Float!, status: String!): PaymentPayload!
 
     testIt: String
   }
@@ -49,6 +50,10 @@ export const typeDefs = gql`
     date: String!
   }
 
+  type PaymentPayload {
+    partnerPayments: [PartnerPayment!]!
+    userErrors: [UserError]
+  }
   type PartnershipPayload {
     partnerDetails: Partner
     partnerPayments: [PartnerPayment!]!
