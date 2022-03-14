@@ -6,6 +6,7 @@ import {
   MemberInput,
   UserPayload,
   CredentialsInput,
+  Context
 } from "../../../interfaces/interfaces";
 import dbConnect from "../../../mongoose/connection";
 import { Member, Profile } from "../../../mongoose/models";
@@ -238,4 +239,9 @@ export const authResolvers = {
       token,
     };
   },
+
+  signOut: (_:any, {token}:{token:string}, {userInfo}:Context):Boolean=> {
+    console.log(token);
+    return true;
+  }
 };

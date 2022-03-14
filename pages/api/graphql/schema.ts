@@ -12,6 +12,7 @@ export const typeDefs = gql`
   type Mutation {
     signup(user: MemberInput!): AuthPayload!
     signIn(credentials: CredentialsInput!): AuthPayload!
+    signOut(token: String): Boolean
 
     prayerSubmit(prayer: PrayerInput!): PrayerPayload!
     prayerDelete(prayerId: ID!): PrayerPayload!
@@ -28,6 +29,8 @@ export const typeDefs = gql`
 
     partnerCreate(partnerInput: PartnerCreateInput): PartnershipPayload!
     partnerPay(amount: Float!, status: String!): PaymentPayload!
+
+    
 
     testIt: String
   }
