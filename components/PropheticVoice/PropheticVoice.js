@@ -37,9 +37,7 @@ const Container = styled.div`
 
     @media screen and (max-width: ${({ theme }) => theme.mobile}) {
       flex-direction: column;
-      
     }
-    
 
     .service_detail {
       width: 50%;
@@ -49,9 +47,8 @@ const Container = styled.div`
       justify-content: center;
 
       @media screen and (max-width: ${({ theme }) => theme.mobile}) {
-        width: 90%;
-      
-    }
+        width: 80%;
+      }
 
       div {
         margin: 1rem;
@@ -189,8 +186,9 @@ export default function PropheticVoice() {
             <h2>Prophetic Voice Outreach</h2>
             <div></div>
             <p>
-              Prophetic voice is a radio program from which the man of God
-              reaches out to the lorem lorem ipsum lsdfa jadf ot aad da lore
+              Prophetic voice is a radio program designed to liberate mankind
+              from every bondage of satan. To break down the foundational
+              beliefs on idolatory in order to rebuild a heart solely for Christ.
             </p>
             <h3>Join us every friday by 7pm at ABS, 88.5fm</h3>
           </TextContainer>
