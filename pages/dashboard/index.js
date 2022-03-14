@@ -51,33 +51,33 @@ export default function Dashboard({ dataFromServer }) {
   return (
     <DashboardLayout>
       <div className={styles.dashboard_container}>
-        <div className="cards-container">
+        <div className={styles.cards_container}>
           <DashboardCard
             title="Prayer Requests"
             link={"/dashboard/requests"}
             icon={<GiPrayer size={"2rem"} />}
-            bColor={"purple"}
+            bColor={"#624DF0"}
             textColor={"white"}
           />
           <DashboardCard
             title="Testimonies"
             link={"/dashboard/testimonies"}
             icon={<GiLoveSong size={"2rem"} />}
-            bColor={"green"}
+            bColor={"#4DA8EF"}
             textColor={"white"}
           />
           <DashboardCard
             title="Tithe"
-            link={"/dashboard/tithe"}
+            link={"/dashboard/tithing"}
             icon={<FaMoneyCheckAlt size={"2rem"} />}
-            bColor={"cyan"}
+            bColor={"#4CC0B6"}
             textColor={"white"}
           />
           <DashboardCard
             title="Partnership"
-            link={"/partnership"}
+            link={"dashboard/partnership"}
             icon={<FaRegHandshake size={"2rem"} />}
-            bColor={"#4DA8EF"}
+            bColor={"cyan"}
             textColor={"white"}
           />
         </div>

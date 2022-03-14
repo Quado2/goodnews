@@ -2,9 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { getCookie } from "../../../utils";
 import { client2, client } from "../../_app";
 import { gql } from "apollo-server-micro";
-import styled from "styled-components";
 import { useMutation } from "@apollo/client";
-import Router from "next/router";
 import { useTheme } from "styled-components";
 
 import Table from "../../../components/Table";
@@ -12,19 +10,21 @@ import Spinner from "../../../components/Spinner/Spinner";
 import { Context } from "../../../context/Context";
 import BriefNotification from "../../../components/Notification/BriefNotification";
 import DashboardLayout from "../../../HOC/DashboardLayout";
-import { getDate, monthList } from "../../../utils";
+import { monthList } from "../../../utils";
 import styles from "./style.module.scss";
-import BackdropedLoading from '../../../components/BackdropedLoading'
-
-
-const RequestContainer = styled.div``;
+import BackdropedLoading from "../../../components/BackdropedLoading";
 
 const CREATE_MUTATION = gql`
   mutation ($partnerInput: PartnerCreateInput!) {
     partnerCreate(partnerInput: $partnerInput) {
       partnerPayments {
+        _id
         date
         plan
+        date
+        paidDate
+        amount
+        status
       }
       partnerDetails {
         memberId
@@ -118,7 +118,8 @@ const plans = {
 
 function processTableData(
   partnerPayments: any[],
-  partnerDetails: PartnerDetails
+  partnerDetails: PartnerDetails,
+  setTotalPending: any
 ): any {
   let tableData: any[] = [];
   let month: string;
@@ -155,6 +156,8 @@ function processTableData(
     const totalMonths = getNumberOfMonths(month, year);
     let startMonthIndex = monthList.indexOf(month);
 
+    const amount = plans[partnerDetails.plan as keyof typeof plans];
+    let pendingAmount = 0;
     //create array of the upaid  months..
     for (let i = 0; i < totalMonths; i++) {
       if (startMonthIndex > 11) {
@@ -164,24 +167,16 @@ function processTableData(
       const paymentArray = {
         date: `${monthList[startMonthIndex]} ${year}`,
         plan: partnerDetails.plan,
-        amount: plans[partnerDetails.plan as keyof typeof plans],
+        amount,
         status: "Not paid",
         disableButton: false,
       };
       tableData.push(paymentArray);
       startMonthIndex++;
+      pendingAmount = pendingAmount + amount;
     }
+    setTotalPending(pendingAmount);
   }
-
-  // const newData =
-  //   tableData &&
-  //   tableData.map((data: any) => {
-  //     return {
-  //       ...data,
-  //       date: getDate(data.date),
-  //       isConfirmed: data.isConfirmed ? "Confirmed" : "Awaiting review",
-  //     };
-  //   });
 
   return tableData;
 }
@@ -192,13 +187,14 @@ const Partnership = ({
   dataFromServer: DataFromServer;
 }): JSX.Element => {
   const [loading, setLoading] = useState(false);
-  const [showBackedLoading, setShowBackedLoading] = useState(false)
+  const [showBackedLoading, setShowBackedLoading] = useState(false);
   const [tableData, setTableData] = useState<Tithe[] | []>([]);
   const [showBriefNotification, setShowBriefNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState("");
   const [partnerDetails, setPartnerDetails] = useState<PartnerDetails>();
   const [chosenPlan, setChosenPlan] = useState("");
+  const [totalPending, setTotalPending] = useState(0);
 
   //@ts-ignore
   const theme: themeTypes = useTheme();
@@ -236,7 +232,9 @@ const Partnership = ({
     const { member } = dataFromServer.me;
     const { partnerDetails, partnerPayments } = member.partnership;
     if (isMounted) {
-      setTableData(processTableData(partnerPayments, partnerDetails));
+      setTableData(
+        processTableData(partnerPayments, partnerDetails, setTotalPending)
+      );
       setPartnerDetails(partnerDetails);
       setLoggedInUser(member.profile);
       setShowDashboard(true);
@@ -258,7 +256,12 @@ const Partnership = ({
     })
       .then((response) => {
         if (response.data) {
-          setPartnerDetails(response.data.partnerCreate.partnerDetails);
+          const { partnerDetails, partnerPayments } =
+            response.data.partnerCreate;
+          setPartnerDetails(partnerDetails);
+          setTableData(
+            processTableData(partnerPayments, partnerDetails, setTotalPending)
+          );
           displayNotification(
             "You have rigistered succesfully to partner with prophetic voice",
             "success"
@@ -299,12 +302,18 @@ const Partnership = ({
               displayNotification(userErrors[0].message, "failure");
               setShowBackedLoading(false);
             } else {
-              setTableData(processTableData(partnerPayments, partnerDetails));
+              setTableData(
+                processTableData(
+                  partnerPayments,
+                  partnerDetails,
+                  setTotalPending
+                )
+              );
               displayNotification(
                 "Updated your payment successfully",
                 "success"
               );
-              setShowBackedLoading(false)
+              setShowBackedLoading(false);
             }
           }
         })
@@ -320,7 +329,7 @@ const Partnership = ({
   }
 
   function deleteRequest() {}
-  function payNow(){}
+  function payNow() {}
 
   const tableHeaders = ["Date", "Plan", "Amount", "Status", "Pay Now", "Paid"];
   const tableKeys = ["date", "plan", "amount", "status"];
@@ -360,17 +369,21 @@ const Partnership = ({
         )}
         {partnerDetails && partnerDetails._id ? (
           <div className={styles.partner_details}>
-           {showBackedLoading && <BackdropedLoading message="Taking record" />} 
+            {showBackedLoading && <BackdropedLoading message="Taking record" />}
             <div className={styles.prev_details} style={wrapperStyle}>
               <h3 style={{ color: theme.colorSecondaryMuted }}>
                 Total pending payments:{" "}
-                <span style={{ color: theme.colorTextSecondary }}>500</span>{" "}
+                <span style={{ color: theme.colorTextSecondary }}>
+                  {"₦" +totalPending}
+                </span>{" "}
               </h3>
               <div className={styles.add_button}>
                 <button style={themeStyle} onClick={() => payNow()}>
                   Pay Some
                 </button>
-                <button onClick={() => payNow()}>Pay All - 500</button>
+                <button onClick={() => payNow()}>
+                  Pay All - {"₦" + totalPending}
+                </button>
               </div>
             </div>
 
@@ -387,7 +400,7 @@ const Partnership = ({
               You have not signed up to Partner with Prophetic Voice. Choose a
               plan and click the Register button bellow to get started
             </h3>
-            <div className={styles.control}>
+            <div className={styles.controls}>
               <select
                 style={themeStyle}
                 onChange={(e) => setChosenPlan(e.target.value)}
@@ -416,7 +429,7 @@ export default Partnership;
 export async function getServerSideProps(context: any) {
   const cookies = context.req.headers.cookie;
   const token = getCookie("nekot", cookies);
-  console.log({token})
+  console.log({ token });
   const { data } = await client2.query({
     query: gql`
       query {
@@ -464,7 +477,7 @@ export async function getServerSideProps(context: any) {
         permanent: false,
         destination: "/dashboard/logout",
       },
-      props:{},
+      props: {},
     };
   }
 
