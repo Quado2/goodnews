@@ -116,20 +116,41 @@ const plans = {
 };
 
 function processTableData(
-  partnerPayments: any,
+  partnerPayments: any[],
   partnerDetails: PartnerDetails
 ): any {
-  let tableData = [];
+  let tableData: any[] = [];
   let month: string;
   let year: number | string;
 
+  //Decide the unpaid year and month
   if (partnerDetails) {
-    [month, year] = partnerDetails.startDate.split(" ");
-    year = parseInt(year);
+    if (partnerPayments.length > 0) {
+      console.log(partnerPayments);
+      tableData = [...partnerPayments];
+      const [lastMonth, lastYear] =
+        partnerPayments[partnerPayments.length - 1].date.split(" ");
+      let nextMonth, nextYear;
+      if (monthList.indexOf(lastMonth) >= 11) {
+        nextMonth = monthList[0];
+        nextYear = parseInt(lastYear) + 1;
+      } else {
+        nextMonth = monthList[monthList.indexOf(lastMonth) + 1];
+        nextYear = parseInt(lastYear);
+      }
 
+      month = nextMonth;
+      year = nextYear;
+    } else {
+      [month, year] = partnerDetails.startDate.split(" ");
+      year = parseInt(year);
+    }
+
+    //get number of months
     const totalMonths = getNumberOfMonths(month, year);
     let startMonthIndex = monthList.indexOf(month);
 
+    //create array of the upaid  months..
     for (let i = 0; i < totalMonths; i++) {
       if (startMonthIndex > 11) {
         startMonthIndex = 0;
@@ -183,6 +204,13 @@ const Partnership = ({
       partnerInput: {
         plan: "",
       },
+    },
+  });
+
+  const [sendPartnerPayment] = useMutation(PAY_MUTATION, {
+    variables: {
+      amount: 0,
+      status: "",
     },
   });
 
@@ -247,18 +275,38 @@ const Partnership = ({
       });
   }
 
-  const requestSpinner = (
-    <Spinner
-      textSize="1rem"
-      spinnerSize="2rem"
-      color="green"
-      message="Registering ..."
-    />
-  );
+ 
 
-  function havePaid() {
+  async function havePaid() {
     if (partnerDetails) {
-      console.log(plans[partnerDetails.plan as keyof typeof plans]);
+      const amount = plans[partnerDetails.plan as keyof typeof plans];
+      const status = "Awaiting Review";
+      setLoading(true);
+      sendPartnerPayment({
+        variables: {
+          amount,
+          status,
+        },
+      })
+        .then((response) => {
+          if (response.data) {
+            const { userErrors, partnerPayments } = response.data.partnerPay;
+            if (userErrors.length >= 1) {
+              displayNotification(userErrors[0].message, "failure");
+              setLoading(false);
+            } else {
+              setTableData(processTableData(partnerPayments, partnerDetails));
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          displayNotification(
+            "Failed to record the payment. Please try again.",
+            "failure"
+          );
+          setLoading(false);
+        });
     }
   }
 
@@ -283,6 +331,15 @@ const Partnership = ({
   const disable =
     chosenPlan === "Junior" || chosenPlan === "Senior" ? false : true;
 
+
+    const requestSpinner = (
+      <Spinner
+        textSize="1rem"
+        spinnerSize="2rem"
+        color="green"
+        message="Registering ..."
+      />
+    );
   return (
     <DashboardLayout>
       <div className={styles.partner_wrapper}>
@@ -374,6 +431,9 @@ export async function getServerSideProps(context: any) {
                 date
                 plan
                 memberId
+                paidDate
+                amount
+                status
               }
             }
           }
