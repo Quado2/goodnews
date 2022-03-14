@@ -24,6 +24,7 @@ const DLContainer = styled.div`
     justify-content: flex-start;
     flex: 1;
     overflow-x: scroll;
+    margin-bottom: 3rem;
 
   }
 `;

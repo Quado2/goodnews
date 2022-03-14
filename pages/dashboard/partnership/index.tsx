@@ -14,7 +14,8 @@ import BriefNotification from "../../../components/Notification/BriefNotificatio
 import DashboardLayout from "../../../HOC/DashboardLayout";
 import { getDate, monthList } from "../../../utils";
 import styles from "./style.module.scss";
-import { start } from "repl";
+import BackdropedLoading from '../../../components/BackdropedLoading'
+
 
 const RequestContainer = styled.div``;
 
@@ -190,8 +191,8 @@ const Partnership = ({
 }: {
   dataFromServer: DataFromServer;
 }): JSX.Element => {
-  const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showBackedLoading, setShowBackedLoading] = useState(false)
   const [tableData, setTableData] = useState<Tithe[] | []>([]);
   const [showBriefNotification, setShowBriefNotification] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
@@ -284,7 +285,7 @@ const Partnership = ({
     if (partnerDetails) {
       const amount = plans[partnerDetails.plan as keyof typeof plans];
       const status = "Awaiting Review";
-      setLoading(true);
+      setShowBackedLoading(true);
       sendPartnerPayment({
         variables: {
           amount,
@@ -296,13 +297,14 @@ const Partnership = ({
             const { userErrors, partnerPayments } = response.data.partnerPay;
             if (userErrors.length >= 1) {
               displayNotification(userErrors[0].message, "failure");
-              setLoading(false);
+              setShowBackedLoading(false);
             } else {
               setTableData(processTableData(partnerPayments, partnerDetails));
               displayNotification(
                 "Updated your payment successfully",
                 "success"
               );
+              setShowBackedLoading(false)
             }
           }
         })
@@ -312,12 +314,13 @@ const Partnership = ({
             "Failed to record the payment. Please try again.",
             "failure"
           );
-          setLoading(false);
+          setShowBackedLoading(false);
         });
     }
   }
 
   function deleteRequest() {}
+  function payNow(){}
 
   const tableHeaders = ["Date", "Plan", "Amount", "Status", "Pay Now", "Paid"];
   const tableKeys = ["date", "plan", "amount", "status"];
@@ -357,16 +360,17 @@ const Partnership = ({
         )}
         {partnerDetails && partnerDetails._id ? (
           <div className={styles.partner_details}>
+           {showBackedLoading && <BackdropedLoading message="Taking record" />} 
             <div className={styles.prev_details} style={wrapperStyle}>
               <h3 style={{ color: theme.colorSecondaryMuted }}>
                 Total pending payments:{" "}
                 <span style={{ color: theme.colorTextSecondary }}>500</span>{" "}
               </h3>
               <div className={styles.add_button}>
-                <button style={themeStyle} onClick={() => setShowForm(true)}>
+                <button style={themeStyle} onClick={() => payNow()}>
                   Pay Some
                 </button>
-                <button onClick={() => setShowForm(true)}>Pay All - 500</button>
+                <button onClick={() => payNow()}>Pay All - 500</button>
               </div>
             </div>
 
