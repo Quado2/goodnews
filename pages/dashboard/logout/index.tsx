@@ -12,7 +12,7 @@ export default function Logout(){
     setLoggedInUser({});
     Router.push("/membership")
     
-  },[])
+  },[setLoggedInUser])
 
   return (<div></div>)
 }

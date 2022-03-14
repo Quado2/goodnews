@@ -243,7 +243,7 @@ const Partnership = ({
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [setLoggedInUser, dataFromServer, setShowDashboard]);
 
   function registerPartnership() {
     setLoading(true);
