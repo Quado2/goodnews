@@ -126,8 +126,12 @@ function processTableData(
   //Decide the unpaid year and month
   if (partnerDetails) {
     if (partnerPayments.length > 0) {
-      console.log(partnerPayments);
-      tableData = [...partnerPayments];
+      tableData = partnerPayments.map((data: any) => {
+        return {
+          ...data,
+          disableButton: true,
+        };
+      });
       const [lastMonth, lastYear] =
         partnerPayments[partnerPayments.length - 1].date.split(" ");
       let nextMonth, nextYear;
@@ -161,6 +165,7 @@ function processTableData(
         plan: partnerDetails.plan,
         amount: plans[partnerDetails.plan as keyof typeof plans],
         status: "Not paid",
+        disableButton: false,
       };
       tableData.push(paymentArray);
       startMonthIndex++;
@@ -275,8 +280,6 @@ const Partnership = ({
       });
   }
 
- 
-
   async function havePaid() {
     if (partnerDetails) {
       const amount = plans[partnerDetails.plan as keyof typeof plans];
@@ -335,15 +338,14 @@ const Partnership = ({
   const disable =
     chosenPlan === "Junior" || chosenPlan === "Senior" ? false : true;
 
-
-    const requestSpinner = (
-      <Spinner
-        textSize="1rem"
-        spinnerSize="2rem"
-        color="green"
-        message="Registering ..."
-      />
-    );
+  const requestSpinner = (
+    <Spinner
+      textSize="1rem"
+      spinnerSize="2rem"
+      color="green"
+      message="Registering ..."
+    />
+  );
   return (
     <DashboardLayout>
       <div className={styles.partner_wrapper}>
