@@ -38,15 +38,7 @@ export default function Dashboard({ dataFromServer }) {
       setShowPage(true);
       setShowDashboard(true);
     }
-  }, [dataFromServer]);
-
-  if (!dataFromServer) {
-    return (
-      <DashboardContainer>
-        <p>Page is loading ...</p>
-      </DashboardContainer>
-    );
-  }
+  }, [dataFromServer, setLoggedInUser, setShowDashboard]);
 
   return (
     <DashboardLayout>

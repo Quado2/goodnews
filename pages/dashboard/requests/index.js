@@ -189,7 +189,7 @@ const Requests = ({ dataFromServer }) => {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [setLoggedInUser, dataFromServer.me, setShowDashboard]);
 
   const requestSpinner = (
     <Spinner

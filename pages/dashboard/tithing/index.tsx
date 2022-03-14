@@ -224,7 +224,7 @@ const Tithing = ({
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [setLoggedInUser, dataFromServer.me, setShowDashboard]);
 
   const requestSpinner = (
     <Spinner
