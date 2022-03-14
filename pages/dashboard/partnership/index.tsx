@@ -296,6 +296,10 @@ const Partnership = ({
               setLoading(false);
             } else {
               setTableData(processTableData(partnerPayments, partnerDetails));
+              displayNotification(
+                "Updated your payment successfully",
+                "success"
+              );
             }
           }
         })
