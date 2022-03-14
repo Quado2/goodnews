@@ -31,7 +31,7 @@ const RequestContainer = styled.div`
       color: ${({ theme }) => theme.colorTextPrimary};
       border-radius: 0.2rem;
     }
-    button:last-child{
+    button:last-child {
       color: #08dd08;
       border: 1px solid #08dd08;
     }
@@ -90,8 +90,6 @@ const NEWREQUEST_MUTATION = gql`
     }
   }
 `;
-
-
 
 const DELETE_MUTATION = gql`
   mutation ($titheId: ID!) {
@@ -187,7 +185,6 @@ const Tithing = ({
     },
   });
 
-
   const [deleteTithe] = useMutation(DELETE_MUTATION, {
     variables: {
       titheId: "",
@@ -240,7 +237,7 @@ const Tithing = ({
 
   function sendNewRequest(formValues: { date: number; amount: string }) {
     let { date, amount } = formValues;
-    const intAmount =  parseInt(amount)
+    const intAmount = parseInt(amount);
     date = new Date(date).getTime();
 
     setLoading(true);
@@ -249,7 +246,7 @@ const Tithing = ({
         tithe: {
           amount: intAmount,
           date,
-          isConfirmed: false
+          isConfirmed: false,
         },
       },
     })
@@ -287,30 +284,43 @@ const Tithing = ({
 
   function editRequest(id: string) {
     let tithe: Tithe = tableData.find((tithe: Tithe) => tithe._id === id)!;
-    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
     const { date, amount } = tithe;
     const dateElements = date.toString().split(" ");
-    let monthNumber: string | number = months.indexOf(dateElements[1]) as number +1;
-     monthNumber = monthNumber > 9 ? monthNumber: "0"+monthNumber;
-    let dayNumber:string | number = parseInt(dateElements[0]);
-    dayNumber = dayNumber > 9 ? dayNumber : "0"+dayNumber
-    const dateFormat = `${dateElements[2]}-${monthNumber}-${dayNumber}`
+    let monthNumber: string | number =
+      (months.indexOf(dateElements[1]) as number) + 1;
+    monthNumber = monthNumber > 9 ? monthNumber : "0" + monthNumber;
+    let dayNumber: string | number = parseInt(dateElements[0]);
+    dayNumber = dayNumber > 9 ? dayNumber : "0" + dayNumber;
+    const dateFormat = `${dateElements[2]}-${monthNumber}-${dayNumber}`;
     setEditId(id);
-    setEditFormInput(
-        [
-          {
-            inputType: "number",
-            prompt: "Enter tithe amount",
-            name: "amount",
-            initialValue:amount
-          },
-          {
-            inputType: "date",
-            prompt: "select the date of the tithe",
-            name: "date",
-            initialValue: dateFormat
-          },
-        ]);
+    setEditFormInput([
+      {
+        inputType: "number",
+        prompt: "Enter tithe amount",
+        name: "amount",
+        initialValue: amount,
+      },
+      {
+        inputType: "date",
+        prompt: "select the date of the tithe",
+        name: "date",
+        initialValue: dateFormat,
+      },
+    ]);
 
     setShowForm(true);
     setEditForm(true);
@@ -318,7 +328,7 @@ const Tithing = ({
 
   function sendEditedRequest(formValues: { amount: string; date: number }) {
     let { amount, date } = formValues;
-    const intAmount =  parseInt(amount)
+    const intAmount = parseInt(amount);
     date = new Date(date).getTime();
     setLoading(true);
 
@@ -483,9 +493,15 @@ export async function getServerSideProps(context: any) {
     fetchPolicy: "no-cache",
   });
 
-  // if (data.me === null) {
-  //   Router.push("/membership");
-  // }
+  if (data.me.member.profile === null) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/dashboard/logout",
+      },
+      props: {},
+    };
+  }
 
   return {
     props: {

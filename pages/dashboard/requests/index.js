@@ -16,7 +16,7 @@ import DashboardLayout from "../../../HOC/DashboardLayout";
 import { getDate } from "../../../utils";
 
 const RequestContainer = styled.div`
-width: 100%;
+  width: 100%;
   .add_button {
     display: flex;
     flex-direction: column;
@@ -118,7 +118,7 @@ const EDIT_MUTATION = gql`
 `;
 
 function processTableData(tableData) {
-  const newData = tableData.map((data ) => {
+  const newData = tableData.map((data) => {
     return {
       ...data,
       date: getDate(data.date),
@@ -127,8 +127,6 @@ function processTableData(tableData) {
 
   return newData;
 }
-
-
 
 const Requests = ({ dataFromServer }) => {
   const [showForm, setShowForm] = useState(false);
@@ -335,7 +333,7 @@ const Requests = ({ dataFromServer }) => {
   }
 
   const tableHeaders = ["Title", "Details", "Date", "Edit", "Delete"];
- const tableKeys = ["title", "details", "date"];
+  const tableKeys = ["title", "details", "date"];
   const actionsData = [
     { title: "Edit", action: editRequest },
     { title: "Delete", action: deleteRequest },
@@ -430,9 +428,15 @@ export async function getServerSideProps(context) {
     fetchPolicy: "no-cache",
   });
 
-  // if (data.me === null) {
-  //   Router.push("/membership");
-  // }
+  if (data.me.member.profile === null) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/dashboard/logout",
+      },
+      props: {},
+    };
+  }
 
   return {
     props: {

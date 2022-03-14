@@ -108,7 +108,6 @@ export interface TithePayload{
 }
 
 export interface PartnerCreateInput{
-  startDate: string
   plan: string
 }
 
@@ -129,6 +128,11 @@ export interface PartnerPayment{
 
 export interface PartnershipPayload{
   partnerDetails: Partner | null;
+  partnerPayments: PartnerPayment[]
+  userErrors: UserError[]
+}
+
+export interface PaymentPayload{
   partnerPayments: PartnerPayment[]
   userErrors: UserError[]
 }

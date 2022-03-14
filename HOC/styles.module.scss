@@ -1,26 +1,28 @@
 .DL_wrapper {
   width: 100%;
   min-height: 100vh;
-  // margin-top: ${({ theme }) => theme.navHeight};
+  margin-top: 4rem;
   display: flex;
   justify-content: center;
 
-  .empty-left {
-    // width: ${({ theme }) => theme.adminWidth};
+  .empty_left {
+    width: 13rem;
     height: 100%;
     border: 2px solid red;
 
-    // @media (max-width: ${({theme})=> theme.mobile}) {
-    //   display: none;
-    // }
+    @media (max-width: 600px) {
+      display: none;
+    }
   }
 
-  .main-right {
+  .main_right {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex: 1;
     overflow-x: scroll;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
   }
 }

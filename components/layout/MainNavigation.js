@@ -1,12 +1,11 @@
 import Link from "next/link";
 import styled from "styled-components";
 import { useContext } from "react";
+import { useRouter } from "next/router";
 
 import { navItems } from "./data";
-import Hambuger from "../Hambuger";
 import { Context } from "../../context/Context";
 import { MdAccountCircle } from "react-icons/md";
-import RollText from '../../components/RollText/RollText'
 
 const Header = styled.header`
   width: 100%;
@@ -66,22 +65,28 @@ const Header = styled.header`
     padding: 0;
     display: flex;
     align-items: baseline;
+
+    .activeLink{
+      border-bottom: 1px solid ${({ theme }) => theme.colorTextPrimary};
+    }
   }
 
   li {
-    margin-left: 3rem;
+    margin-left: 1rem;
+    padding: 0;
+    padding-bottom: .4rem;
   }
 
   a {
     text-decoration: none;
     font-size: 1rem;
     color: ${({ theme }) => theme.colorTextPrimary};
-    padding: 2px 0.3rem;
+    padding: 2px 0.1rem;
   }
 
   a:hover,
   a:active,
-  a.active {
+  a:active {
     border-bottom: 1px solid ${({ theme }) => theme.colorTextPrimary};
   }
 `;
@@ -89,6 +94,7 @@ const Header = styled.header`
 function MainNavigation() {
 
   const {loggedInUser} = useContext(Context)
+  const router = useRouter();
   
 
   return (
@@ -101,7 +107,7 @@ function MainNavigation() {
           <ul>
             {navItems.map((nav, i) => {
               return (
-                <li key={i}>
+                <li className={router.pathname === nav.link ? "activeLink" : ""} key={i}>
                   <Link href={nav.link}>{nav.title}</Link>
                 </li>
               );

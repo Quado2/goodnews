@@ -1,7 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Murecho:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Murecho:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
-@import url('https://fonts.googleapis.com/css2?family=Quintessential&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Quintessential&display=swap");
 
 html,
 body {
@@ -17,13 +16,13 @@ a {
 }
 
 * {
-  font-family: 'Murecho', sans-serif;
+  font-family: "Murecho", sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-a{
+a {
   width: 10rem;
   padding: 0.75rem;
   font-size: 1.1rem;
@@ -32,4 +31,5 @@ a{
   border-radius: 0.2rem;
   cursor: pointer;
 }
+
 

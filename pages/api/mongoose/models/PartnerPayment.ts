@@ -12,10 +12,18 @@ const PaymentSchema = new Schema({
     required: true,
     type: String, 
   },
+  amount: {
+    required: true,
+    type: Number,
+  },
   date: {
     required: true, 
     type: String
-  }, 
+  },
+  paidDate: {
+    required: true, 
+    type: Number
+  },
   status:{
     type: String,
     required: true,

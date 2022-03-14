@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Link from "next/link";
 import { useContext } from "react";
+import { useRouter } from "next/router";
 
 import { navItems, dashboardItems } from "./data";
 import Socials from "../Socials";
@@ -31,6 +32,11 @@ const SideContainer = styled.div`
     margin: 2rem 0 0 0;
     padding: 0;
   }
+
+  .activeLink a{
+      border-bottom: 1px solid ${({ theme }) => theme.colorTextPrimary};
+    }
+
   .nav-list li {
     transition: all ease-in-out 0.5s 0.4s;
     list-style: none;
@@ -53,7 +59,7 @@ const SideContainer = styled.div`
 
 export default function Sidebar() {
   const { clicked, setClicked,loggedInUser } = useContext(Context);
-
+  const router = useRouter();
   const displayItems = (loggedInUser && loggedInUser.firstName) ? dashboardItems : navItems
 
 
@@ -64,7 +70,7 @@ export default function Sidebar() {
         {displayItems &&
           displayItems.map((nav, i) => {
             return (
-              <li onClick={() => setClicked(!clicked)} key={i}>
+              <li className={router.pathname === nav.link ? "activeLink" : ""} onClick={() => setClicked(!clicked)} key={i}>
                 <Link href={nav.link}>{nav.title}</Link>
               </li>
             );

@@ -7,52 +7,61 @@ export const typeDefs = gql`
     testimonies(userId: ID!): [Testimony]
     profile(memberId: ID!): ProfilePayload
     prayersMe: PrayerPayload
-
   }
 
   type Mutation {
     signup(user: MemberInput!): AuthPayload!
     signIn(credentials: CredentialsInput!): AuthPayload!
+    signOut(token: String): SignoutPayload!
 
     prayerSubmit(prayer: PrayerInput!): PrayerPayload!
     prayerDelete(prayerId: ID!): PrayerPayload!
-    prayerEdit(editPrayer: PrayerEditInput!):PrayerPayload!
+    prayerEdit(editPrayer: PrayerEditInput!): PrayerPayload!
 
     testimonySubmit(testimony: PrayerInput!): TestimonyPayload!
     testimonyDelete(testimonyId: ID!): TestimonyPayload!
     testimonyEdit(editTestimony: TestimonyEditInput!): TestimonyPayload!
-
 
     titheSubmit(tithe: TitheInput!): TithePayload!
     titheEdit(editTithe: EditTitheInput!): TithePayload!
     titheDelete(titheId: ID!): TithePayload!
     # titheComfirm(titheId: ID!): TithePayload!
 
-    partnersCreate(partnerInput: PartnerCreateInput): PartnershipPayload!
+    partnerCreate(partnerInput: PartnerCreateInput): PartnershipPayload!
+    partnerPay(amount: Float!, status: String!): PaymentPayload!
+
     
-    
+
     testIt: String
   }
 
-  input PartnerCreateInput{
+
+
+  input PartnerCreateInput {
     plan: String!
-    startDate: String!
   }
 
-  type Partner{
+  type Partner {
     _id: ID!
     memberId: ID!
     startDate: String!
     plan: String!
   }
 
-  type PartnerPayment{
+  type PartnerPayment {
     _id: ID!
     memberId: ID!
     plan: String!
     date: String!
+    paidDate: Float!
+    amount: Float!
+    status: String!
   }
 
+  type PaymentPayload {
+    partnerPayments: [PartnerPayment!]!
+    userErrors: [UserError]
+  }
   type PartnershipPayload {
     partnerDetails: Partner
     partnerPayments: [PartnerPayment!]!
@@ -66,20 +75,18 @@ export const typeDefs = gql`
     profile: Profile
     testimonies: [Testimony]
     tithes: [Tithe]
+    partnership: PartnershipPayload
   }
-  type PrayersMe{
+  type PrayersMe {
     userErrors: [UserError]
     me: Profile!
     prayers: [Prayer]
   }
 
-  type MemberPayload{
+  type MemberPayload {
     userErrors: [UserError!]!
     member: Member!
-
   }
-
- 
 
   type User {
     _id: ID!
@@ -88,15 +95,14 @@ export const typeDefs = gql`
     phone: String!
     email: String!
     prayers: [Prayer]
-    
   }
 
-  type ProfilePayload{
+  type ProfilePayload {
     profile: Profile
     userErrors: [UserError]
   }
 
-  type Profile{
+  type Profile {
     firstName: String
     sureName: String
     phone: String
@@ -115,7 +121,7 @@ export const typeDefs = gql`
     userErrors: [UserError!]!
     tithes: [Tithe!]!
   }
-  input TitheInput{
+  input TitheInput {
     date: Float
     amount: Float
     isConfirmed: Boolean
@@ -124,7 +130,7 @@ export const typeDefs = gql`
     date: Float
     amount: Float
     isConfirmed: Boolean
-    titheId:  String
+    titheId: String
   }
 
   type AuthPayload {
@@ -132,26 +138,30 @@ export const typeDefs = gql`
     token: String
   }
 
-  type Prayer{
+  type SignoutPayload{
+    status: Boolean
+  }
+
+  type Prayer {
     title: String!
     details: String!
     date: Float!
     _id: ID!
   }
-  
-  type PrayerPayload{
+
+  type PrayerPayload {
     userErrors: [UserError!]!
     prayers: [Prayer]
   }
 
-  type Testimony{
+  type Testimony {
     title: String!
     details: String!
     date: Float!
     _id: ID!
   }
 
-  type TestimonyPayload{
+  type TestimonyPayload {
     userErrors: [UserError!]!
     testimonies: [Testimony]
   }
@@ -169,23 +179,23 @@ export const typeDefs = gql`
     gender: String!
   }
 
-  input PrayerInput{
+  input PrayerInput {
     title: String!
     details: String!
   }
 
-  input CredentialsInput{
+  input CredentialsInput {
     email: String!
     password: String
   }
 
-  input PrayerEditInput{
+  input PrayerEditInput {
     prayerId: ID!
     title: String!
     details: String!
   }
 
-  input TestimonyEditInput{
+  input TestimonyEditInput {
     testimonyId: ID!
     title: String!
     details: String!

@@ -1,0 +1,98 @@
+.partner_wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .partner_details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .prev_details {
+      min-width: 24rem;
+      margin: 2rem;
+      border-radius: .2rem;
+      h3 {
+        text-align: center;
+        margin-top: 2rem;
+        font-weight: 400;
+      }
+    }
+
+    .add_button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      button {
+        background-color: transparent;
+        outline: none;
+        margin: 2rem 1rem;
+        padding: 1rem;
+        border-radius: 0.2rem;
+      }
+      button:last-child {
+        color: #08dd08;
+        border: 1px solid #08dd08;
+      }
+    }
+  }
+
+  .sign_up {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 3rem;
+
+    h3 {
+      margin: 2rem;
+      padding: 1rem;
+      border-radius: 0.2rem;
+      font-size: 1.1rem;
+      line-height: 1.8rem;
+      word-spacing: 0.1rem;
+      text-align: center;
+      max-width: 30rem;
+      font-weight: 300;
+      background-color: rgba(55, 116, 230, 0.249);
+    }
+    .controls {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+
+      select {
+        width: 13rem;
+        padding: 0.5rem;
+        font-size: 1.1rem;
+        background-color: transparent;
+        margin: 0.3rem;
+        text-align: center;
+      }
+
+      button {
+        width: 13rem;
+        margin: 1rem;
+        padding: 1rem 0.5rem;
+        border-radius: 0.2rem;
+        color: green;
+        border: 1px solid green;
+        background-color: transparent;
+        font-size: 1.1rem;
+      }
+
+      button:disabled {
+        color: #627597;
+        border: 1px solid #627597;
+      }
+    }
+  }
+}

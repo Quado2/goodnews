@@ -464,9 +464,15 @@ export async function getServerSideProps(context: any) {
     fetchPolicy: "no-cache",
   });
 
-  // if (data.me === null) {
-  //   Router.push("/membership");
-  // }
+  if (data.me.member.profile === null) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/dashboard/logout",
+      },
+      props: {},
+    };
+  }
 
   return {
     props: {
