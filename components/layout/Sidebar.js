@@ -33,7 +33,7 @@ const SideContainer = styled.div`
     padding: 0;
   }
 
-  .activeLink{
+  .activeLink a{
       border-bottom: 1px solid ${({ theme }) => theme.colorTextPrimary};
     }
 
@@ -70,7 +70,7 @@ export default function Sidebar() {
         {displayItems &&
           displayItems.map((nav, i) => {
             return (
-              <li onClick={() => setClicked(!clicked)} key={i}>
+              <li className={router.pathname === nav.link ? "activeLink" : ""} onClick={() => setClicked(!clicked)} key={i}>
                 <Link href={nav.link}>{nav.title}</Link>
               </li>
             );
