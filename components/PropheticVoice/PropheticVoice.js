@@ -187,8 +187,8 @@ export default function PropheticVoice() {
             <div></div>
             <p>
               Prophetic voice is a radio program designed to liberate mankind
-              from every bondage of satan. To break down the foundational
-              beliefs on idolatory in order to rebuild a heart solely for Christ.
+              from every bondage of satan. To break down foundational
+              beliefs on idolatory in order to rebuild, from foundation, a heart solely for Christ Jesus.
             </p>
             <h3>Join us every friday by 7pm at ABS, 88.5fm</h3>
           </TextContainer>
