@@ -4,6 +4,7 @@ import Image from "next/image";
 import bible from "../../assets/images/bible.png";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FiActivity } from "react-icons/fi";
+import Link from "next/link";
 
 const TopContainer = styled.div`
   width: 100%;
@@ -198,7 +199,7 @@ export default function PropheticVoice() {
             &quot;Then he said to his disciples, “The harvest is plentiful, but
             the laborers are few&quot;
           </h2>
-          <a>Partner with Prophetic voice </a>
+          <Link href={"/membership"}>Partner with Prophetic voice </Link>
         </div>
         <div className="church_details">
           <div className="service_detail">
