@@ -33,7 +33,7 @@ const production = "https://www.propheticvoice.online";
 const local = "http://localhost:3000";
 
 export const client2 = new ApolloClient({
-  uri: production + "/api",
+  uri: "https://www.propheticvoice.online/api",
   cache: new InMemoryCache(),
 });
 
