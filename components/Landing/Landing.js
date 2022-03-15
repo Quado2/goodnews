@@ -1,6 +1,7 @@
 import styled, { useTheme } from "styled-components";
 import Image from "next/image";
 import daddyImage from "../../assets/images/prophet.png";
+import Link from "next/link";
 
 export const Container = styled.div`
   width: 100%;
@@ -108,7 +109,7 @@ const ImageContainer = styled.div`
   }
 `;
 
-const Link = styled.a`
+const LinkButton = styled.a`
   width: 10rem;
   padding: 0.75rem;
   font-size: 1.1rem;
@@ -168,8 +169,12 @@ function Landing() {
         <Desc>Goodnews of Christ Baptist Church</Desc>
       </InnerContainer>
       <LinkContainer>
-        <Link>Join us</Link>
-        <Link green>Partner with us</Link>
+        <Link href={"/membership"}>
+          <LinkButton>Join us</LinkButton>
+        </Link>
+        <Link href={"/membership"}>
+          <LinkButton green>Partner with us</LinkButton>
+        </Link>
       </LinkContainer>
       <ImageContainer>
         <Image alt="Rev Ajekwe" src={daddyImage} />
