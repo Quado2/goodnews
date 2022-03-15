@@ -29,8 +29,11 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
+const production = "https://www.propheticvoice.online";
+const local = "http://localhost:3000";
+
 export const client2 = new ApolloClient({
-  uri: "http://localhost:3000/api",
+  uri: production + "/api",
   cache: new InMemoryCache(),
 });
 
