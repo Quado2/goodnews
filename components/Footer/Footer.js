@@ -100,6 +100,7 @@ const Upper = styled.div`
     .input-submit {
       width: 31%;
       background-color: white;
+      color: black;
 
       &:hover {
         background-color: cyan;

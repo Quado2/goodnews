@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import data from "../Prayers/data";
+
+import Spinner from "../Spinner/Spinner";
 
 const FormContainer = styled.div`
   max-width: 650px;
@@ -29,7 +32,7 @@ const FormContainer = styled.div`
     font-weight: 400;
     margin: 0.5rem;
     color: ${({ theme }) => theme.colorTextPrimary};
-    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1) all ;
+    transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1) all;
     cursor: pointer;
   }
 
@@ -102,20 +105,54 @@ const FormContainer = styled.div`
     .input-submit {
       width: 31%;
       align-self: center;
-      color: ${({theme})=>theme.colorTextPrimary};
-      border: 1px solid ${({theme})=>theme.colorTextPrimary};
+      color: ${({ theme }) => theme.colorTextPrimary};
+      border: 1px solid ${({ theme }) => theme.colorTextPrimary};
 
       &:hover {
-        color: ${({theme})=>theme.colorPrimaryMuted};
-      border: 1px solid ${({theme})=>theme.colorPrimaryMuted};
+        color: ${({ theme }) => theme.colorPrimaryMuted};
+        border: 1px solid ${({ theme }) => theme.colorPrimaryMuted};
         cursor: pointer;
       }
+    }
+
+    h3 {
+      color: red;
+      font-size: 0.8rem;
+      font-weight: 300;
     }
   }
 `;
 
-export default function QuickForm({ inputData, message }) {
+export default function QuickForm({
+  inputData,
+  message,
+  handleQuickform,
+  errorFlag,
+  errorMessage,
+  loading,
+  loadingMessage,
+  clearFormInputs,
+}) {
   const [showForm, setShowForm] = useState(false);
+  const [formContent, setFormContent] = useState({});
+
+  function handleInputChange(e, inputName) {
+    const { value } = e.target;
+    setFormContent((prevContent) => ({ ...prevContent, [inputName]: value }));
+  }
+
+  useEffect(() => {
+    inputData.map((data) =>
+      setFormContent((prevContent) => {
+        return { ...prevContent, [data.inputName]: "" };
+      })
+    );
+  }, [inputData, clearFormInputs]);
+
+  function handleformSubmit(e) {
+    e.preventDefault();
+    handleQuickform(formContent, inputData);
+  }
 
   return (
     <FormContainer showForm={showForm}>
@@ -126,35 +163,49 @@ export default function QuickForm({ inputData, message }) {
         {message}
       </h3>
       {showForm && (
-        <form>
+        <form onSubmit={handleformSubmit}>
           {inputData &&
-            inputData.map((data) => {
+            inputData.map((data, i) => {
               switch (data.type) {
                 case "input":
                   {
-                    if (data.inputType === "submit") {
-                      return (
-                        <input
-                          className="input-submit"
-                          value={data.placeHolder}
-                          type={data.inputType}
-                        />
-                      );
-                    }
                     return (
                       <input
+                        key={i}
                         className="input-name"
                         type={data.type}
                         placeholder={data.placeHolder}
+                        onChange={(e) => handleInputChange(e, data.inputName)}
+                        value={formContent[data.inputName]}
                       />
                     );
                   }
+
                   break;
                 case "textarea": {
-                  return <textarea placeholder={data.placeHolder}></textarea>;
+                  return (
+                    <textarea
+                      key={i}
+                      onChange={(e) => handleInputChange(e, data.inputName)}
+                      placeholder={data.placeHolder}
+                      value={formContent[data.inputName]}
+                    ></textarea>
+                  );
                 }
               }
             })}
+          {errorFlag &&
+            errorMessage.map((message, i) => <h3 key={i}>{message}</h3>)}
+          {loading ? (
+            <Spinner
+              message={loadingMessage}
+              color="green"
+              textSize="1rem"
+              spinnerSize="2rem"
+            />
+          ) : (
+            <input className="input-submit" value={"Submit"} type={"submit"} />
+          )}
         </form>
       )}
     </FormContainer>

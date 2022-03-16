@@ -29,6 +29,6 @@ const PaymentSchema = new Schema({
     required: true,
 
   }
-});
+},{ timestamps: true });
 
 export const PartnerPayment = mongoose.models.PartnerPayment || mongoose.model("PartnerPayment",PaymentSchema);

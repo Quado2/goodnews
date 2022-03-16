@@ -20,6 +20,6 @@ const PrayerSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Member"
   }
-})
+},{ timestamps: true })
 
 export const Prayer = mongoose.models.Prayer || mongoose.model("Prayer", PrayerSchema);

@@ -17,7 +17,7 @@ const PartnerSchema = new Schema({
     required: true,
     type: String,
   },
-});
+},{ timestamps: true });
 
 export const Partner =
   mongoose.models.Partner || mongoose.model("Partner", PartnerSchema);
