@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import PrayerCard from "../PrayerCard/PrayerCard";
 import QuickForm from "../QuickForm/QuickForm";
@@ -12,7 +13,7 @@ const PrayerContainer = styled.div`
 
   background-color: ${({ theme }) => theme.colorBackgroundPrimary};
 
-  .quickform-wrapper{
+  .quickform-wrapper {
     width: 100%;
     padding: 1rem;
     display: flex;
@@ -36,25 +37,44 @@ const inputData = [
     inputType: "text",
     inputName: "name",
     placeHolder: "Full Name",
+    inputName: "name",
   },
   {
     type: "input",
-    inputType: "email",
+    inputType: "text",
     placeHolder: "Phone Number",
+    inputName: "phone",
   },
   {
     type: "textarea",
     inputType: "",
     placeHolder: "Prayer Request",
+    inputName: "content",
   },
   {
     type: "input",
     inputType: "submit",
     placeHolder: "Submit",
+    inputName: "submit",
   },
 ];
 
 export default function Prayers() {
+
+  const [errorFlag, setErrorFlag] = useState(false);
+  const [errorMessage, setErrorMessage] = useState([])
+
+  function handleQuickform(content) {
+    console.log({ content });
+    setErrorFlag(false)
+    Object.keys(content).map(key => {
+      if(content[key].length < 1){
+        setErrorFlag(true);
+        setErrorMessage(prevMessage=> ([...prevMessage, key+" cannot be empty"]));
+      }
+    })
+  }
+
   return (
     <PrayerContainer>
       <PrayerCardContainer>
@@ -70,9 +90,14 @@ export default function Prayers() {
           ))}
       </PrayerCardContainer>
       <div className="quickform-wrapper">
-        <QuickForm inputData={inputData} message={"Send a Prayer Request"}/>
+        <QuickForm
+          handleQuickform={handleQuickform}
+          inputData={inputData}
+          message={"Send a Prayer Request"}
+          errorFlag={errorFlag}
+          errorMessage={errorMessage}
+        />
       </div>
-      
     </PrayerContainer>
   );
 }

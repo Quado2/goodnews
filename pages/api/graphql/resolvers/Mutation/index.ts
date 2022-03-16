@@ -4,6 +4,7 @@ import {prayersResolvers} from './prayers'
 import {testimonyResolvers} from './testimonies'
 import {titheResolvers} from './tithes'
 import {partnerResolvers} from './partnership'
+import { visitorResolvers } from "./visitor";
 
 export const Mutation = {
   ...authResolvers,
@@ -12,4 +13,5 @@ export const Mutation = {
   ...testimonyResolvers,
   ...titheResolvers,
   ...partnerResolvers,
+  ...visitorResolvers,
 }
