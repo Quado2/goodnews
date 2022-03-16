@@ -23,6 +23,6 @@ const visitorSchema = new Schema(
   },
   { timestamps: true }
 );
-export const Visitor = mongoose.models.Visitor || mongoose.model("Vistor", visitorSchema);
+export const Visitor = mongoose.models.Visitor || mongoose.model("Visitor", visitorSchema);
 
 

@@ -37,7 +37,7 @@ export const typeDefs = gql`
 
 
 type VisitorPayload{
-  userErrors: [userError]
+  userErrors: [UserError]
   success: Boolean
 }
 
