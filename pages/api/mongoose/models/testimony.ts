@@ -20,6 +20,6 @@ const TestimonySchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Member"
   }
-})
+},{ timestamps: true })
 
 export const Testimony = mongoose.models.Testimony || mongoose.model("Testimony", TestimonySchema);

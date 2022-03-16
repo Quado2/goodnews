@@ -31,7 +31,7 @@ const ProfileSchema = new Schema({
     ref: "Member"
   }
 
-})
+},{ timestamps: true })
 
 export const Profile = mongoose.models.Profile ||  mongoose.model("Profile", ProfileSchema);
 

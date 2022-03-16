@@ -23,7 +23,7 @@ const MemberSchema = new Schema({
     type: Boolean,
     required: true
   }
-});
+}, { timestamps: true });
 
 export const Member =
   mongoose.models.Member || mongoose.model("Member", MemberSchema);
