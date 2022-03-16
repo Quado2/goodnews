@@ -30,11 +30,16 @@ export const typeDefs = gql`
     partnerCreate(partnerInput: PartnerCreateInput): PartnershipPayload!
     partnerPay(amount: Float!, status: String!): PaymentPayload!
 
-    visitorCreate(visitorInput: VisitorInput): 
+    visitorCreate(visitorInput: VisitorInput): VisitorPayload!
 
     testIt: String
   }
 
+
+type VisitorPayload{
+  userErrors: [userError]
+  success: Boolean
+}
 
 input VisitorInput{
   name: String

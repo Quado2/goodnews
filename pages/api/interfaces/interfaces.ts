@@ -77,16 +77,16 @@ export interface TestimonyEditInput {
   title: string;
   details: string;
 }
-export interface UserError{
-  message: string
+export interface UserError {
+  message: string;
 }
 
-export interface Tithe{
+export interface Tithe {
   date: number;
   amount: number;
   isConfirmed: number;
   memberId: string;
-  _id: string
+  _id: string;
 }
 
 export interface TitheInput {
@@ -95,30 +95,30 @@ export interface TitheInput {
   isConfirmed: Boolean;
 }
 
-export interface EditTitheInput{
+export interface EditTitheInput {
   date: number;
   amount: number;
   isConfirmed: Boolean;
-  titheId: String
+  titheId: String;
 }
 
-export interface TithePayload{
-  userErrors: UserError[]
-  tithes: Tithe[]
+export interface TithePayload {
+  userErrors: UserError[];
+  tithes: Tithe[];
 }
 
-export interface PartnerCreateInput{
-  plan: string
+export interface PartnerCreateInput {
+  plan: string;
 }
 
-export interface Partner{
+export interface Partner {
   _id: string;
   memberId: string;
   startDate: string;
-  plan: string
+  plan: string;
 }
 
-export interface PartnerPayment{
+export interface PartnerPayment {
   _id: string;
   memberId: string;
   date: string;
@@ -126,13 +126,24 @@ export interface PartnerPayment{
   status: string;
 }
 
-export interface PartnershipPayload{
+export interface PartnershipPayload {
   partnerDetails: Partner | null;
-  partnerPayments: PartnerPayment[]
-  userErrors: UserError[]
+  partnerPayments: PartnerPayment[];
+  userErrors: UserError[];
 }
 
-export interface PaymentPayload{
-  partnerPayments: PartnerPayment[]
-  userErrors: UserError[]
+export interface PaymentPayload {
+  partnerPayments: PartnerPayment[];
+  userErrors: UserError[];
+}
+
+export interface VisitorPayload {
+  success: boolean;
+  userErrors: UserError[];
+}
+
+export interface VisitorInput {
+  name: string;
+  phone: string;
+  content: string;
 }
