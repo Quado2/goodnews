@@ -146,4 +146,5 @@ export interface VisitorInput {
   name: string;
   phone: string;
   content: string;
+  type: string
 }

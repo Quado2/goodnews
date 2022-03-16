@@ -45,6 +45,7 @@ input VisitorInput{
   name: String
   phone: String
   content: String
+  type: string
 }
 
   input PartnerCreateInput {
