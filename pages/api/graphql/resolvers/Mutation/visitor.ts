@@ -12,6 +12,7 @@ export const visitorResolvers = {
     { visitorInput }: { visitorInput: VisitorInput },
     { userInfo }: Context
   ): Promise<VisitorPayload> => {
+    console.log("we got here");
     await dbConnect().catch((err) => {
       console.log(err);
       return {
@@ -21,7 +22,8 @@ export const visitorResolvers = {
     });
 
     const { name, phone, content, type } = visitorInput;
-
+    console.log({name, phone, content, type});
+    
     const newVisitor = new Visitor({
       type,
       phone,

@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import data from "../Prayers/data";
+
+import Spinner from "../Spinner/Spinner";
 
 const FormContainer = styled.div`
   max-width: 650px;
@@ -111,6 +114,12 @@ const FormContainer = styled.div`
         cursor: pointer;
       }
     }
+
+    h3 {
+      color: red;
+      font-size: 0.8rem;
+      font-weight: 300;
+    }
   }
 `;
 
@@ -120,6 +129,9 @@ export default function QuickForm({
   handleQuickform,
   errorFlag,
   errorMessage,
+  loading,
+  loadingMessage,
+  clearFormInputs,
 }) {
   const [showForm, setShowForm] = useState(false);
   const [formContent, setFormContent] = useState({});
@@ -129,9 +141,17 @@ export default function QuickForm({
     setFormContent((prevContent) => ({ ...prevContent, [inputName]: value }));
   }
 
+  useEffect(() => {
+    inputData.map((data) =>
+      setFormContent((prevContent) => {
+        return { ...prevContent, [data.inputName]: "" };
+      })
+    );
+  }, [inputData, clearFormInputs]);
+
   function handleformSubmit(e) {
     e.preventDefault();
-    handleQuickform(formContent);
+    handleQuickform(formContent, inputData);
   }
 
   return (
@@ -149,27 +169,18 @@ export default function QuickForm({
               switch (data.type) {
                 case "input":
                   {
-                    if (data.inputType === "submit") {
-                      return (
-                        <input
-                          key={i}
-                          className="input-submit"
-                          value={data.placeHolder}
-                          type={data.inputType}
-                        />
-                      );
-                    } else {
-                      return (
-                        <input
-                          key={i}
-                          className="input-name"
-                          type={data.type}
-                          placeholder={data.placeHolder}
-                          onChange={(e) => handleInputChange(e, data.inputName)}
-                        />
-                      );
-                    }
+                    return (
+                      <input
+                        key={i}
+                        className="input-name"
+                        type={data.type}
+                        placeholder={data.placeHolder}
+                        onChange={(e) => handleInputChange(e, data.inputName)}
+                        value={formContent[data.inputName]}
+                      />
+                    );
                   }
+
                   break;
                 case "textarea": {
                   return (
@@ -177,12 +188,24 @@ export default function QuickForm({
                       key={i}
                       onChange={(e) => handleInputChange(e, data.inputName)}
                       placeholder={data.placeHolder}
+                      value={formContent[data.inputName]}
                     ></textarea>
                   );
                 }
               }
             })}
-          {errorFlag && errorMessage.map((message, i) => <h3 key={i}>{message}</h3>) }
+          {errorFlag &&
+            errorMessage.map((message, i) => <h3 key={i}>{message}</h3>)}
+          {loading ? (
+            <Spinner
+              message={loadingMessage}
+              color="green"
+              textSize="1rem"
+              spinnerSize="2rem"
+            />
+          ) : (
+            <input className="input-submit" value={"Submit"} type={"submit"} />
+          )}
         </form>
       )}
     </FormContainer>
