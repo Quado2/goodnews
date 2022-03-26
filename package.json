@@ -33,6 +33,7 @@
     "react-spinners": "^0.11.0",
     "react-tsparticles": "^1.41.3",
     "sass": "^1.49.8",
+    "socket.io-client": "^4.4.1",
     "styled-components": "^5.3.3",
     "validator": "^13.7.0"
   },
