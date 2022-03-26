@@ -14,6 +14,7 @@ import { Context } from "../../../context/Context";
 import BriefNotification from "../../../components/Notification/BriefNotification";
 import DashboardLayout from "../../../HOC/DashboardLayout";
 import { getDate } from "../../../utils";
+import Message from "../../../components/Message/Message";
 
 const RequestContainer = styled.div`
   width: 100%;
@@ -416,12 +417,16 @@ const Testimony = ({
         <div className="add_button ">
           <button onClick={() => setShowForm(true)}>New Testimony</button>
         </div>
-        <Table
-          tableData={tableData}
-          tableHeaders={tableHeaders}
-          actionsData={actionsData}
-          tableKeys={tableKeys}
-        />
+        {tableData.length < 1 ? (
+          <Message message="You dont have any testimonies saved yet. when you do, It will show here." />
+        ) : (
+          <Table
+            tableData={tableData}
+            tableHeaders={tableHeaders}
+            actionsData={actionsData}
+            tableKeys={tableKeys}
+          />
+        )}
       </RequestContainer>
     </DashboardLayout>
   );

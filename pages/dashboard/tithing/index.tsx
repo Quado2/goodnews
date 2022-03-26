@@ -14,6 +14,7 @@ import { Context } from "../../../context/Context";
 import BriefNotification from "../../../components/Notification/BriefNotification";
 import DashboardLayout from "../../../HOC/DashboardLayout";
 import { getDate } from "../../../utils";
+import Message from "../../../components/Message/Message";
 
 const RequestContainer = styled.div`
   width: 100%;
@@ -448,12 +449,15 @@ const Tithing = ({
           <button onClick={() => setShowForm(true)}>Record a Paid Tithe</button>
           <button onClick={() => setShowForm(true)}>Pay with Card</button>
         </div>
+        {tableData.length < 1 ? (
+          <Message message="You dont have any testimonies saved yet. when you do, It will show here." />
+        ) :
         <Table
           tableData={tableData}
           tableHeaders={tableHeaders}
           tableKeys={tableKeys}
           actionsData={actionsData}
-        />
+        /> }
       </RequestContainer>
     </DashboardLayout>
   );
