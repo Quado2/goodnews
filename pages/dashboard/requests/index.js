@@ -14,6 +14,7 @@ import { Context } from "../../../context/Context";
 import BriefNotification from "../../../components/Notification/BriefNotification";
 import DashboardLayout from "../../../HOC/DashboardLayout";
 import { getDate } from "../../../utils";
+import Message from "../../../components/Message";
 
 const RequestContainer = styled.div`
   width: 100%;
@@ -380,12 +381,16 @@ const Requests = ({ dataFromServer }) => {
         <div className="add_button ">
           <button onClick={() => setShowForm(true)}>New Prayer Request</button>
         </div>
-        <Table
-          tableData={tableData}
-          tableHeaders={tableHeaders}
-          actionsData={actionsData}
-          tableKeys={tableKeys}
-        />
+        {tableData.length < 1 ? (
+          <Message message="You dont have any prayer request at the memoment. When you do, it will show here." />
+        ) : (
+          <Table
+            tableData={tableData}
+            tableHeaders={tableHeaders}
+            actionsData={actionsData}
+            tableKeys={tableKeys}
+          />
+        )}
       </RequestContainer>
     </DashboardLayout>
   );
