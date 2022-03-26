@@ -14,7 +14,7 @@ import { Context } from "../../../context/Context";
 import BriefNotification from "../../../components/Notification/BriefNotification";
 import DashboardLayout from "../../../HOC/DashboardLayout";
 import { getDate } from "../../../utils";
-import Message from "../../../components/Message";
+import Message from "../../../components/Message/Message/";
 
 const RequestContainer = styled.div`
   width: 100%;
