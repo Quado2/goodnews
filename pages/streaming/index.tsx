@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
+import styles from './streaming.module.css';
 
 import io from "socket.io-client";
 
@@ -18,7 +19,7 @@ const Streaming = () => {
     };
   }, []);
 
-  return <div>
+  return <div className={styles.streaming_wrapper}>
     
   </div>;
 };
