@@ -2,6 +2,7 @@ export const navItems = [
   {title: "Home", link: '/'},
   {title: "Membersip", link: '/membership'},
   {title: "Partner", link: '/dashboard/partnership'},
+  {title: "Live Stream", link: '/streaming'},
   {title: "Events", link: '/events'},
 ]
 

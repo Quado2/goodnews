@@ -29,7 +29,7 @@ const SideContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin: 2rem 0 0 0;
+    margin: .8rem 0 0 0;
     padding: 0;
   }
 
@@ -51,7 +51,7 @@ const SideContainer = styled.div`
   }
   a {
     color: ${({ theme }) => theme.colorTextPrimary};
-    font-size: 1.1rem;
+    font-size: .9rem;
     font-weight: 300;
     text-align: center;
   }
