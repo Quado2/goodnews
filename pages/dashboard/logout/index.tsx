@@ -14,5 +14,5 @@ export default function Logout(){
     
   },[setLoggedInUser])
 
-  return (<div></div>)
+  return (<div>Logging out</div>)
 }
